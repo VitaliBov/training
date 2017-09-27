@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Training</string>
+    <string name="unknown_screen">Экран не найден</string>
+</resources>
