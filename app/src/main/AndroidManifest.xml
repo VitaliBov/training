@@ -14,9 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".presentation.main.activity.SplashActivity_"
+            android:name=".presentation.splash.activity.SplashActivity_"
             android:screenOrientation="sensor"
-            android:theme="@style/AppTheme">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -24,7 +24,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.main.activity.LoginActivity_"
+            android:name=".presentation.login.activity.LoginActivity_"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme">
         </activity>
