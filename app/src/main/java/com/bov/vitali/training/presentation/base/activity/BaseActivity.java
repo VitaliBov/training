@@ -8,7 +8,7 @@ import com.bov.vitali.training.TrainingApplication;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,13 +3,11 @@ package com.bov.vitali.training.common.navigation;
 public interface Screens {
     String KEY = "key";
 
-    String SPLASH_ACTIVITY = "1";
-    String LOGIN_ACTIVITY = "2";
-    String MAIN_ACTIVITY = "3";
+    String LOGIN_ACTIVITY = "1";
+    String MAIN_ACTIVITY = "2";
 
     String SPLASH_FRAGMENT = "101";
+    String LOGIN_FRAGMENT = "102";
 
-    String LOGIN_FRAGMENT = "201";
-
-    String MAIN_FRAGMENT = "301";
+    String MAIN_FRAGMENT = "201";
 }
