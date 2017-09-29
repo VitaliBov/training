@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.TrainingApplication;
+import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.activity.BaseActivity;
 import com.bov.vitali.training.presentation.login.fragment.LoginFragment;
+import com.bov.vitali.training.presentation.login.fragment.LoginWebViewFragment;
 import com.bov.vitali.training.presentation.login.fragment.SplashFragment;
 import com.bov.vitali.training.presentation.main.activity.MainActivity_;
 
@@ -16,8 +18,6 @@ import org.androidannotations.annotations.EActivity;
 
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
-import ru.terrakok.cicerone.commands.Command;
-import ru.terrakok.cicerone.commands.Forward;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
@@ -36,6 +36,12 @@ public class LoginActivity extends BaseActivity {
         TrainingApplication.INSTANCE.getNavigatorHolder().setNavigator(navigator);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TrainingApplication.INSTANCE.getNavigatorHolder().removeNavigator();
+    }
+
     private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.login_container) {
         @Override
         protected Intent createActivityIntent(String screenKey, Object data) {
@@ -52,6 +58,8 @@ public class LoginActivity extends BaseActivity {
                     return SplashFragment.getInstance(1);
                 case Screens.LOGIN_FRAGMENT:
                     return LoginFragment.getInstance(2);
+                case Screens.LOGIN_WEB_VIEW_FRAGMENT:
+                    return LoginWebViewFragment.getInstance(3);
                 default:
                     throw new RuntimeException(getString(R.string.error_unknown_screen));
             }
@@ -61,24 +69,17 @@ public class LoginActivity extends BaseActivity {
         protected void exit() {
             finish();
         }
-
-        @Override
-        public void applyCommand(Command command) {
-            if (command instanceof Forward) {
-                Forward forward = (Forward) command;
-                switch (((Forward) command).getScreenKey()) {
-                    case Screens.MAIN_ACTIVITY:
-                        Intent activityIntent = createActivityIntent(forward.getScreenKey(), forward.getTransitionData());
-                        if (activityIntent != null) {
-                            startActivity(activityIntent);
-                            break;
-                        }
-                    default:
-                        super.applyCommand(command);
-                        break;
-                }
-            }
-            super.applyCommand(command);
-        }
     };
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.login_container);
+        if (fragment != null
+                && fragment instanceof BackButtonListener
+                && ((BackButtonListener) fragment).onBackPressed()) {
+            return;
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

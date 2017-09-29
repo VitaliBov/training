@@ -2,5 +2,9 @@
     <string name="app_name">Training</string>
     <string name="settings">Settings</string>
 
+    <string name="client_id">7f318ba7bee0</string>
+    <string name="client_secret">98a4ea1cba318eec0f90d68bfb9730eb240d7e26</string>
+
     <string name="error_unknown_screen">Экран не найден</string>
+    <string name="button_log_in">Log In</string>
 </resources>

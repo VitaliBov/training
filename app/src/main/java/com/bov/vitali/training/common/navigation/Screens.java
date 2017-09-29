@@ -8,6 +8,7 @@ public interface Screens {
 
     String SPLASH_FRAGMENT = "101";
     String LOGIN_FRAGMENT = "102";
+    String LOGIN_WEB_VIEW_FRAGMENT = "103";
 
     String MAIN_FRAGMENT = "201";
 }

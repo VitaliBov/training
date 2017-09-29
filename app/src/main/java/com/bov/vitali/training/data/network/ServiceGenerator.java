@@ -29,7 +29,7 @@ public class ServiceGenerator {
         return SingletonHolder.INSTANCE;
     }
 
-    public TrainingApi getContacterService() {
+    public TrainingApi getTrainingService() {
         return trainingApi;
     }
 

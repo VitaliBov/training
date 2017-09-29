@@ -33,7 +33,7 @@ public class TrainingApplication extends Application {
         return cicerone.getRouter();
     }
 
-    public static TrainingApi getApi() {
-        return ServiceGenerator.getInstance().getContacterService();
+    public static TrainingApi getTrainingApi() {
+        return ServiceGenerator.getInstance().getTrainingService();
     }
 }

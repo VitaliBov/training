@@ -16,7 +16,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            TrainingApplication.INSTANCE.getRouter().replaceScreen(Screens.MAIN_ACTIVITY);
+            TrainingApplication.INSTANCE.getRouter().replaceScreen(Screens.MAIN_FRAGMENT);
         }
     }
 }
