@@ -1,6 +1,8 @@
 package com.bov.vitali.training.presentation.login.fragment;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.webkit.WebViewClient;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.training.R;
+import com.bov.vitali.training.TrainingApplication;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
@@ -38,6 +41,26 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView, 
         webViewLogin.setWebViewClient(new WebViewClient());
         webViewLogin.getSettings().setJavaScriptEnabled(true);
         webViewLogin.loadUrl(getUrl());
+        webViewLogin.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                Uri uri;
+                try {
+                    uri = Uri.parse(url);
+                } catch (NullPointerException e) {
+                    return true;
+                }
+                String host = uri.getHost();
+                if (host != null && host.equals("bitbucket.org")) {
+                    Log.i("MyTag", "shouldOverrideUrlLoading: " + "Переход на BitBucket, " + Uri.parse(url));
+                    TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY, Uri.parse(url));
+                    return true;
+                } else {
+                    Log.i("MyTag", "shouldOverrideUrlLoading: " + "Переход на: ,  " + Uri.parse(url));
+                    return false;
+                }
+            }
+        });
     }
 
     @Override

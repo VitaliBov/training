@@ -13,6 +13,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.LOGIN_WEB_VIEW_FRAGMENT);
     }
 
+    @Override
     public void onBackPressed() {
         TrainingApplication.INSTANCE.getRouter().finishChain();
     }
