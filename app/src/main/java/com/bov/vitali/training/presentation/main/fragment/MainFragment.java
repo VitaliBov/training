@@ -34,7 +34,7 @@ public class MainFragment extends BaseFragment implements MainView, BackButtonLi
     }
 
     public boolean onBackPressed() {
-        presenter.onBackPressed();
+        getActivity().finishAffinity();
         return true;
     }
 }

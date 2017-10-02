@@ -41,10 +41,6 @@ public class SplashFragment extends BaseFragment implements SplashView {
 
     private void delaySplashScreen() {
         int splashDisplayLength = 1000;
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                presenter.navigateToLoginFragment();
-            }
-        }, splashDisplayLength);
+        new Handler().postDelayed(() -> presenter.navigateToNextScreen(), splashDisplayLength);
     }
 }

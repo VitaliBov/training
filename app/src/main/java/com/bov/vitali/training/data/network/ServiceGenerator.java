@@ -5,9 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import java.security.cert.CertificateException;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -66,12 +64,7 @@ public class ServiceGenerator {
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.addInterceptor(addHttpInterceptor());
             builder.sslSocketFactory(sslSocketFactory, (X509TrustManager)trustAllCerts[0]);
-            builder.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
+            builder.hostnameVerifier((hostname, session) -> true);
             return builder.build();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -92,7 +85,6 @@ public class ServiceGenerator {
 
     private static final class SingletonHolder {
         private static final ServiceGenerator INSTANCE = new ServiceGenerator();
-
         private SingletonHolder() {
         }
     }
