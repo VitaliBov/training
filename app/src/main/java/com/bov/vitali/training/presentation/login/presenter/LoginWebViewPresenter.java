@@ -34,10 +34,5 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebView> {
                 t.printStackTrace();
             }
         });
-
-    }
-
-    public void onBackPressed() {
-        TrainingApplication.INSTANCE.getRouter().exit();
     }
 }
