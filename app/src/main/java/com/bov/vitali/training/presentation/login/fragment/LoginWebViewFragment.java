@@ -8,10 +8,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bov.vitali.training.BuildConfig;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.TrainingApplication;
-import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.login.presenter.LoginWebViewPresenter;
@@ -22,8 +20,10 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_login_web_view)
-public class LoginWebViewFragment extends BaseFragment implements LoginWebView, BackButtonListener {
+public class LoginWebViewFragment extends BaseFragment implements LoginWebView {
 
+    private static final String HOST = "bitbucket.org";
+    private static final String CODE = "code";
     @InjectPresenter LoginWebViewPresenter presenter;
     @ViewById WebView webViewLogin;
 
@@ -31,7 +31,7 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView, 
     void initWebView() {
         webViewLogin.setWebViewClient(new WebViewClient());
         webViewLogin.getSettings().setJavaScriptEnabled(true);
-        webViewLogin.loadUrl(getUrl());
+        webViewLogin.loadUrl(presenter.getUrl());
         webViewLogin.setWebViewClient(new WebViewClient() {
             @SuppressWarnings("deprecation")
             @Override
@@ -43,8 +43,8 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView, 
                     return true;
                 }
                 String host = uri.getHost();
-                if (host != null && host.equals("bitbucket.org")) {
-                    String code = uri.getQueryParameter("code");
+                if (host != null && host.equals(HOST)) {
+                    String code = uri.getQueryParameter(CODE);
                     presenter.getToken(code);
                     TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY);
                     return true;
@@ -62,8 +62,8 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView, 
 
             private boolean handleUri(final Uri uri) {
                 final String host = uri.getHost();
-                if (host != null && host.equals("bitbucket.org")) {
-                    String code = uri.getQueryParameter("code");
+                if (host != null && host.equals(HOST)) {
+                    String code = uri.getQueryParameter(CODE);
                     presenter.getToken(code);
                     TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY);
                     return true;
@@ -74,6 +74,7 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView, 
         });
     }
 
+    @Override
     public boolean onBackPressed() {
         if(webViewLogin.canGoBack()) {
             webViewLogin.goBack();
@@ -81,14 +82,5 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView, 
             presenter.onBackPressed();
         }
         return true;
-    }
-
-    private String getUrl() {
-        return "https://medium.com/m/oauth/authorize?" +
-                "client_id=" + BuildConfig.MEDIUM_CLIENT_ID +
-                "&scope=" + "basicProfile,publishPost" +
-                "&state=" + "training" +
-                "&response_type=" + "code" +
-                "&redirect_uri=" + BuildConfig.MEDIUM_CLIENT_SECRET;
     }
 }
