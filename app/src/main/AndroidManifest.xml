@@ -14,7 +14,7 @@
         <activity
             android:name=".presentation.login.activity.LoginActivity_"
             android:screenOrientation="sensor"
-            android:theme="@style/AppTheme">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
