@@ -3,11 +3,6 @@ package com.bov.vitali.training.presentation.login.fragment;
 import android.annotation.TargetApi;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -32,14 +27,6 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView, 
     @InjectPresenter LoginWebViewPresenter presenter;
     @ViewById WebView webViewLogin;
 
-    public static LoginWebViewFragment getInstance(int position) {
-        LoginWebViewFragment fragment = new LoginWebViewFragment_();
-        Bundle b = new Bundle();
-        b.putInt(Screens.KEY, position);
-        fragment.setArguments(b);
-        return fragment;
-    }
-
     @AfterViews
     void initWebView() {
         webViewLogin.setWebViewClient(new WebViewClient());
@@ -57,13 +44,11 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView, 
                 }
                 String host = uri.getHost();
                 if (host != null && host.equals("bitbucket.org")) {
-                    Log.i("MyTag", "shouldOverrideUrlLoading: " + "Переход на BitBucket, " + Uri.parse(url));
                     String code = uri.getQueryParameter("code");
                     presenter.getToken(code);
                     TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY);
                     return true;
                 } else {
-                    Log.i("MyTag", "shouldOverrideUrlLoading: " + "Переход на: ,  " + Uri.parse(url));
                     return false;
                 }
             }
@@ -87,13 +72,6 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView, 
                 }
             }
         });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_login_web_view, container, false);
-
-        return view;
     }
 
     public boolean onBackPressed() {

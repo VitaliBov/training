@@ -9,7 +9,7 @@ import com.bov.vitali.training.TrainingApplication;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.activity.BaseActivity;
-import com.bov.vitali.training.presentation.main.fragment.MainFragment;
+import com.bov.vitali.training.presentation.main.fragment.MainFragment_;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -33,12 +33,6 @@ public class MainActivity extends BaseActivity {
         TrainingApplication.INSTANCE.getNavigatorHolder().setNavigator(navigator);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        TrainingApplication.INSTANCE.getNavigatorHolder().removeNavigator();
-    }
-
     private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.main_container) {
         @Override
         protected Intent createActivityIntent(String screenKey, Object data) {
@@ -52,7 +46,7 @@ public class MainActivity extends BaseActivity {
         protected Fragment createFragment(String screenKey, Object data) {
             switch (screenKey) {
                 case Screens.MAIN_FRAGMENT:
-                    return MainFragment.getInstance(1);
+                    return MainFragment_.builder().build();
                 default:
                     throw new RuntimeException(getString(R.string.error_unknown_screen));
             }

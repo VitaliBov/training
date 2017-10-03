@@ -2,9 +2,9 @@ package com.bov.vitali.training.presentation.login.presenter;
 
 import com.bov.vitali.training.BuildConfig;
 import com.bov.vitali.training.TrainingApplication;
-import com.bov.vitali.training.common.utils.Constants;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.common.preferences.Preferences;
+import com.bov.vitali.training.common.utils.Constants;
 import com.bov.vitali.training.data.network.response.LoginResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.login.view.SplashView;
@@ -16,13 +16,10 @@ import retrofit2.Response;
 public class SplashPresenter extends BasePresenter<SplashView> {
 
     public void navigateToNextScreen() {
-        Long timeStamp = System.currentTimeMillis();
-        if (Preferences.getAccessToken(TrainingApplication.appContext()).isEmpty()) {
-            navigateToLoginFragment();
-        } else if (timeStamp > Preferences.getExpiresAt(TrainingApplication.appContext())) {
-            getRefreshToken();
-        } else {
+        if (isValidToken()) {
             navigateToMainActivity();
+        } else {
+            navigateToLoginFragment();
         }
     }
 
@@ -32,6 +29,17 @@ public class SplashPresenter extends BasePresenter<SplashView> {
 
     private void navigateToMainActivity() {
         TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY);
+    }
+
+    private boolean isValidToken() {
+        Long timeStamp = System.currentTimeMillis();
+        if (Preferences.getAccessToken(TrainingApplication.appContext()).isEmpty()) {
+            return false;
+        } else if (timeStamp > Preferences.getExpiresAt(TrainingApplication.appContext())) {
+            getRefreshToken();
+            return true;
+        }
+        return true;
     }
 
     private void getRefreshToken() {

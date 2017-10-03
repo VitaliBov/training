@@ -9,9 +9,9 @@ import com.bov.vitali.training.TrainingApplication;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.activity.BaseActivity;
-import com.bov.vitali.training.presentation.login.fragment.LoginFragment;
-import com.bov.vitali.training.presentation.login.fragment.LoginWebViewFragment;
-import com.bov.vitali.training.presentation.login.fragment.SplashFragment;
+import com.bov.vitali.training.presentation.login.fragment.LoginFragment_;
+import com.bov.vitali.training.presentation.login.fragment.LoginWebViewFragment_;
+import com.bov.vitali.training.presentation.login.fragment.SplashFragment_;
 import com.bov.vitali.training.presentation.main.activity.MainActivity_;
 
 import org.androidannotations.annotations.EActivity;
@@ -36,12 +36,6 @@ public class LoginActivity extends BaseActivity {
         TrainingApplication.INSTANCE.getNavigatorHolder().setNavigator(navigator);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        TrainingApplication.INSTANCE.getNavigatorHolder().removeNavigator();
-    }
-
     private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.login_container) {
         @Override
         protected Intent createActivityIntent(String screenKey, Object data) {
@@ -55,11 +49,11 @@ public class LoginActivity extends BaseActivity {
         protected Fragment createFragment(String screenKey, Object data) {
             switch (screenKey) {
                 case Screens.SPLASH_FRAGMENT:
-                    return SplashFragment.getInstance(1);
+                    return SplashFragment_.builder().build();
                 case Screens.LOGIN_FRAGMENT:
-                    return LoginFragment.getInstance(2);
+                    return LoginFragment_.builder().build();
                 case Screens.LOGIN_WEB_VIEW_FRAGMENT:
-                    return LoginWebViewFragment.getInstance(3);
+                    return LoginWebViewFragment_.builder().build();
                 default:
                     throw new RuntimeException(getString(R.string.error_unknown_screen));
             }
