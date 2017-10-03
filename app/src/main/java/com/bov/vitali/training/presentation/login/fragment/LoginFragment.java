@@ -1,34 +1,29 @@
 package com.bov.vitali.training.presentation.login.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.common.navigation.Screens;
+import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.login.presenter.LoginPresenter;
 import com.bov.vitali.training.presentation.login.view.LoginView;
 
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 
+import static com.bov.vitali.training.R.id.btnLogin;
+
 @EFragment(R.layout.fragment_login)
-public class LoginFragment extends BaseFragment implements LoginView {
+public class LoginFragment extends BaseFragment implements LoginView, BackButtonListener {
 
     @InjectPresenter LoginPresenter presenter;
 
-    public static LoginFragment getInstance(int position) {
-        LoginFragment fragment = new LoginFragment_();
-        Bundle b = new Bundle();
-        b.putInt(Screens.KEY, position);
-        fragment.setArguments(b);
-        return fragment;
+    @Click({btnLogin})
+    void onClick() {
+        presenter.navigateToLoginWebViewFragment();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public boolean onBackPressed() {
+        presenter.onBackPressed();
+        return true;
     }
 }

@@ -1,6 +1,5 @@
 package com.bov.vitali.training.presentation.base.activity;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.bov.vitali.training.TrainingApplication;
@@ -8,12 +7,7 @@ import com.bov.vitali.training.TrainingApplication;
 import org.androidannotations.annotations.EActivity;
 
 @EActivity
-public class BaseActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {

@@ -1,4 +1,4 @@
-package com.bov.vitali.training.presentation.splash.view;
+package com.bov.vitali.training.presentation.login.view;
 
 import com.bov.vitali.training.presentation.base.view.BaseView;
 
