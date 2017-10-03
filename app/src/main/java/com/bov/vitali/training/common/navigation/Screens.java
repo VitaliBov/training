@@ -10,5 +10,6 @@ public interface Screens {
     String LOGIN_FRAGMENT = "102";
     String LOGIN_WEB_VIEW_FRAGMENT = "103";
 
-    String MAIN_FRAGMENT = "201";
+    String PROFILE_FRAGMENT = "201";
+    String PUBLICATIONS_FRAGMENT = "202";
 }

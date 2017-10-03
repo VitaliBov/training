@@ -9,7 +9,8 @@ import com.bov.vitali.training.TrainingApplication;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.activity.BaseActivity;
-import com.bov.vitali.training.presentation.main.fragment.MainFragment_;
+import com.bov.vitali.training.presentation.main.fragment.ProfileFragment_;
+import com.bov.vitali.training.presentation.main.fragment.PublicationsFragment_;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -23,7 +24,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            TrainingApplication.INSTANCE.getRouter().replaceScreen(Screens.MAIN_FRAGMENT);
+            TrainingApplication.INSTANCE.getRouter().replaceScreen(Screens.PROFILE_FRAGMENT);
         }
     }
 
@@ -45,8 +46,10 @@ public class MainActivity extends BaseActivity {
         @Override
         protected Fragment createFragment(String screenKey, Object data) {
             switch (screenKey) {
-                case Screens.MAIN_FRAGMENT:
-                    return MainFragment_.builder().build();
+                case Screens.PROFILE_FRAGMENT:
+                    return ProfileFragment_.builder().build();
+                case Screens.PUBLICATIONS_FRAGMENT:
+                    return PublicationsFragment_.builder().build();
                 default:
                     throw new RuntimeException(getString(R.string.error_unknown_screen));
             }

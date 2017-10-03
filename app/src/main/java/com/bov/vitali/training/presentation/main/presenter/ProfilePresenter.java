@@ -1,8 +1,8 @@
 package com.bov.vitali.training.presentation.main.presenter;
 
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
-import com.bov.vitali.training.presentation.main.view.MainView;
+import com.bov.vitali.training.presentation.main.view.ProfileView;
 
-public class MainPresenter extends BasePresenter<MainView> {
+public class ProfilePresenter extends BasePresenter<ProfileView> {
 
 }
