@@ -46,7 +46,7 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView {
                 if (host != null && host.equals(HOST)) {
                     String code = uri.getQueryParameter(CODE);
                     presenter.getToken(code);
-                    TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY);
+                    TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
                     return true;
                 } else {
                     return false;
@@ -65,7 +65,7 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView {
                 if (host != null && host.equals(HOST)) {
                     String code = uri.getQueryParameter(CODE);
                     presenter.getToken(code);
-                    TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY);
+                    TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
                     return true;
                 } else {
                     return false;

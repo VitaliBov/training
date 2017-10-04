@@ -3,8 +3,8 @@ package com.bov.vitali.training;
 import android.app.Application;
 import android.content.Context;
 
-import com.bov.vitali.training.data.network.ServiceGenerator;
-import com.bov.vitali.training.data.network.TrainingApi;
+import com.bov.vitali.training.data.net.ServiceGenerator;
+import com.bov.vitali.training.data.net.TrainingApi;
 
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;

@@ -4,4 +4,7 @@
 
     <string name="error_unknown_screen">Экран не найден</string>
     <string name="button_log_in">Log In</string>
+
+    <string name="tab_user">User</string>
+    <string name="tab_publications">Publications</string>
 </resources>

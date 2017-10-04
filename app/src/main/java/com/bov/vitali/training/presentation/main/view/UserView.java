@@ -2,5 +2,6 @@ package com.bov.vitali.training.presentation.main.view;
 
 import com.bov.vitali.training.presentation.base.view.BaseView;
 
-public interface ProfileView extends BaseView {
+public interface UserView extends BaseView {
+
 }

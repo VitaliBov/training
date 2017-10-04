@@ -1,13 +1,12 @@
 package com.bov.vitali.training.presentation.base.activity;
 
-import android.support.v7.app.AppCompatActivity;
-
+import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.bov.vitali.training.TrainingApplication;
 
 import org.androidannotations.annotations.EActivity;
 
 @EActivity
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends MvpAppCompatActivity {
 
     @Override
     protected void onPause() {

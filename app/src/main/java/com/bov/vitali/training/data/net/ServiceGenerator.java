@@ -1,4 +1,4 @@
-package com.bov.vitali.training.data.network;
+package com.bov.vitali.training.data.net;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

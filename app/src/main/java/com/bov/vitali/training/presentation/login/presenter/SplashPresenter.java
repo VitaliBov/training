@@ -8,7 +8,7 @@ import com.bov.vitali.training.TrainingApplication;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.common.preferences.Preferences;
 import com.bov.vitali.training.common.utils.Constants;
-import com.bov.vitali.training.data.network.response.LoginResponse;
+import com.bov.vitali.training.data.net.response.LoginResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.login.view.SplashView;
 
@@ -20,7 +20,7 @@ public class SplashPresenter extends BasePresenter<SplashView> {
 
     public void navigateToNextScreen() {
         if (isValidToken()) {
-            navigateToMainActivity();
+            navigateToBottomNavigationActivity();
         } else {
             navigateToLoginFragment();
         }
@@ -30,8 +30,8 @@ public class SplashPresenter extends BasePresenter<SplashView> {
         TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.LOGIN_FRAGMENT);
     }
 
-    private void navigateToMainActivity() {
-        TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY);
+    private void navigateToBottomNavigationActivity() {
+        TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
     }
 
     private boolean isValidToken() {

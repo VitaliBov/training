@@ -9,16 +9,16 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
-import com.bov.vitali.training.presentation.main.presenter.PublicationsPresenter;
-import com.bov.vitali.training.presentation.main.view.PublicationsView;
+import com.bov.vitali.training.presentation.main.presenter.UserPresenter;
+import com.bov.vitali.training.presentation.main.view.UserView;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 
-@EFragment(R.layout.fragment_publications)
-public class PublicationsFragment extends BaseFragment implements PublicationsView, BackButtonListener {
+@EFragment(R.layout.fragment_user)
+public class UserFragment extends BaseFragment implements UserView, BackButtonListener {
     @FragmentArg String actionBarTitle;
-    @InjectPresenter PublicationsPresenter presenter;
+    @InjectPresenter UserPresenter presenter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class PublicationsFragment extends BaseFragment implements PublicationsVi
 
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.publications_container);
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.user_container);
         if (fragment != null
                 && fragment instanceof BackButtonListener
                 && ((BackButtonListener) fragment).onBackPressed()) {

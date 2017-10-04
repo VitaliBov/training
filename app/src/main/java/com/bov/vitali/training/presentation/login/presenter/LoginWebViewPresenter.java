@@ -8,7 +8,7 @@ import com.bov.vitali.training.BuildConfig;
 import com.bov.vitali.training.TrainingApplication;
 import com.bov.vitali.training.common.preferences.Preferences;
 import com.bov.vitali.training.common.utils.Constants;
-import com.bov.vitali.training.data.network.response.LoginResponse;
+import com.bov.vitali.training.data.net.response.LoginResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.login.view.LoginWebView;
 

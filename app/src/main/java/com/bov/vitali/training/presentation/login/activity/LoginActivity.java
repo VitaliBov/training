@@ -12,7 +12,7 @@ import com.bov.vitali.training.presentation.base.activity.BaseActivity;
 import com.bov.vitali.training.presentation.login.fragment.LoginFragment_;
 import com.bov.vitali.training.presentation.login.fragment.LoginWebViewFragment_;
 import com.bov.vitali.training.presentation.login.fragment.SplashFragment_;
-import com.bov.vitali.training.presentation.main.activity.MainActivity_;
+import com.bov.vitali.training.presentation.main.bottom.BottomNavigationActivity_;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -39,8 +39,8 @@ public class LoginActivity extends BaseActivity {
     private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.login_container) {
         @Override
         protected Intent createActivityIntent(String screenKey, Object data) {
-            if (screenKey.equals(Screens.MAIN_ACTIVITY)) {
-                return new Intent(getApplication(), MainActivity_.class);
+            if (screenKey.equals(Screens.BOTTOM_NAVIGATION_ACTIVITY)) {
+                return new Intent(getApplication(), BottomNavigationActivity_.class);
             }
             return null;
         }

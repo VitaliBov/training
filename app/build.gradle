@@ -66,4 +66,7 @@ dependencies {
 
     //Fragment navigation
     compile 'ru.terrakok.cicerone:cicerone:2.1.0'
+
+    //Bottom Navigation Bar
+    compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
 }
