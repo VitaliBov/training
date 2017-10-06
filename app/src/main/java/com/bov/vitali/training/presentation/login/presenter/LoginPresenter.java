@@ -1,7 +1,7 @@
 package com.bov.vitali.training.presentation.login.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.bov.vitali.training.TrainingApplication;
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.login.view.LoginView;
@@ -10,11 +10,11 @@ import com.bov.vitali.training.presentation.login.view.LoginView;
 public class LoginPresenter extends BasePresenter<LoginView> {
 
     public void navigateToLoginWebViewFragment() {
-        TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.LOGIN_WEB_VIEW_FRAGMENT);
+        App.INSTANCE.getRouter().navigateTo(Screens.LOGIN_WEB_VIEW_FRAGMENT);
     }
 
     @Override
     public void onBackPressed() {
-        TrainingApplication.INSTANCE.getRouter().finishChain();
+        App.INSTANCE.getRouter().finishChain();
     }
 }

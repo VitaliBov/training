@@ -1,5 +1,7 @@
 package com.bov.vitali.training.data.net;
 
+import com.bov.vitali.training.App;
+import com.bov.vitali.training.common.preferences.Preferences;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -10,7 +12,9 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -41,7 +45,7 @@ public class ServiceGenerator {
 
     private OkHttpClient getUnsafeOkHttpClient() {
         try {
-            final TrustManager[] trustAllCerts = new TrustManager[] {
+            final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
                         @Override
                         public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
@@ -62,14 +66,23 @@ public class ServiceGenerator {
             final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
+            builder.addInterceptor(headerInterceptor);
             builder.addInterceptor(addHttpInterceptor());
-            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager)trustAllCerts[0]);
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
             builder.hostnameVerifier((hostname, session) -> true);
             return builder.build();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+    private static Interceptor headerInterceptor = chain -> {
+        Request original = chain.request();
+        Request.Builder requestBuilder = original.newBuilder()
+                .header("Authorization", "Bearer " + Preferences.getAccessToken(App.appContext()));
+        Request request = requestBuilder.build();
+        return chain.proceed(request);
+    };
 
     private static HttpLoggingInterceptor addHttpInterceptor() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -85,6 +98,7 @@ public class ServiceGenerator {
 
     private static final class SingletonHolder {
         private static final ServiceGenerator INSTANCE = new ServiceGenerator();
+
         private SingletonHolder() {
         }
     }

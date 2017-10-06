@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.TrainingApplication;
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.activity.BaseActivity;
@@ -26,14 +26,14 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            TrainingApplication.INSTANCE.getRouter().replaceScreen(Screens.SPLASH_FRAGMENT);
+            App.INSTANCE.getRouter().replaceScreen(Screens.SPLASH_FRAGMENT);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        TrainingApplication.INSTANCE.getNavigatorHolder().setNavigator(navigator);
+        App.INSTANCE.getNavigatorHolder().setNavigator(navigator);
     }
 
     private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.login_container) {

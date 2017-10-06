@@ -9,7 +9,7 @@ import android.webkit.WebViewClient;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.TrainingApplication;
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.login.presenter.LoginWebViewPresenter;
@@ -46,7 +46,7 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView {
                 if (host != null && host.equals(HOST)) {
                     String code = uri.getQueryParameter(CODE);
                     presenter.getToken(code);
-                    TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
+                    App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
                     return true;
                 } else {
                     return false;
@@ -65,7 +65,7 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView {
                 if (host != null && host.equals(HOST)) {
                     String code = uri.getQueryParameter(CODE);
                     presenter.getToken(code);
-                    TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
+                    App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
                     return true;
                 } else {
                     return false;

@@ -40,5 +40,6 @@ public interface TrainingApi {
     Call<Publication> getPublications(@Path("userId") String userId);
 
     @GET("/v1/publications/{{publicationId}}/contributors")
-    Call<PublicationContributor> getPublicationContributors(@Path("publicationId") String publicationId);
+    Call<PublicationContributor> getPublicationContributors(
+            @Path("publicationId") String publicationId);
 }

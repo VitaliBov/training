@@ -1,50 +1,66 @@
 package com.bov.vitali.training.data.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
 
-    private String id;
-    private String username;
-    private String name;
-    private String url;
-    private String imageUrl;
+    @SerializedName("data")
+    private UserData data;
 
-    public String getId() {
-        return id;
+    public UserData getData() {
+        return data;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setData(UserData data) {
+        this.data = data;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public class UserData {
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+        private String id;
+        private String username;
+        private String name;
+        private String url;
+        private String imageUrl;
 
-    public String getName() {
-        return name;
-    }
+        public String getId() {
+            return id;
+        }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+        public void setId(String id) {
+            this.id = id;
+        }
 
-    public String getUrl() {
-        return url;
-    }
+        public String getUsername() {
+            return username;
+        }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+        public void setUsername(String username) {
+            this.username = username;
+        }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
+        public String getName() {
+            return name;
+        }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+        }
     }
 }

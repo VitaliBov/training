@@ -10,9 +10,9 @@ import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
-public class TrainingApplication extends Application {
+public class App extends Application {
 
-    public static TrainingApplication INSTANCE;
+    public static App INSTANCE;
     private static Context appContext;
     private Cicerone<Router> cicerone;
 

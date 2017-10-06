@@ -4,26 +4,76 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
+import com.bov.vitali.training.data.model.User;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.presenter.UserPresenter;
 import com.bov.vitali.training.presentation.main.view.UserView;
+import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_user)
 public class UserFragment extends BaseFragment implements UserView, BackButtonListener {
     @FragmentArg String actionBarTitle;
     @InjectPresenter UserPresenter presenter;
+    @ViewById ImageView ivUserAvatar;
+    @ViewById TextView tvUserName;
+    @ViewById TextView tvUserUsername;
+    @ViewById TextView tvUserUrl;
+    private User user;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter.getUser();
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setActionBarTitle();
+    }
+
+    @Override
+    public void setUser(User user) {
+        this.user = user;
+        onBind();
+    }
+
+    private void onBind() {
+        if (!user.getData().getName().isEmpty()) {
+            tvUserName.setText(user.getData().getName());
+        } else {
+            tvUserName.setText(R.string.absence_name);
+        }
+        if (!user.getData().getUsername().isEmpty()) {
+            tvUserUsername.setText(user.getData().getUsername());
+        } else {
+            tvUserUsername.setText(R.string.absence_username);
+        }
+        if (!user.getData().getUrl().isEmpty()) {
+            tvUserUrl.setText(user.getData().getUrl());
+        } else {
+            tvUserUrl.setText(R.string.absence_url);
+        }
+        if (!user.getData().getImageUrl().isEmpty()) {
+            Picasso.with(getActivity())
+                    .load(user.getData().getImageUrl())
+                    .into(ivUserAvatar);
+        }
+    }
+
+    @Override
+    public void showInternetError() {
+
     }
 
     @Override
@@ -40,6 +90,6 @@ public class UserFragment extends BaseFragment implements UserView, BackButtonLi
     }
 
     private void setActionBarTitle() {
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(actionBarTitle);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(actionBarTitle);
     }
 }

@@ -1,7 +1,7 @@
 package com.bov.vitali.training.presentation.base.activity;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.bov.vitali.training.TrainingApplication;
+import com.bov.vitali.training.App;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -11,6 +11,6 @@ public abstract class BaseActivity extends MvpAppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        TrainingApplication.INSTANCE.getNavigatorHolder().removeNavigator();
+        App.INSTANCE.getNavigatorHolder().removeNavigator();
     }
 }

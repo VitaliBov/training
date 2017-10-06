@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.BuildConfig;
-import com.bov.vitali.training.TrainingApplication;
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.common.preferences.Preferences;
 import com.bov.vitali.training.common.utils.Constants;
 import com.bov.vitali.training.data.net.response.LoginResponse;
@@ -22,25 +22,26 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebView> {
     private static final String HOST = "https://medium.com/m/oauth/authorize?";
     private static final String CLIENT_ID = "client_id=";
     private static final String SCOPE = "&scope=";
-    private static final String SCOPE_PARAMETER = "basicProfile,publishPost";
+    private static final String SCOPE_PARAMETER = "basicProfile,publishPost,listPublications";
     private static final String STATE = "&state=";
     private static final String STATE_PARAMETER = "training";
     private static final String RESPONSE_TYPE = "&response_type=";
     private static final String RESPONSE_TYPE_PARAMETER = "code";
     private static final String REDIRECT_URL = "&redirect_uri=";
+    private static final String REDIRECT_URL_PARAMETER = "https://bitbucket.org/vitalibov/training/";
 
     public void getToken(String code) {
-        Call<LoginResponse> tokenCall = TrainingApplication.getApi().getToken(
+        Call<LoginResponse> tokenCall = App.getApi().getToken(
              code, BuildConfig.MEDIUM_CLIENT_ID, BuildConfig.MEDIUM_CLIENT_SECRET, Constants.GRANT_TYPE, Constants.REDIRECT_URL);
         tokenCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
-                Preferences.setTokenType(TrainingApplication.appContext(), response.body().getTokenType());
-                Preferences.setAccessToken(TrainingApplication.appContext(), response.body().getAccessToken());
-                Preferences.setRefreshToken(TrainingApplication.appContext(), response.body().getRefreshToken());
-                Preferences.setScope(TrainingApplication.appContext(), response.body().getScope());
-                Preferences.setExpiresAt(TrainingApplication.appContext(), response.body().getExpiresAt());
+                Preferences.setTokenType(App.appContext(), response.body().getTokenType());
+                Preferences.setAccessToken(App.appContext(), response.body().getAccessToken());
+                Preferences.setRefreshToken(App.appContext(), response.body().getRefreshToken());
+                Preferences.setScope(App.appContext(), response.body().getScope());
+                Preferences.setExpiresAt(App.appContext(), response.body().getExpiresAt());
                 } else {
                     Log.e("Error", "Error");
                 }
@@ -59,6 +60,6 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebView> {
                 SCOPE + SCOPE_PARAMETER +
                 STATE + STATE_PARAMETER +
                 RESPONSE_TYPE + RESPONSE_TYPE_PARAMETER +
-                REDIRECT_URL + BuildConfig.MEDIUM_CLIENT_SECRET;
+                REDIRECT_URL + REDIRECT_URL_PARAMETER;
     }
 }

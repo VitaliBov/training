@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.bov.vitali.training.BuildConfig;
-import com.bov.vitali.training.TrainingApplication;
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.common.preferences.Preferences;
 import com.bov.vitali.training.common.utils.Constants;
@@ -27,37 +27,38 @@ public class SplashPresenter extends BasePresenter<SplashView> {
     }
 
     private void navigateToLoginFragment() {
-        TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.LOGIN_FRAGMENT);
+        App.INSTANCE.getRouter().navigateTo(Screens.LOGIN_FRAGMENT);
     }
 
     private void navigateToBottomNavigationActivity() {
-        TrainingApplication.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
+        App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
     }
 
     private boolean isValidToken() {
         Long timeStamp = System.currentTimeMillis();
-        if (Preferences.getAccessToken(TrainingApplication.appContext()).isEmpty()) {
+        if (Preferences.getAccessToken(App.appContext()).isEmpty()) {
             return false;
-        } else if (timeStamp > Preferences.getExpiresAt(TrainingApplication.appContext())) {
+        } else if (timeStamp > Preferences.getExpiresAt(App.appContext())) {
             getRefreshToken();
+            return false;
+        } else {
             return true;
         }
-        return true;
     }
 
     private void getRefreshToken() {
-        Call<LoginResponse> tokenCall = TrainingApplication.getApi().refreshToken(
-                Preferences.getRefreshToken(TrainingApplication.appContext()), BuildConfig.MEDIUM_CLIENT_ID,
+        Call<LoginResponse> tokenCall = App.getApi().refreshToken(
+                Preferences.getRefreshToken(App.appContext()), BuildConfig.MEDIUM_CLIENT_ID,
                 BuildConfig.MEDIUM_CLIENT_SECRET, Constants.GRANT_TYPE_REFRESH);
         tokenCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
                 if (response.isSuccessful()) {
-                    Preferences.setTokenType(TrainingApplication.appContext(), response.body().getTokenType());
-                    Preferences.setAccessToken(TrainingApplication.appContext(), response.body().getAccessToken());
-                    Preferences.setRefreshToken(TrainingApplication.appContext(), response.body().getRefreshToken());
-                    Preferences.setScope(TrainingApplication.appContext(), response.body().getScope());
-                    Preferences.setExpiresAt(TrainingApplication.appContext(), response.body().getExpiresAt());
+                    Preferences.setTokenType(App.appContext(), response.body().getTokenType());
+                    Preferences.setAccessToken(App.appContext(), response.body().getAccessToken());
+                    Preferences.setRefreshToken(App.appContext(), response.body().getRefreshToken());
+                    Preferences.setScope(App.appContext(), response.body().getScope());
+                    Preferences.setExpiresAt(App.appContext(), response.body().getExpiresAt());
                 } else {
                     Log.e("Error", "Error");
                 }

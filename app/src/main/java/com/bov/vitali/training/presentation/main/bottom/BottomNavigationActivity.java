@@ -8,7 +8,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.TrainingApplication;
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.RouterProvider;
 import com.bov.vitali.training.common.navigation.Screens;
@@ -43,13 +43,13 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 
     @ProvidePresenter
     public BottomNavigationPresenter createBottomNavigationPresenter() {
-        return new BottomNavigationPresenter(TrainingApplication.INSTANCE.getRouter());
+        return new BottomNavigationPresenter(App.INSTANCE.getRouter());
     }
 
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        TrainingApplication.INSTANCE.getNavigatorHolder().setNavigator(navigator);
+        App.INSTANCE.getNavigatorHolder().setNavigator(navigator);
     }
 
     @AfterViews
@@ -143,6 +143,16 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
     };
 
     @Override
+    public void highlightTab(int position) {
+        bottomNavigationBar.selectTab(position, false);
+    }
+
+    @Override
+    public Router getRouter() {
+        return App.INSTANCE.getRouter();
+    }
+
+    @Override
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.bottom_container);
         if (fragment != null
@@ -152,15 +162,5 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public void highlightTab(int position) {
-        bottomNavigationBar.selectTab(position, false);
-    }
-
-    @Override
-    public Router getRouter() {
-        return TrainingApplication.INSTANCE.getRouter();
     }
 }

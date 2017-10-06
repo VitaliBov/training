@@ -7,4 +7,10 @@
 
     <string name="tab_user">User</string>
     <string name="tab_publications">Publications</string>
+
+    <string name="absence_name">Absence name</string>
+    <string name="absence_username">Absence username</string>
+    <string name="absence_url">Absence URL</string>
+
+    <string name="error">Error…</string>
 </resources>
