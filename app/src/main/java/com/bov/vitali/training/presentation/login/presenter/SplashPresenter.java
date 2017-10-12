@@ -8,8 +8,8 @@ import com.bov.vitali.training.BuildConfig;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.common.preferences.Preferences;
 import com.bov.vitali.training.common.utils.Constants;
-import com.bov.vitali.training.data.model.User;
 import com.bov.vitali.training.data.net.response.LoginResponse;
+import com.bov.vitali.training.data.net.response.UserResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.login.view.SplashView;
 
@@ -74,19 +74,19 @@ public class SplashPresenter extends BasePresenter<SplashView> {
     }
 
     private void getUser() {
-        Call<User> userCall = App.getApi().getUser();
-        userCall.enqueue(new Callback<User>() {
+        Call<UserResponse> userCall = App.getApi().getUser();
+        userCall.enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+            public void onResponse(@NonNull Call<UserResponse> call, @NonNull Response<UserResponse> response) {
                 if (response.isSuccessful()) {
-                    Preferences.setUserId(App.appContext(), response.body().getData().getId());
+                    Preferences.setUserId(App.appContext(), response.body().getUser().getId());
                 } else {
                     Log.e("Error", "Error");
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<UserResponse> call, @NonNull Throwable t) {
                 t.printStackTrace();
             }
         });

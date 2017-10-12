@@ -1,68 +1,50 @@
 package com.bov.vitali.training.data.model;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
 public class Publication {
 
-    @SerializedName("data")
-    private List<PublicationData> data;
+    private String id;
+    private String name;
+    private String description;
+    private String url;
+    private String imageUrl;
 
-    public List<PublicationData> getData() {
-        return data;
+    public String getId() {
+        return id;
     }
 
-    public void setData(List<PublicationData> data) {
-        this.data = data;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public class PublicationData {
+    public String getName() {
+        return name;
+    }
 
-        private String id;
-        private String name;
-        private String description;
-        private String url;
-        private String imageUrl;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-        public String getId() {
-            return id;
-        }
+    public String getDescription() {
+        return description;
+    }
 
-        public void setId(String id) {
-            this.id = id;
-        }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public String getUrl() {
+        return url;
+    }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-        public String getDescription() {
-            return description;
-        }
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public String getImageUrl() {
-            return imageUrl;
-        }
-
-        public void setImageUrl(String imageUrl) {
-            this.imageUrl = imageUrl;
-        }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

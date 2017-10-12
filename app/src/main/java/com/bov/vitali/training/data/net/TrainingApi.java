@@ -1,8 +1,8 @@
 package com.bov.vitali.training.data.net;
 
-import com.bov.vitali.training.data.model.Publication;
-import com.bov.vitali.training.data.model.User;
 import com.bov.vitali.training.data.net.response.LoginResponse;
+import com.bov.vitali.training.data.net.response.PublicationResponse;
+import com.bov.vitali.training.data.net.response.UserResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -32,8 +32,8 @@ public interface TrainingApi {
             @Field("grant_type") String grantType);
 
     @GET("/v1/me")
-    Call<User> getUser();
+    Call<UserResponse> getUser();
 
     @GET("/v1/users/{userId}/publications")
-    Call<Publication> getPublications(@Path("userId") String userId);
+    Call<PublicationResponse> getPublications(@Path("userId") String userId);
 }

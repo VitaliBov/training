@@ -41,24 +41,24 @@ public class UserFragment extends BaseFragment implements UserView, BackButtonLi
     }
 
     private void onBind() {
-        if (!user.getData().getName().isEmpty()) {
-            tvUserName.setText(user.getData().getName());
+        if (!user.getName().isEmpty()) {
+            tvUserName.setText(user.getName());
         } else {
             tvUserName.setText(R.string.absence_name);
         }
-        if (!user.getData().getUsername().isEmpty()) {
-            tvUserUsername.setText(user.getData().getUsername());
+        if (!user.getUsername().isEmpty()) {
+            tvUserUsername.setText(user.getUsername());
         } else {
             tvUserUsername.setText(R.string.absence_username);
         }
-        if (!user.getData().getUrl().isEmpty()) {
-            tvUserUrl.setText(user.getData().getUrl());
+        if (!user.getUrl().isEmpty()) {
+            tvUserUrl.setText(user.getUrl());
         } else {
             tvUserUrl.setText(R.string.absence_url);
         }
-        if (!user.getData().getImageUrl().isEmpty()) {
+        if (!user.getImageUrl().isEmpty()) {
             Picasso.with(getActivity())
-                    .load(user.getData().getImageUrl())
+                    .load(user.getImageUrl())
                     .into(ivUserAvatar);
         }
     }
@@ -66,5 +66,7 @@ public class UserFragment extends BaseFragment implements UserView, BackButtonLi
     @Override
     public void showResponseError() {
         AndroidUtils.toast(App.appContext(), App.appContext().getResources().getString(R.string.error));
+
+
     }
 }

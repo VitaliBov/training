@@ -1,5 +1,6 @@
 package com.bov.vitali.training.presentation.main.adapter;
 
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,12 +13,15 @@ import com.bov.vitali.training.R;
 import com.bov.vitali.training.data.model.Publication;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapter.ViewHolder> {
 
-    private Publication publications;
+    private List<Publication> publications;
 
     public PublicationsAdapter() {
-        this.publications = new Publication();
+        this.publications = new ArrayList<>();
     }
 
     @Override
@@ -28,7 +32,7 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Publication.PublicationData publication = publications.getData().get(position);
+        Publication publication = publications.get(position);
         holder.tvName.setText(publication.getName());
         holder.tvUrl.setText(publication.getUrl());
         holder.tvDescription.setText(publication.getDescription());
@@ -41,12 +45,14 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
 
     @Override
     public int getItemCount() {
-        return publications.getData().size();
+        return publications.size();
     }
 
-    public void setPublications(Publication publications) {
+    public void setPublications(List<Publication> publications) {
         this.publications = publications;
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffCallback(this.publications, publications));
+        result.dispatchUpdatesTo(this);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

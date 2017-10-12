@@ -20,6 +20,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.List;
+
 @EFragment(R.layout.fragment_publications)
 public class PublicationsFragment extends BaseFragment implements PublicationsView, BackButtonListener {
     @InjectPresenter PublicationsPresenter presenter;
@@ -44,7 +46,7 @@ public class PublicationsFragment extends BaseFragment implements PublicationsVi
     }
 
     @Override
-    public void setPublications(Publication publications) {
+    public void setPublications(List<Publication> publications) {
         checkAdapter();
         adapter.setPublications(publications);
     }
