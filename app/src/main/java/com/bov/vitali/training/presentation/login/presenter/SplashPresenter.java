@@ -3,11 +3,12 @@ package com.bov.vitali.training.presentation.login.presenter;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.bov.vitali.training.BuildConfig;
 import com.bov.vitali.training.App;
+import com.bov.vitali.training.BuildConfig;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.common.preferences.Preferences;
 import com.bov.vitali.training.common.utils.Constants;
+import com.bov.vitali.training.data.model.User;
 import com.bov.vitali.training.data.net.response.LoginResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.login.view.SplashView;
@@ -26,14 +27,6 @@ public class SplashPresenter extends BasePresenter<SplashView> {
         }
     }
 
-    private void navigateToLoginFragment() {
-        App.INSTANCE.getRouter().navigateTo(Screens.LOGIN_FRAGMENT);
-    }
-
-    private void navigateToBottomNavigationActivity() {
-        App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
-    }
-
     private boolean isValidToken() {
         Long timeStamp = System.currentTimeMillis();
         if (Preferences.getAccessToken(App.appContext()).isEmpty()) {
@@ -44,6 +37,14 @@ public class SplashPresenter extends BasePresenter<SplashView> {
         } else {
             return true;
         }
+    }
+
+    private void navigateToLoginFragment() {
+        App.INSTANCE.getRouter().navigateTo(Screens.LOGIN_FRAGMENT);
+    }
+
+    private void navigateToBottomNavigationActivity() {
+        App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
     }
 
     private void getRefreshToken() {
@@ -59,6 +60,7 @@ public class SplashPresenter extends BasePresenter<SplashView> {
                     Preferences.setRefreshToken(App.appContext(), response.body().getRefreshToken());
                     Preferences.setScope(App.appContext(), response.body().getScope());
                     Preferences.setExpiresAt(App.appContext(), response.body().getExpiresAt());
+                    getUser();
                 } else {
                     Log.e("Error", "Error");
                 }
@@ -66,6 +68,25 @@ public class SplashPresenter extends BasePresenter<SplashView> {
 
             @Override
             public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void getUser() {
+        Call<User> userCall = App.getApi().getUser();
+        userCall.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                if (response.isSuccessful()) {
+                    Preferences.setUserId(App.appContext(), response.body().getData().getId());
+                } else {
+                    Log.e("Error", "Error");
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 t.printStackTrace();
             }
         });

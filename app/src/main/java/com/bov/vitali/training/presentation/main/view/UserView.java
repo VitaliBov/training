@@ -6,6 +6,4 @@ import com.bov.vitali.training.presentation.base.view.BaseView;
 public interface UserView extends BaseView {
 
     void setUser(User user);
-
-    void showInternetError();
 }

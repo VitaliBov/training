@@ -3,9 +3,7 @@ package com.bov.vitali.training.presentation.main.presenter;
 import android.support.annotation.NonNull;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.bov.vitali.training.R;
 import com.bov.vitali.training.App;
-import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.data.model.User;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.UserView;
@@ -25,13 +23,13 @@ public class UserPresenter extends BasePresenter<UserView> {
                 if (response.isSuccessful()) {
                     getViewState().setUser(response.body());
                 } else {
-                    AndroidUtils.toast(App.appContext(), App.appContext().getResources().getString(R.string.error));
+                    getViewState().showResponseError();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                t.printStackTrace();
+                getViewState().showResponseError();
             }
         });
     }

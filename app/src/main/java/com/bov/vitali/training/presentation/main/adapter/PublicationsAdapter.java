@@ -15,11 +15,9 @@ import com.squareup.picasso.Picasso;
 public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapter.ViewHolder> {
 
     private Publication publications;
-    private final PublicationClickListener listener;
 
-    public PublicationsAdapter(PublicationClickListener listener) {
+    public PublicationsAdapter() {
         this.publications = new Publication();
-        this.listener = listener;
     }
 
     @Override
@@ -51,32 +49,18 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        TextView tvName;
-        TextView tvUrl;
-        TextView tvDescription;
+        TextView tvName, tvUrl, tvDescription;
         ImageView ivPublication;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card_publications);
             tvName = itemView.findViewById(R.id.tvPublicationName);
             tvUrl = itemView.findViewById(R.id.tvPublicationUrl);
             tvDescription = itemView.findViewById(R.id.tvPublicationDescription);
             ivPublication = itemView.findViewById(R.id.ivPublication);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
         }
-    }
-
-    public interface PublicationClickListener {
-
-        void onClick(Publication.PublicationData publication);
     }
 }

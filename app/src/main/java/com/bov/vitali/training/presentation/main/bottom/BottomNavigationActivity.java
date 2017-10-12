@@ -4,20 +4,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.bov.vitali.training.R;
 import com.bov.vitali.training.App;
+import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.RouterProvider;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.presentation.base.activity.BaseActivity;
-import com.bov.vitali.training.presentation.main.fragment.PublicationsFragment;
-import com.bov.vitali.training.presentation.main.fragment.PublicationsFragment_;
-import com.bov.vitali.training.presentation.main.fragment.UserFragment;
-import com.bov.vitali.training.presentation.main.fragment.UserFragment_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -32,19 +27,11 @@ import ru.terrakok.cicerone.commands.SystemMessage;
 
 @EActivity(R.layout.activity_bottom)
 public class BottomNavigationActivity extends BaseActivity implements BottomNavigationView, RouterProvider {
-    public static final String TAG_USER = "User";
-    public static final String TAG_PUBLICATIONS = "Publications";
-    private UserFragment userFragment;
-    private PublicationsFragment publicationsFragment;
-
     @InjectPresenter BottomNavigationPresenter presenter;
     @ViewById(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
-
-    @ProvidePresenter
-    public BottomNavigationPresenter createBottomNavigationPresenter() {
-        return new BottomNavigationPresenter(App.INSTANCE.getRouter());
-    }
+    private TabContainerFragment userFragment;
+    private TabContainerFragment publicationsFragment;
 
     @Override
     protected void onResumeFragments() {
@@ -54,12 +41,13 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
 
     @AfterViews
     public void afterViews() {
-        initViews();
+        initBottomNavigationBar();
         initContainers();
         selectStartTab();
     }
 
-    public void initViews() {
+    public void initBottomNavigationBar() {
+        bottomNavigationBar.setAutoHideEnabled(true);
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.tab_user))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.tab_publications))
@@ -89,30 +77,31 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         });
     }
 
-    @AfterViews
     public void initContainers() {
         FragmentManager fm = getSupportFragmentManager();
-        userFragment = (UserFragment) fm.findFragmentByTag(TAG_USER);
+        userFragment = (TabContainerFragment) fm.findFragmentByTag(Screens.USER_FRAGMENT);
         if (userFragment == null) {
-            userFragment = UserFragment_.builder().actionBarTitle(TAG_USER).build();
+            userFragment = TabContainerFragment_.builder().screen(Screens.USER_FRAGMENT).build();
             fm.beginTransaction()
-                    .add(R.id.bottom_container, userFragment, TAG_USER)
+                    .add(R.id.bottom_container, userFragment, Screens.USER_FRAGMENT)
                     .detach(userFragment)
                     .commitNow();
         }
 
-        publicationsFragment = (PublicationsFragment) fm.findFragmentByTag(TAG_PUBLICATIONS);
+        publicationsFragment = (TabContainerFragment) fm.findFragmentByTag(Screens.PUBLICATIONS_FRAGMENT);
         if (publicationsFragment == null) {
-            publicationsFragment = PublicationsFragment_.builder().actionBarTitle(TAG_PUBLICATIONS).build();
+            publicationsFragment = TabContainerFragment_.builder().screen(Screens.PUBLICATIONS_FRAGMENT).build();
             fm.beginTransaction()
-                    .add(R.id.bottom_container, publicationsFragment, TAG_PUBLICATIONS)
+                    .add(R.id.bottom_container, publicationsFragment, Screens.PUBLICATIONS_FRAGMENT)
                     .detach(publicationsFragment)
                     .commitNow();
         }
     }
 
     public void selectStartTab() {
-        bottomNavigationBar.selectTab(USER_TAB_POSITION, true);
+        if (!userFragment.isAdded() && !publicationsFragment.isAdded()) {
+            bottomNavigationBar.selectTab(USER_TAB_POSITION, true);
+        }
     }
 
     private Navigator navigator = new Navigator() {
@@ -148,11 +137,6 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
     }
 
     @Override
-    public Router getRouter() {
-        return App.INSTANCE.getRouter();
-    }
-
-    @Override
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.bottom_container);
         if (fragment != null
@@ -162,5 +146,10 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public Router getRouter() {
+        return App.INSTANCE.getRouter();
     }
 }

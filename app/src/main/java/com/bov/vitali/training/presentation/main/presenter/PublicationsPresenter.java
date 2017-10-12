@@ -23,13 +23,13 @@ public class PublicationsPresenter extends BasePresenter<PublicationsView> {
                 if (response.isSuccessful()) {
                     getViewState().setPublications(response.body());
                 } else {
-                    getViewState().showError();
+                    getViewState().showResponseError();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Publication> call, @NonNull Throwable t) {
-                t.printStackTrace();
+                getViewState().showResponseError();
             }
         });
     }

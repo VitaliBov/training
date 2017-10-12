@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.bov.vitali.training.R;
 import com.bov.vitali.training.App;
+import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.activity.BaseActivity;

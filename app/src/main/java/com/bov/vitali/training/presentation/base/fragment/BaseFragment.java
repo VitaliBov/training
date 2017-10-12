@@ -16,7 +16,6 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView, Back
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -29,5 +28,10 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView, Back
     public boolean onBackPressed() {
         presenter.onBackPressed();
         return false;
+    }
+
+    @Override
+    public void showResponseError() {
+
     }
 }

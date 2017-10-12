@@ -1,7 +1,6 @@
 package com.bov.vitali.training.data.net;
 
 import com.bov.vitali.training.data.model.Publication;
-import com.bov.vitali.training.data.model.PublicationContributor;
 import com.bov.vitali.training.data.model.User;
 import com.bov.vitali.training.data.net.response.LoginResponse;
 
@@ -13,7 +12,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface TrainingApi {
-
     String BASE_URL = "https://api.medium.com/v1/";
 
     @POST("/v1/tokens")
@@ -38,8 +36,4 @@ public interface TrainingApi {
 
     @GET("/v1/users/{userId}/publications")
     Call<Publication> getPublications(@Path("userId") String userId);
-
-    @GET("/v1/publications/{{publicationId}}/contributors")
-    Call<PublicationContributor> getPublicationContributors(
-            @Path("publicationId") String publicationId);
 }

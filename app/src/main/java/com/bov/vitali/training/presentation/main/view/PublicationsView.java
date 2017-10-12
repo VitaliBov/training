@@ -7,5 +7,7 @@ public interface PublicationsView extends BaseView {
 
     void setPublications(Publication publications);
 
-    void showError();
+    void showUpdatingSpinner();
+
+    void hideUpdatingSpinner();
 }

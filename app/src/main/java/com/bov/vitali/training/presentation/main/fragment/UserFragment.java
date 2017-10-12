@@ -1,15 +1,14 @@
 package com.bov.vitali.training.presentation.main.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
+import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.data.model.User;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.presenter.UserPresenter;
@@ -17,12 +16,10 @@ import com.bov.vitali.training.presentation.main.view.UserView;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_user)
 public class UserFragment extends BaseFragment implements UserView, BackButtonListener {
-    @FragmentArg String actionBarTitle;
     @InjectPresenter UserPresenter presenter;
     @ViewById ImageView ivUserAvatar;
     @ViewById TextView tvUserName;
@@ -34,12 +31,7 @@ public class UserFragment extends BaseFragment implements UserView, BackButtonLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter.getUser();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        setActionBarTitle();
+        setRetainInstance(true);
     }
 
     @Override
@@ -72,24 +64,7 @@ public class UserFragment extends BaseFragment implements UserView, BackButtonLi
     }
 
     @Override
-    public void showInternetError() {
-
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.user_container);
-        if (fragment != null
-                && fragment instanceof BackButtonListener
-                && ((BackButtonListener) fragment).onBackPressed()) {
-            return true;
-        } else {
-            getActivity().finishAffinity();
-            return true;
-        }
-    }
-
-    private void setActionBarTitle() {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(actionBarTitle);
+    public void showResponseError() {
+        AndroidUtils.toast(App.appContext(), App.appContext().getResources().getString(R.string.error));
     }
 }

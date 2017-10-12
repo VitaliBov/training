@@ -13,7 +13,6 @@ import static com.bov.vitali.training.R.id.btnLogin;
 
 @EFragment(R.layout.fragment_login)
 public class LoginFragment extends BaseFragment implements LoginView {
-
     @InjectPresenter LoginPresenter presenter;
 
     @Click({btnLogin})

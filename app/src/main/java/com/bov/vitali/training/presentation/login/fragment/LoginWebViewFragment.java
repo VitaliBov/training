@@ -9,8 +9,6 @@ import android.webkit.WebViewClient;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.App;
-import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.login.presenter.LoginWebViewPresenter;
 import com.bov.vitali.training.presentation.login.view.LoginWebView;
@@ -21,7 +19,6 @@ import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_login_web_view)
 public class LoginWebViewFragment extends BaseFragment implements LoginWebView {
-
     private static final String HOST = "bitbucket.org";
     private static final String CODE = "code";
     @InjectPresenter LoginWebViewPresenter presenter;
@@ -46,7 +43,6 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView {
                 if (host != null && host.equals(HOST)) {
                     String code = uri.getQueryParameter(CODE);
                     presenter.getToken(code);
-                    App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
                     return true;
                 } else {
                     return false;
@@ -65,7 +61,6 @@ public class LoginWebViewFragment extends BaseFragment implements LoginWebView {
                 if (host != null && host.equals(HOST)) {
                     String code = uri.getQueryParameter(CODE);
                     presenter.getToken(code);
-                    App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
                     return true;
                 } else {
                     return false;
