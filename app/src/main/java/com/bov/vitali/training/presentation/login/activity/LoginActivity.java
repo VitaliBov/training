@@ -55,7 +55,7 @@ public class LoginActivity extends BaseActivity {
                 case Screens.LOGIN_WEB_VIEW_FRAGMENT:
                     return LoginWebViewFragment_.builder().build();
                 default:
-                    throw new RuntimeException(getString(R.string.error_unknown_screen));
+                    throw new RuntimeException(getString(R.string.navigation_error_unknown_screen));
             }
         }
 

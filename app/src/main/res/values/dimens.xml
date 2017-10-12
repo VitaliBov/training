@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="text_size.small">12sp</dimen>
-    <dimen name="text_size.normal">14sp</dimen>
-    <dimen name="text_size.big">16sp</dimen>
-    <dimen name="text_size.biggest">18sp</dimen>
-    <dimen name="text_size.large">20sp</dimen>
-    <dimen name="text_size.extra_large">22sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_normal">14sp</dimen>
+    <dimen name="text_size_big">16sp</dimen>
+    <dimen name="text_size_biggest">18sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_extra_large">22sp</dimen>
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="margin_small">2dp</dimen>
     <dimen name="margin_normal">8dp</dimen>
     <dimen name="margin_large">16dp</dimen>
-    <dimen name="margin_small">2dp</dimen>
-    <dimen name="image_detail">80dp</dimen>
 </resources>

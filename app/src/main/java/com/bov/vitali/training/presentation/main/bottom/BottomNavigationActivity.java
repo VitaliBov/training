@@ -49,8 +49,8 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
     public void initBottomNavigationBar() {
         bottomNavigationBar.setAutoHideEnabled(true);
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.tab_user))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.tab_publications))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_user))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_publications))
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override

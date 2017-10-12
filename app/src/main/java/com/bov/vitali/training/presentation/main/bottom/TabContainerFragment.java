@@ -63,7 +63,7 @@ public class TabContainerFragment extends Fragment implements BackButtonListener
                         case Screens.PUBLICATIONS_FRAGMENT:
                             return PublicationsFragment_.builder().build();
                         default:
-                            throw new RuntimeException(getResources().getString(R.string.error_unknown_screen));
+                            throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }
                 }
 

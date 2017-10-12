@@ -9,6 +9,10 @@ public interface PublicationsView extends BaseView {
 
     void setPublications(List<Publication> publications);
 
+    void showResponseError();
+
+    void hideResponseError();
+
     void showUpdatingSpinner();
 
     void hideUpdatingSpinner();

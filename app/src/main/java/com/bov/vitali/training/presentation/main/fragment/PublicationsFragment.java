@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.training.App;
@@ -27,7 +30,8 @@ public class PublicationsFragment extends BaseFragment implements PublicationsVi
     @InjectPresenter PublicationsPresenter presenter;
     @ViewById(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @ViewById(R.id.rwList) RecyclerView rwPublications;
-//    @ViewById(R.id.ivResponseErrorPublications) ImageView errorImage;
+    @ViewById ViewGroup emptyView;
+    @ViewById TextView emptyViewText;
     private PublicationsAdapter adapter;
     private String userId = Preferences.getUserId(App.appContext());
 
@@ -40,15 +44,10 @@ public class PublicationsFragment extends BaseFragment implements PublicationsVi
 
     @AfterViews
     public void afterViews() {
+        hideResponseError();
         showUpdatingSpinner();
         setupRecyclerView();
         setupSwipeToRefresh();
-    }
-
-    @Override
-    public void setPublications(List<Publication> publications) {
-        checkAdapter();
-        adapter.setPublications(publications);
     }
 
     private void setupRecyclerView() {
@@ -58,10 +57,16 @@ public class PublicationsFragment extends BaseFragment implements PublicationsVi
 
     private void setupSwipeToRefresh() {
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            hideUpdatingSpinner();
             presenter.getPublications(userId);
         });
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+    }
+
+    @Override
+    public void setPublications(List<Publication> publications) {
+        checkAdapter();
+        adapter.setPublications(publications);
+        hideUpdatingSpinner();
     }
 
     private void checkAdapter() {
@@ -75,14 +80,20 @@ public class PublicationsFragment extends BaseFragment implements PublicationsVi
     private void initAdapter() {
         adapter = new PublicationsAdapter();
         rwPublications.setAdapter(adapter);
-        hideUpdatingSpinner();
     }
 
     @Override
     public void showResponseError() {
         hideUpdatingSpinner();
+        emptyView.setVisibility(View.VISIBLE);
+        rwPublications.setVisibility(View.GONE);
+        emptyViewText.setText(getResources().getString(R.string.publications_error_response));
+    }
 
-
+    @Override
+    public void hideResponseError() {
+        emptyView.setVisibility(View.GONE);
+        rwPublications.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -50,7 +50,6 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
 
     public void setPublications(List<Publication> publications) {
         this.publications = publications;
-//        notifyDataSetChanged();
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffCallback(this.publications, publications));
         result.dispatchUpdatesTo(this);
     }

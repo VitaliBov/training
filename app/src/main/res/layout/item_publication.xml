@@ -34,7 +34,7 @@
                 android:paddingRight="@dimen/margin_large"
                 android:paddingTop="@dimen/margin_large"
                 android:textColor="#555555"
-                android:textSize="@dimen/text_size.large"
+                android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_large"
                 android:paddingRight="@dimen/margin_large"
-                android:textSize="@dimen/text_size.normal"
+                android:textSize="@dimen/text_size_normal"
                 android:textStyle="italic" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:paddingLeft="@dimen/margin_large"
                 android:paddingRight="@dimen/margin_large"
                 android:paddingTop="@dimen/margin_small"
-                android:textSize="@dimen/text_size.normal" />
+                android:textSize="@dimen/text_size_normal" />
 
         </LinearLayout>
 

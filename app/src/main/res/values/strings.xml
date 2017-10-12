@@ -1,16 +1,22 @@
 <resources>
     <string name="app_name">Training</string>
-    <string name="settings">Settings</string>
-
-    <string name="error_unknown_screen">Экран не найден</string>
-    <string name="button_log_in">Log In</string>
-
-    <string name="tab_user">User</string>
-    <string name="tab_publications">Publications</string>
-
-    <string name="absence_name">Absence name</string>
-    <string name="absence_username">Absence username</string>
-    <string name="absence_url">Absence URL</string>
 
     <string name="error">Error…</string>
+
+    <string name="bottom_bar_tab_user">User</string>
+    <string name="bottom_bar_tab_publications">Publications</string>
+
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_cancel">Cancel</string>
+    <string name="dialog_button_log_in">Log In</string>
+    <string name="dialog_logout_ok">Logout</string>
+
+    <string name="navigation_error_unknown_screen">Экран не найден</string>
+
+    <string name="user_absence_name">Absence name</string>
+    <string name="user_absence_username">Absence username</string>
+    <string name="user_absence_url">Absence URL</string>
+    <string name="user_error_response">No user profile yet</string>
+
+    <string name="publications_error_response">Do not have any publications yet</string>
 </resources>

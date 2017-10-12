@@ -29,9 +29,4 @@ public class BaseFragment extends MvpAppCompatFragment implements BaseView, Back
         presenter.onBackPressed();
         return false;
     }
-
-    @Override
-    public void showResponseError() {
-
-    }
 }
