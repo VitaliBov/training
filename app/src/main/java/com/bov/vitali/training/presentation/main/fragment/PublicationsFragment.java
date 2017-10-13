@@ -17,7 +17,7 @@ import com.bov.vitali.training.data.model.Publication;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.adapter.PublicationsAdapter;
 import com.bov.vitali.training.presentation.main.presenter.PublicationsPresenter;
-import com.bov.vitali.training.presentation.main.view.PublicationsView;
+import com.bov.vitali.training.presentation.main.view.PublicationsContract;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -26,7 +26,8 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 @EFragment(R.layout.fragment_publications)
-public class PublicationsFragment extends BaseFragment implements PublicationsView, BackButtonListener {
+public class PublicationsFragment extends BaseFragment<PublicationsPresenter, PublicationsContract.View>
+        implements PublicationsContract.View, BackButtonListener {
     @InjectPresenter PublicationsPresenter presenter;
     @ViewById(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @ViewById(R.id.rwList) RecyclerView rwPublications;

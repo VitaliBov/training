@@ -98,4 +98,13 @@ public class Preferences {
         editor.putString(USER_ID, userId);
         editor.apply();
     }
+
+    public static void clear(Context context) {
+        setTokenType(context, "");
+        setAccessToken(context, "");
+        setRefreshToken(context, "");
+        setScope(context, null);
+        setExpiresAt(context, 0);
+        setUserId(context, "");
+    }
 }

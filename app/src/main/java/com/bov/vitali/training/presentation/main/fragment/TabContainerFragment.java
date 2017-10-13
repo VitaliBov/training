@@ -1,4 +1,4 @@
-package com.bov.vitali.training.presentation.main.bottom;
+package com.bov.vitali.training.presentation.main.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,8 +10,7 @@ import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.LocalCiceroneHolder;
 import com.bov.vitali.training.common.navigation.RouterProvider;
 import com.bov.vitali.training.common.navigation.Screens;
-import com.bov.vitali.training.presentation.main.fragment.PublicationsFragment_;
-import com.bov.vitali.training.presentation.main.fragment.UserFragment_;
+import com.bov.vitali.training.presentation.base.fragment.BaseNavigationFragment;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
@@ -22,7 +21,7 @@ import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
 @EFragment(R.layout.fragment_tab_container)
-public class TabContainerFragment extends Fragment implements BackButtonListener, RouterProvider {
+public class TabContainerFragment extends BaseNavigationFragment implements BackButtonListener, RouterProvider {
     @FragmentArg String screen;
     private Navigator navigator;
     LocalCiceroneHolder ciceroneHolder = new LocalCiceroneHolder();

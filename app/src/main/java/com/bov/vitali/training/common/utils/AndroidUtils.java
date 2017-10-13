@@ -3,6 +3,7 @@ package com.bov.vitali.training.common.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -64,6 +65,20 @@ public class AndroidUtils {
     public static void longSnackbar(View content, String message) {
         Snackbar.make(content,
                 message,
+                Snackbar.LENGTH_LONG)
+                .show();
+    }
+
+    public static void snackbar(View content, @StringRes int resId) {
+        Snackbar.make(content,
+                resId,
+                Snackbar.LENGTH_SHORT)
+                .show();
+    }
+
+    public static void longSnackbar(View content, @StringRes int resId) {
+        Snackbar.make(content,
+                resId,
                 Snackbar.LENGTH_LONG)
                 .show();
     }

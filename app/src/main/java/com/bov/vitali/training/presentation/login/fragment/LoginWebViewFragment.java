@@ -11,14 +11,15 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.login.presenter.LoginWebViewPresenter;
-import com.bov.vitali.training.presentation.login.view.LoginWebView;
+import com.bov.vitali.training.presentation.login.view.LoginWebViewContract;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_login_web_view)
-public class LoginWebViewFragment extends BaseFragment implements LoginWebView {
+public class LoginWebViewFragment extends BaseFragment<LoginWebViewPresenter, LoginWebViewContract.View>
+        implements LoginWebViewContract.View {
     private static final String HOST = "bitbucket.org";
     private static final String CODE = "code";
     @InjectPresenter LoginWebViewPresenter presenter;

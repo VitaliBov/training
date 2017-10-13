@@ -8,11 +8,11 @@ import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.Screens;
-import com.bov.vitali.training.presentation.base.activity.BaseActivity;
+import com.bov.vitali.training.presentation.base.activity.BaseNavigationActivity;
 import com.bov.vitali.training.presentation.login.fragment.LoginFragment_;
 import com.bov.vitali.training.presentation.login.fragment.LoginWebViewFragment_;
 import com.bov.vitali.training.presentation.login.fragment.SplashFragment_;
-import com.bov.vitali.training.presentation.main.bottom.BottomNavigationActivity_;
+import com.bov.vitali.training.presentation.main.activity.BottomNavigationActivity_;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -20,7 +20,7 @@ import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseNavigationActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class LoginActivity extends BaseActivity {
         @Override
         protected Intent createActivityIntent(String screenKey, Object data) {
             if (screenKey.equals(Screens.BOTTOM_NAVIGATION_ACTIVITY)) {
-                return new Intent(getApplication(), BottomNavigationActivity_.class);
+                return BottomNavigationActivity_.intent(App.appContext()).get();
             }
             return null;
         }

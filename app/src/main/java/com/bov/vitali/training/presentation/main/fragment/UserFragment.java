@@ -12,7 +12,7 @@ import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.data.model.User;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.presenter.UserPresenter;
-import com.bov.vitali.training.presentation.main.view.UserView;
+import com.bov.vitali.training.presentation.main.view.UserContract;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
@@ -20,7 +20,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_user)
-public class UserFragment extends BaseFragment implements UserView, BackButtonListener {
+public class UserFragment extends BaseFragment<UserPresenter, UserContract.View> implements UserContract.View, BackButtonListener {
     @InjectPresenter UserPresenter presenter;
     @ViewById ViewGroup contentUser;
     @ViewById ViewGroup emptyView;
@@ -84,5 +84,10 @@ public class UserFragment extends BaseFragment implements UserView, BackButtonLi
     public void hideResponseError() {
         emptyView.setVisibility(View.GONE);
         contentUser.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
     }
 }

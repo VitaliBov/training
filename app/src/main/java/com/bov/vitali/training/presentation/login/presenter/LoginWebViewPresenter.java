@@ -12,14 +12,15 @@ import com.bov.vitali.training.common.utils.Constants;
 import com.bov.vitali.training.data.net.response.LoginResponse;
 import com.bov.vitali.training.data.net.response.UserResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
-import com.bov.vitali.training.presentation.login.view.LoginWebView;
+import com.bov.vitali.training.presentation.login.view.LoginWebViewContract;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 @InjectViewState
-public class LoginWebViewPresenter extends BasePresenter<LoginWebView> {
+public class LoginWebViewPresenter extends BasePresenter<LoginWebViewContract.View>
+        implements LoginWebViewContract.Presenter {
     private static final String HOST = "https://medium.com/m/oauth/authorize?";
     private static final String CLIENT_ID = "client_id=";
     private static final String SCOPE = "&scope=";
@@ -31,6 +32,7 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebView> {
     private static final String REDIRECT_URL = "&redirect_uri=";
     private static final String REDIRECT_URL_PARAMETER = "https://bitbucket.org/vitalibov/training/";
 
+    @Override
     public void getToken(String code) {
         Call<LoginResponse> tokenCall = App.getApi().getToken(
                 code, BuildConfig.MEDIUM_CLIENT_ID, BuildConfig.MEDIUM_CLIENT_SECRET, Constants.GRANT_TYPE, Constants.REDIRECT_URL);
@@ -76,6 +78,11 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebView> {
         });
     }
 
+    @Override
+    public void navigateToBottomNavigationActivity() {
+        App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
+    }
+
     public String getUrl() {
         return HOST +
                 CLIENT_ID + BuildConfig.MEDIUM_CLIENT_ID +
@@ -83,9 +90,5 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebView> {
                 STATE + STATE_PARAMETER +
                 RESPONSE_TYPE + RESPONSE_TYPE_PARAMETER +
                 REDIRECT_URL + REDIRECT_URL_PARAMETER;
-    }
-
-    private void navigateToBottomNavigationActivity() {
-        App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
     }
 }

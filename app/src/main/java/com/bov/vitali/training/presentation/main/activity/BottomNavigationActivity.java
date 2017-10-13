@@ -1,4 +1,4 @@
-package com.bov.vitali.training.presentation.main.bottom;
+package com.bov.vitali.training.presentation.main.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +12,11 @@ import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.RouterProvider;
 import com.bov.vitali.training.common.navigation.Screens;
 import com.bov.vitali.training.common.utils.AndroidUtils;
-import com.bov.vitali.training.presentation.base.activity.BaseActivity;
+import com.bov.vitali.training.presentation.base.activity.BaseNavigationActivity;
+import com.bov.vitali.training.presentation.main.fragment.TabContainerFragment;
+import com.bov.vitali.training.presentation.main.fragment.TabContainerFragment_;
+import com.bov.vitali.training.presentation.main.presenter.BottomNavigationPresenter;
+import com.bov.vitali.training.presentation.main.view.BottomNavigationContract;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -26,7 +30,8 @@ import ru.terrakok.cicerone.commands.Replace;
 import ru.terrakok.cicerone.commands.SystemMessage;
 
 @EActivity(R.layout.activity_bottom)
-public class BottomNavigationActivity extends BaseActivity implements BottomNavigationView, RouterProvider {
+public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavigationPresenter, BottomNavigationContract.View>
+        implements BottomNavigationContract.View, RouterProvider {
     @InjectPresenter BottomNavigationPresenter presenter;
     @ViewById(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
@@ -46,6 +51,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         selectStartTab();
     }
 
+    @Override
     public void initBottomNavigationBar() {
         bottomNavigationBar.setAutoHideEnabled(true);
         bottomNavigationBar
@@ -77,6 +83,7 @@ public class BottomNavigationActivity extends BaseActivity implements BottomNavi
         });
     }
 
+    @Override
     public void initContainers() {
         FragmentManager fm = getSupportFragmentManager();
         userFragment = (TabContainerFragment) fm.findFragmentByTag(Screens.USER_FRAGMENT);

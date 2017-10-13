@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapter.ViewHolder> {
-
     private List<Publication> publications;
 
     public PublicationsAdapter() {
@@ -38,6 +37,8 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
         holder.tvDescription.setText(publication.getDescription());
         if (!publication.getImageUrl().isEmpty()) {
             Picasso.with(holder.itemView.getContext())
+                    .cancelRequest(holder.ivPublication);
+            Picasso.with(holder.itemView.getContext())
                     .load(publication.getImageUrl())
                     .into(holder.ivPublication);
         }
@@ -49,8 +50,10 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
     }
 
     public void setPublications(List<Publication> publications) {
-        this.publications = publications;
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffCallback(this.publications, publications));
+//        this.publications = publications;
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffCallback(this.publications, publications));
+        this.publications.clear();
+        this.publications.addAll(publications);
         result.dispatchUpdatesTo(this);
     }
 

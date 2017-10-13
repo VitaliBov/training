@@ -7,12 +7,12 @@ import com.bov.vitali.training.data.model.Publication;
 
 import java.util.List;
 
-public class DiffCallback extends DiffUtil.Callback {
+class DiffCallback extends DiffUtil.Callback {
 
-    List<Publication> oldPublications;
-    List<Publication> newPublications;
+    private List<Publication> oldPublications;
+    private List<Publication> newPublications;
 
-    public DiffCallback(List<Publication> oldPublications, List<Publication> newPublications) {
+    DiffCallback(List<Publication> oldPublications, List<Publication> newPublications) {
         this.oldPublications = oldPublications;
         this.newPublications = newPublications;
     }

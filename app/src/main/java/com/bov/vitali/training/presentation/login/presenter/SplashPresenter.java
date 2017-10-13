@@ -11,14 +11,15 @@ import com.bov.vitali.training.common.utils.Constants;
 import com.bov.vitali.training.data.net.response.LoginResponse;
 import com.bov.vitali.training.data.net.response.UserResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
-import com.bov.vitali.training.presentation.login.view.SplashView;
+import com.bov.vitali.training.presentation.login.view.SplashContract;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SplashPresenter extends BasePresenter<SplashView> {
+public class SplashPresenter extends BasePresenter<SplashContract.View> implements SplashContract.Presenter {
 
+    @Override
     public void navigateToNextScreen() {
         if (isValidToken()) {
             navigateToBottomNavigationActivity();
@@ -39,15 +40,18 @@ public class SplashPresenter extends BasePresenter<SplashView> {
         }
     }
 
-    private void navigateToLoginFragment() {
+    @Override
+    public void navigateToLoginFragment() {
         App.INSTANCE.getRouter().navigateTo(Screens.LOGIN_FRAGMENT);
     }
 
-    private void navigateToBottomNavigationActivity() {
+    @Override
+    public void navigateToBottomNavigationActivity() {
         App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
     }
 
-    private void getRefreshToken() {
+    @Override
+    public void getRefreshToken() {
         Call<LoginResponse> tokenCall = App.getApi().refreshToken(
                 Preferences.getRefreshToken(App.appContext()), BuildConfig.MEDIUM_CLIENT_ID,
                 BuildConfig.MEDIUM_CLIENT_SECRET, Constants.GRANT_TYPE_REFRESH);
@@ -60,7 +64,7 @@ public class SplashPresenter extends BasePresenter<SplashView> {
                     Preferences.setRefreshToken(App.appContext(), response.body().getRefreshToken());
                     Preferences.setScope(App.appContext(), response.body().getScope());
                     Preferences.setExpiresAt(App.appContext(), response.body().getExpiresAt());
-                    getUser();
+                    getUserId();
                 } else {
                     Log.e("Error", "Error");
                 }
@@ -73,7 +77,7 @@ public class SplashPresenter extends BasePresenter<SplashView> {
         });
     }
 
-    private void getUser() {
+    private void getUserId() {
         Call<UserResponse> userCall = App.getApi().getUser();
         userCall.enqueue(new Callback<UserResponse>() {
             @Override
