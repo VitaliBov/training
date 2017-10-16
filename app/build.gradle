@@ -16,6 +16,7 @@ android {
         debug {
             buildConfigField("String", "MEDIUM_CLIENT_ID", "\"7f318ba7bee0\"")
             buildConfigField("String", "MEDIUM_CLIENT_SECRET", "\"98a4ea1cba318eec0f90d68bfb9730eb240d7e26\"")
+            buildConfigField("String", "THE_MOVIE_DB_IP_KEY", "\"776bcb39faf024bf1721d63975c578e3\"")
         }
         release {
             minifyEnabled false
@@ -23,6 +24,7 @@ android {
 
             buildConfigField("String", "MEDIUM_CLIENT_ID", "\"7f318ba7bee0\"")
             buildConfigField("String", "MEDIUM_CLIENT_SECRET", "\"98a4ea1cba318eec0f90d68bfb9730eb240d7e26\"")
+            buildConfigField("String", "THE_MOVIE_DB_IP_KEY", "\"776bcb39faf024bf1721d63975c578e3\"")
         }
     }
     compileOptions {

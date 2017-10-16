@@ -3,6 +3,7 @@
 
     <string name="bottom_bar_tab_user">User</string>
     <string name="bottom_bar_tab_publications">Publications</string>
+    <string name="bottom_bar_tab_pagination">Pagination</string>
 
     <string name="dialog_button_ok">OK</string>
     <string name="dialog_button_cancel">Cancel</string>
@@ -22,4 +23,7 @@
     <string name="user_error_response">No user profile yet</string>
 
     <string name="publications_error_response">Do not have any publications yet</string>
+
+    <string name="pagination_tap_to_reload">Tap to reload</string>
+    <string name="pagination_error_loading">What went wrong</string>
 </resources>

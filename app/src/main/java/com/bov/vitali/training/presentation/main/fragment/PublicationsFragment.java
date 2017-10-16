@@ -29,8 +29,8 @@ import java.util.List;
 public class PublicationsFragment extends BaseFragment<PublicationsPresenter, PublicationsContract.View>
         implements PublicationsContract.View, BackButtonListener {
     @InjectPresenter PublicationsPresenter presenter;
-    @ViewById(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
-    @ViewById(R.id.rwList) RecyclerView rwPublications;
+    @ViewById(R.id.swipeRefreshPublications) SwipeRefreshLayout swipeRefreshLayout;
+    @ViewById(R.id.rwPublications) RecyclerView rwPublications;
     @ViewById ViewGroup emptyView;
     @ViewById TextView emptyViewText;
     private PublicationsAdapter adapter;

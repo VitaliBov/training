@@ -52,7 +52,7 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
 
     @Override
     public void getRefreshToken() {
-        Call<LoginResponse> tokenCall = App.getApi().refreshToken(
+        Call<LoginResponse> tokenCall = App.getTrainingApi().refreshToken(
                 Preferences.getRefreshToken(App.appContext()), BuildConfig.MEDIUM_CLIENT_ID,
                 BuildConfig.MEDIUM_CLIENT_SECRET, Constants.GRANT_TYPE_REFRESH);
         tokenCall.enqueue(new Callback<LoginResponse>() {
@@ -78,7 +78,7 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
     }
 
     private void getUserId() {
-        Call<UserResponse> userCall = App.getApi().getUser();
+        Call<UserResponse> userCall = App.getTrainingApi().getUser();
         userCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(@NonNull Call<UserResponse> call, @NonNull Response<UserResponse> response) {

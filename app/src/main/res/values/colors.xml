@@ -14,4 +14,6 @@
     <color name="colorIcons">#FFFFFF</color>
 
     <color name="colorMaterialGrey300">#E0E0E0</color>
+    <color name="colorMaterialGrey500">#9E9E9E</color>
+    <color name="colorMaterialGrey800">#424242</color>
 </resources>

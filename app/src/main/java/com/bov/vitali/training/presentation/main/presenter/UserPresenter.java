@@ -17,7 +17,7 @@ public class UserPresenter extends BasePresenter<UserContract.View> implements U
 
     @Override
     public void getUser() {
-        Call<UserResponse> userCall = App.getApi().getUser();
+        Call<UserResponse> userCall = App.getTrainingApi().getUser();
         userCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(@NonNull Call<UserResponse> call, @NonNull

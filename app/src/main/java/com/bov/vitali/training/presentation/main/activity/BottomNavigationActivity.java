@@ -37,6 +37,7 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
     BottomNavigationBar bottomNavigationBar;
     private TabContainerFragment userFragment;
     private TabContainerFragment publicationsFragment;
+    private TabContainerFragment paginationFragment;
 
     @Override
     protected void onResumeFragments() {
@@ -57,6 +58,7 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_user))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_publications))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_pagination))
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
@@ -67,6 +69,9 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                         break;
                     case PUBLICATION_TAB_POSITION:
                         presenter.onTabPublicationsClick();
+                        break;
+                    case PAGINATION_TAB_POSITION:
+                        presenter.onTabPaginationClick();
                         break;
                 }
             }
@@ -103,10 +108,19 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                     .detach(publicationsFragment)
                     .commitNow();
         }
+
+        paginationFragment = (TabContainerFragment) fm.findFragmentByTag(Screens.PAGINATION_FRAGMENT);
+        if (paginationFragment == null) {
+            paginationFragment = TabContainerFragment_.builder().screen(Screens.PAGINATION_FRAGMENT).build();
+            fm.beginTransaction()
+                    .add(R.id.bottom_container, paginationFragment, Screens.PAGINATION_FRAGMENT)
+                    .detach(paginationFragment)
+                    .commitNow();
+        }
     }
 
     public void selectStartTab() {
-        if (!userFragment.isAdded() && !publicationsFragment.isAdded()) {
+        if (!userFragment.isAdded() && !publicationsFragment.isAdded() && !paginationFragment.isAdded()) {
             bottomNavigationBar.selectTab(USER_TAB_POSITION, true);
         }
     }
@@ -124,13 +138,22 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                     case Screens.USER_FRAGMENT:
                         fm.beginTransaction()
                                 .detach(publicationsFragment)
+                                .detach(paginationFragment)
                                 .attach(userFragment)
                                 .commitNow();
                         break;
                     case Screens.PUBLICATIONS_FRAGMENT:
                         fm.beginTransaction()
                                 .detach(userFragment)
+                                .detach(paginationFragment)
                                 .attach(publicationsFragment)
+                                .commitNow();
+                        break;
+                    case Screens.PAGINATION_FRAGMENT:
+                        fm.beginTransaction()
+                                .detach(userFragment)
+                                .detach(publicationsFragment)
+                                .attach(paginationFragment)
                                 .commitNow();
                         break;
                 }

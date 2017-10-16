@@ -22,9 +22,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator {
 
     private final TrainingApi trainingApi;
+    private final FilmsApi filmsApi;
 
     private ServiceGenerator() {
-        trainingApi = createService(TrainingApi.class, TrainingApi.BASE_URL);
+        trainingApi = createTrainingService(TrainingApi.class, TrainingApi.BASE_URL);
+        filmsApi = createFilmsService(FilmsApi.class, FilmsApi.BASE_URL);
     }
 
     public static ServiceGenerator getInstance() {
@@ -35,15 +37,27 @@ public class ServiceGenerator {
         return trainingApi;
     }
 
-    private <S> S createService(Class<S> serviceClass, String baseUrl) {
+    public FilmsApi getFilmsService() {
+        return filmsApi;
+    }
+
+    private <S> S createTrainingService(Class<S> serviceClass, String baseUrl) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .client(getUnsafeOkHttpClient())
+                .client(getTrainingUnsafeOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create(getGson()));
         return builder.build().create(serviceClass);
     }
 
-    private OkHttpClient getUnsafeOkHttpClient() {
+    private <S> S createFilmsService(Class<S> serviceClass, String baseUrl) {
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(getFilmsUnsafeOkHttpClient())
+                .addConverterFactory(GsonConverterFactory.create(getGson()));
+        return builder.build().create(serviceClass);
+    }
+
+    private OkHttpClient getTrainingUnsafeOkHttpClient() {
         try {
             final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
@@ -67,6 +81,38 @@ public class ServiceGenerator {
 
             OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.addInterceptor(headerInterceptor);
+            builder.addInterceptor(addHttpInterceptor());
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+            builder.hostnameVerifier((hostname, session) -> true);
+            return builder.build();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private OkHttpClient getFilmsUnsafeOkHttpClient() {
+        try {
+            final TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        @Override
+                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        }
+
+                        @Override
+                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                        }
+
+                        @Override
+                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                            return new java.security.cert.X509Certificate[]{};
+                        }
+                    }
+            };
+            final SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+            OkHttpClient.Builder builder = new OkHttpClient.Builder();
             builder.addInterceptor(addHttpInterceptor());
             builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
             builder.hostnameVerifier((hostname, session) -> true);

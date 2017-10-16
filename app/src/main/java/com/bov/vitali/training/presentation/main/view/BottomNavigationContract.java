@@ -10,6 +10,7 @@ public interface BottomNavigationContract  {
     interface View extends BaseActivityView {
         int USER_TAB_POSITION = 0;
         int PUBLICATION_TAB_POSITION = 1;
+        int PAGINATION_TAB_POSITION = 2;
 
         void highlightTab(int position);
 
@@ -24,5 +25,7 @@ public interface BottomNavigationContract  {
         void onTabUserClick();
 
         void onTabPublicationsClick();
+
+        void onTabPaginationClick();
     }
 }

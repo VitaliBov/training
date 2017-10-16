@@ -61,6 +61,8 @@ public class TabContainerFragment extends BaseNavigationFragment implements Back
                             return UserFragment_.builder().build();
                         case Screens.PUBLICATIONS_FRAGMENT:
                             return PublicationsFragment_.builder().build();
+                        case Screens.PAGINATION_FRAGMENT:
+                            return PaginationFragment_.builder().build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }
