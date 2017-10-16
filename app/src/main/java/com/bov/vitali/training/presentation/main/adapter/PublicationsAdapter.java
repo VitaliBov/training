@@ -1,5 +1,6 @@
 package com.bov.vitali.training.presentation.main.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapter.ViewHolder> {
+    @NonNull
     private List<Publication> publications;
 
     public PublicationsAdapter() {
@@ -32,12 +34,11 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Publication publication = publications.get(position);
+        Picasso.with(holder.itemView.getContext()).cancelRequest(holder.ivPublication);
         holder.tvName.setText(publication.getName());
         holder.tvUrl.setText(publication.getUrl());
         holder.tvDescription.setText(publication.getDescription());
         if (!publication.getImageUrl().isEmpty()) {
-            Picasso.with(holder.itemView.getContext())
-                    .cancelRequest(holder.ivPublication);
             Picasso.with(holder.itemView.getContext())
                     .load(publication.getImageUrl())
                     .into(holder.ivPublication);
@@ -49,11 +50,9 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
         return publications.size();
     }
 
-    public void setPublications(List<Publication> publications) {
-//        this.publications = publications;
+    public void setPublications(@NonNull List<Publication> publications) {
         final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffCallback(this.publications, publications));
-        this.publications.clear();
-        this.publications.addAll(publications);
+        this.publications = publications;
         result.dispatchUpdatesTo(this);
     }
 
