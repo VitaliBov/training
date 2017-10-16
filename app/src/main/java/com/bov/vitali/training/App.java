@@ -3,16 +3,16 @@ package com.bov.vitali.training;
 import android.app.Application;
 import android.content.Context;
 
-import com.bov.vitali.training.data.network.ServiceGenerator;
-import com.bov.vitali.training.data.network.TrainingApi;
+import com.bov.vitali.training.data.net.ServiceGenerator;
+import com.bov.vitali.training.data.net.TrainingApi;
 
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
-public class TrainingApplication extends Application {
+public class App extends Application {
 
-    public static TrainingApplication INSTANCE;
+    public static App INSTANCE;
     private static Context appContext;
     private Cicerone<Router> cicerone;
 

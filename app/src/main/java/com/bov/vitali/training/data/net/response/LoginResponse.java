@@ -1,4 +1,4 @@
-package com.bov.vitali.training.data.network.response;
+package com.bov.vitali.training.data.net.response;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
-        android:name=".TrainingApplication"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,17 +22,9 @@
         </activity>
 
         <activity
-            android:name=".presentation.main.activity.MainActivity_"
+            android:name=".presentation.main.activity.BottomNavigationActivity_"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme">
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data
-                    android:host="www.host.com"
-                    android:scheme="http"/>
-            </intent-filter>
         </activity>
     </application>
 </manifest>

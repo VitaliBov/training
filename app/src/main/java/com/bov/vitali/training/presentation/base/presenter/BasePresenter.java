@@ -1,12 +1,12 @@
 package com.bov.vitali.training.presentation.base.presenter;
 
 import com.arellomobile.mvp.MvpPresenter;
-import com.arellomobile.mvp.MvpView;
-import com.bov.vitali.training.TrainingApplication;
+import com.bov.vitali.training.App;
+import com.bov.vitali.training.presentation.base.view.BaseView;
 
-public class BasePresenter<View extends MvpView> extends MvpPresenter<View> {
+public class BasePresenter<View extends BaseView> extends MvpPresenter<View> {
 
     public void onBackPressed() {
-        TrainingApplication.INSTANCE.getRouter().exit();
+        App.INSTANCE.getRouter().exit();
     }
 }

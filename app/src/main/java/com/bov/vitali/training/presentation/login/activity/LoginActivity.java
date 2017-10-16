@@ -4,15 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.TrainingApplication;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.navigation.Screens;
-import com.bov.vitali.training.presentation.base.activity.BaseActivity;
+import com.bov.vitali.training.presentation.base.activity.BaseNavigationActivity;
 import com.bov.vitali.training.presentation.login.fragment.LoginFragment_;
 import com.bov.vitali.training.presentation.login.fragment.LoginWebViewFragment_;
 import com.bov.vitali.training.presentation.login.fragment.SplashFragment_;
-import com.bov.vitali.training.presentation.main.activity.MainActivity_;
+import com.bov.vitali.training.presentation.main.activity.BottomNavigationActivity_;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -20,27 +20,27 @@ import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 @EActivity(R.layout.activity_login)
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseNavigationActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            TrainingApplication.INSTANCE.getRouter().replaceScreen(Screens.SPLASH_FRAGMENT);
+            App.INSTANCE.getRouter().replaceScreen(Screens.SPLASH_FRAGMENT);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        TrainingApplication.INSTANCE.getNavigatorHolder().setNavigator(navigator);
+        App.INSTANCE.getNavigatorHolder().setNavigator(navigator);
     }
 
     private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.login_container) {
         @Override
         protected Intent createActivityIntent(String screenKey, Object data) {
-            if (screenKey.equals(Screens.MAIN_ACTIVITY)) {
-                return new Intent(getApplication(), MainActivity_.class);
+            if (screenKey.equals(Screens.BOTTOM_NAVIGATION_ACTIVITY)) {
+                return BottomNavigationActivity_.intent(App.appContext()).get();
             }
             return null;
         }
@@ -55,7 +55,7 @@ public class LoginActivity extends BaseActivity {
                 case Screens.LOGIN_WEB_VIEW_FRAGMENT:
                     return LoginWebViewFragment_.builder().build();
                 default:
-                    throw new RuntimeException(getString(R.string.error_unknown_screen));
+                    throw new RuntimeException(getString(R.string.navigation_error_unknown_screen));
             }
         }
 

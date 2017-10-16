@@ -13,6 +13,7 @@ public class Preferences {
     private static final String REFRESH_TOKEN = "refresh_token";
     private static final String SCOPE = "scope";
     private static final String EXPIRES_AT = "expires_at";
+    private static final String USER_ID = "user_id";
 
     private Preferences() {
     }
@@ -84,5 +85,26 @@ public class Preferences {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong(EXPIRES_AT, expiresAt);
         editor.apply();
+    }
+
+    public static String getUserId(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        return prefs.getString(USER_ID, "");
+    }
+
+    public static void setUserId(Context context, String userId) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(USER_ID, userId);
+        editor.apply();
+    }
+
+    public static void clear(Context context) {
+        setTokenType(context, "");
+        setAccessToken(context, "");
+        setRefreshToken(context, "");
+        setScope(context, null);
+        setExpiresAt(context, 0);
+        setUserId(context, "");
     }
 }
