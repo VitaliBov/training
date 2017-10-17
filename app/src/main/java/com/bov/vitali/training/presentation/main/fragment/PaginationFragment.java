@@ -1,16 +1,20 @@
 package com.bov.vitali.training.presentation.main.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bov.vitali.training.BuildConfig;
 import com.bov.vitali.training.R;
+import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.data.model.Film;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.adapter.PaginationAdapter;
@@ -26,42 +30,61 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_pagination)
 public class PaginationFragment extends BaseFragment<PaginationPresenter, PaginationContract.View>
-        implements PaginationContract.View {
-    private static final int PAGE_START = 1;
-    private static final String LANGUAGE = "en_US";
-    private boolean isLoading = false;
+        implements PaginationContract.View, BackButtonListener {
     private boolean isLastPage = false;
     private int TOTAL_PAGES = 10;
-    private int currentPage = PAGE_START;
+    private boolean isLoading = false;
     private PaginationAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     @InjectPresenter PaginationPresenter presenter;
     @ViewById RecyclerView rvPagination;
     @ViewById ProgressBar pbPagination;
+    @ViewById ViewGroup emptyView;
+    @ViewById TextView emptyViewText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        loadFirstPage();
-        setRetainInstance(true);
+        boolean isRestore = savedInstanceState != null;
+        if (!isRestore) presenter.loadMoreFilms();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_refresh:
+                presenter.resetAndRetrieve();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     @AfterViews
     public void afterViews() {
+        setHasOptionsMenu(true);
+        hideResponseError();
+        initLayoutManager();
         setupRecyclerView();
+        if (adapter != null) rvPagination.setAdapter(adapter);
     }
 
     private void setupRecyclerView() {
         rvPagination.setHasFixedSize(true);
-        rvPagination.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvPagination.setLayoutManager(linearLayoutManager);
         rvPagination.setItemAnimator(new DefaultItemAnimator());
         rvPagination.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
                 isLoading = true;
-                currentPage += 1;
-                new Handler().postDelayed(() -> loadNextPage(), 1000);
+                presenter.loadMoreFilms();
             }
 
             @Override
@@ -82,29 +105,60 @@ public class PaginationFragment extends BaseFragment<PaginationPresenter, Pagina
     }
 
     @Override
-    public void setFirstPageFilms(List<Film> results) {
-        checkAdapter();
-        pbPagination.setVisibility(View.GONE);
-        adapter.addAll(results);
-        if (currentPage <= TOTAL_PAGES) adapter.addLoadingFooter();
-        else isLastPage = true;
+    public void onStop() {
+        super.onStop();
+        setHasOptionsMenu(false);
     }
 
     @Override
-    public void setNextPageFilms(List<Film> results) {
-        adapter.removeLoadingFooter();
+    public void renderFilms(List<Film> films) {
+        pbPagination.setVisibility(View.GONE);
         isLoading = false;
-        adapter.addAll(results);
-        if (currentPage != TOTAL_PAGES) adapter.addLoadingFooter();
-        else isLastPage = true;
+        if (adapter == null) initAdapter();
+        adapter.setFilms(films);
     }
 
-    private void checkAdapter() {
-        if (adapter == null) {
-            initAdapter();
-        } else {
-            rvPagination.setAdapter(adapter);
-        }
+    @Override
+    public void resetView() {
+        adapter.clear();
+        rvPagination.setAdapter(adapter);
+        presenter.loadMoreFilms();
+    }
+
+//    @Override
+//    public void setFirstPageFilms(List<Film> films) {
+//        checkAdapter();
+//        pbPagination.setVisibility(View.GONE);
+//        adapter.addAll(films);
+//        if (currentPage <= TOTAL_PAGES) {
+//            adapter.addLoadingFooter();
+//        } else {
+//            isLastPage = true;
+//        }
+//    }
+//
+//    @Override
+//    public void setNextPageFilms(List<Film> films) {
+//        adapter.removeLoadingFooter();
+//        isLoading = false;
+//        adapter.addAll(films);
+//        if (currentPage != TOTAL_PAGES) {
+//            adapter.addLoadingFooter();
+//        } else {
+//            isLastPage = true;
+//        }
+//    }
+
+//    private void checkAdapter() {
+//        if (adapter == null) {
+//            initAdapter();
+//        } else {
+//            rvPagination.setAdapter(adapter);
+//        }
+//    }
+
+    private void initLayoutManager() {
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
     }
 
     private void initAdapter() {
@@ -112,16 +166,16 @@ public class PaginationFragment extends BaseFragment<PaginationPresenter, Pagina
         rvPagination.setAdapter(adapter);
     }
 
-    private void loadFirstPage() {
-        presenter.getFilms(BuildConfig.THE_MOVIE_DB_IP_KEY, LANGUAGE, currentPage, true);
-    }
-
-    private void loadNextPage() {
-        presenter.getFilms(BuildConfig.THE_MOVIE_DB_IP_KEY, LANGUAGE, currentPage, false);
+    @Override
+    public void showResponseError() {
+        emptyView.setVisibility(View.VISIBLE);
+        rvPagination.setVisibility(View.GONE);
+        emptyViewText.setText(getResources().getString(R.string.pagination_error_response));
     }
 
     @Override
-    public void showResponseError() {
-
+    public void hideResponseError() {
+        emptyView.setVisibility(View.GONE);
+        rvPagination.setVisibility(View.VISIBLE);
     }
 }

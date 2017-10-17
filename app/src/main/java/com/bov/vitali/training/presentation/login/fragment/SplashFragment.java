@@ -13,7 +13,7 @@ import org.androidannotations.annotations.EFragment;
 
 @EFragment(R.layout.fragment_splash)
 public class SplashFragment extends BaseFragment<SplashPresenter, SplashContract.View> implements SplashContract.View {
-    public static final int SPLASH_DISPLAY_LENGTH = 1000;
+    private static final int SPLASH_DISPLAY_LENGTH = 1000;
     @InjectPresenter SplashPresenter presenter;
 
     @Override

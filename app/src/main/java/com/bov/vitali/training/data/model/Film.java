@@ -141,4 +141,59 @@ public class Film {
     public void setVoteAverage(Double voteAverage) {
         this.voteAverage = voteAverage;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Film film = (Film) o;
+
+        if (getPosterPath() != null ? !getPosterPath().equals(film.getPosterPath()) : film.getPosterPath() != null)
+            return false;
+        if (getAdult() != null ? !getAdult().equals(film.getAdult()) : film.getAdult() != null)
+            return false;
+        if (getOverview() != null ? !getOverview().equals(film.getOverview()) : film.getOverview() != null)
+            return false;
+        if (getReleaseDate() != null ? !getReleaseDate().equals(film.getReleaseDate()) : film.getReleaseDate() != null)
+            return false;
+        if (getGenreIds() != null ? !getGenreIds().equals(film.getGenreIds()) : film.getGenreIds() != null)
+            return false;
+        if (getId() != null ? !getId().equals(film.getId()) : film.getId() != null) return false;
+        if (getOriginalTitle() != null ? !getOriginalTitle().equals(film.getOriginalTitle()) : film.getOriginalTitle() != null)
+            return false;
+        if (getOriginalLanguage() != null ? !getOriginalLanguage().equals(film.getOriginalLanguage()) : film.getOriginalLanguage() != null)
+            return false;
+        if (getTitle() != null ? !getTitle().equals(film.getTitle()) : film.getTitle() != null)
+            return false;
+        if (getBackdropPath() != null ? !getBackdropPath().equals(film.getBackdropPath()) : film.getBackdropPath() != null)
+            return false;
+        if (getPopularity() != null ? !getPopularity().equals(film.getPopularity()) : film.getPopularity() != null)
+            return false;
+        if (getVoteCount() != null ? !getVoteCount().equals(film.getVoteCount()) : film.getVoteCount() != null)
+            return false;
+        if (getVideo() != null ? !getVideo().equals(film.getVideo()) : film.getVideo() != null)
+            return false;
+        return getVoteAverage() != null ? getVoteAverage().equals(film.getVoteAverage()) : film.getVoteAverage() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getPosterPath() != null ? getPosterPath().hashCode() : 0;
+        result = 31 * result + (getAdult() != null ? getAdult().hashCode() : 0);
+        result = 31 * result + (getOverview() != null ? getOverview().hashCode() : 0);
+        result = 31 * result + (getReleaseDate() != null ? getReleaseDate().hashCode() : 0);
+        result = 31 * result + (getGenreIds() != null ? getGenreIds().hashCode() : 0);
+        result = 31 * result + (getId() != null ? getId().hashCode() : 0);
+        result = 31 * result + (getOriginalTitle() != null ? getOriginalTitle().hashCode() : 0);
+        result = 31 * result + (getOriginalLanguage() != null ? getOriginalLanguage().hashCode() : 0);
+        result = 31 * result + (getTitle() != null ? getTitle().hashCode() : 0);
+        result = 31 * result + (getBackdropPath() != null ? getBackdropPath().hashCode() : 0);
+        result = 31 * result + (getPopularity() != null ? getPopularity().hashCode() : 0);
+        result = 31 * result + (getVoteCount() != null ? getVoteCount().hashCode() : 0);
+        result = 31 * result + (getVideo() != null ? getVideo().hashCode() : 0);
+        result = 31 * result + (getVoteAverage() != null ? getVoteAverage().hashCode() : 0);
+        return result;
+    }
 }

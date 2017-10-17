@@ -8,14 +8,18 @@ import java.util.List;
 public interface PaginationContract {
 
     interface View extends BaseView {
-        void setFirstPageFilms(List<Film> results);
+        void renderFilms(List<Film> films);
 
-        void setNextPageFilms(List<Film> results);
+        void resetView();
 
         void showResponseError();
+
+        void hideResponseError();
     }
 
     interface Presenter {
-        void getFilms(String apiKey, String language, int pageIndex, boolean isFirst);
+        void resetAndRetrieve();
+
+        void loadMoreFilms();
     }
 }

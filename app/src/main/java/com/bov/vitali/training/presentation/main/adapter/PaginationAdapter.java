@@ -1,6 +1,7 @@
 package com.bov.vitali.training.presentation.main.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -60,10 +61,12 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 Picasso.with(holder.itemView.getContext()).cancelRequest(((FilmViewHolder) holder).ivPagination);
                 viewHolder.tvPaginationName.setText(film.getTitle());
                 viewHolder.tvPaginationDescription.setText(film.getOverview());
-                if (!film.getPosterPath().isEmpty()) {
+                try {
                     Picasso.with(holder.itemView.getContext())
                             .load(BASE_URL_IMG + film.getPosterPath())
                             .into(((FilmViewHolder) holder).ivPagination);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
                 }
                 break;
             case LOADING:
@@ -82,40 +85,23 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return (position == films.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
     }
 
-    public void add(Film film) {
-        films.add(film);
-        notifyItemInserted(films.size() - 1);
-    }
-
-    public void addAll(List<Film> films) {
-        for (Film film : films) {
-            add(film);
-        }
-    }
-
-    private void remove(Film film) {
-        int position = films.indexOf(false);
-        if (position > -1) {
-            films.remove(position);
-            notifyItemRemoved(position);
-        }
+    public void setFilms(@NonNull List<Film> films) {
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffPaginationCallback(this.films, films));
+        this.films.addAll(films);
+        result.dispatchUpdatesTo(this);
     }
 
     public void clear() {
-        isLoadingAdded = false;
-        while (getItemCount() > 0) {
-            remove(getItem(0));
-        }
+        films.clear();
     }
 
-    public boolean isEmpty() {
-        return getItemCount() == 0;
-    }
+
+
 
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
-        add(new Film());
+//        add(new Film());
     }
 
     public void removeLoadingFooter() {
@@ -131,6 +117,9 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Film getItem(int position) {
         return films.get(position);
     }
+
+
+
 
     private class FilmViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
