@@ -10,7 +10,7 @@ public interface PaginationContract {
     interface View extends BaseView {
         void renderFilms(List<Film> films);
 
-        void resetView();
+        void clearView();
 
         void showResponseError();
 

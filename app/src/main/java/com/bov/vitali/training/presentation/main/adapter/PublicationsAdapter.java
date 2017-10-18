@@ -56,7 +56,7 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
         result.dispatchUpdatesTo(this);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView tvName, tvUrl, tvDescription;
         ImageView ivPublication;

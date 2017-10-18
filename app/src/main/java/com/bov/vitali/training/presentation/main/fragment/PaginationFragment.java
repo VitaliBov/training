@@ -70,13 +70,14 @@ public class PaginationFragment extends BaseFragment<PaginationPresenter, Pagina
     @AfterViews
     public void afterViews() {
         setHasOptionsMenu(true);
+        clearView();
         hideResponseError();
         initLayoutManager();
         setupRecyclerView();
-        if (adapter != null) rvPagination.setAdapter(adapter);
     }
 
     private void setupRecyclerView() {
+        if (adapter != null) rvPagination.setAdapter(adapter);
         rvPagination.setHasFixedSize(true);
         rvPagination.setLayoutManager(linearLayoutManager);
         rvPagination.setItemAnimator(new DefaultItemAnimator());
@@ -115,47 +116,13 @@ public class PaginationFragment extends BaseFragment<PaginationPresenter, Pagina
         pbPagination.setVisibility(View.GONE);
         isLoading = false;
         if (adapter == null) initAdapter();
-        adapter.setFilms(films);
+        adapter.addAll(films);
     }
 
     @Override
-    public void resetView() {
-        adapter.clear();
-        rvPagination.setAdapter(adapter);
-        presenter.loadMoreFilms();
+    public void clearView() {
+        adapter = null;
     }
-
-//    @Override
-//    public void setFirstPageFilms(List<Film> films) {
-//        checkAdapter();
-//        pbPagination.setVisibility(View.GONE);
-//        adapter.addAll(films);
-//        if (currentPage <= TOTAL_PAGES) {
-//            adapter.addLoadingFooter();
-//        } else {
-//            isLastPage = true;
-//        }
-//    }
-//
-//    @Override
-//    public void setNextPageFilms(List<Film> films) {
-//        adapter.removeLoadingFooter();
-//        isLoading = false;
-//        adapter.addAll(films);
-//        if (currentPage != TOTAL_PAGES) {
-//            adapter.addLoadingFooter();
-//        } else {
-//            isLastPage = true;
-//        }
-//    }
-
-//    private void checkAdapter() {
-//        if (adapter == null) {
-//            initAdapter();
-//        } else {
-//            rvPagination.setAdapter(adapter);
-//        }
-//    }
 
     private void initLayoutManager() {
         linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
