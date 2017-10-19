@@ -4,41 +4,41 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
 
-import com.bov.vitali.training.data.model.Publication;
+import com.bov.vitali.training.data.model.Film;
 
 import java.util.List;
 import java.util.Objects;
 
-class DiffCallback extends DiffUtil.Callback {
+class DiffPaginationCallback extends DiffUtil.Callback {
 
     @NonNull
-    private List<Publication> oldPublications;
+    private List<Film> oldFilms;
     @NonNull
-    private List<Publication> newPublications;
+    private List<Film> newFilms;
 
-    DiffCallback(@NonNull List<Publication> oldPublications, @NonNull List<Publication> newPublications) {
-        this.oldPublications = oldPublications;
-        this.newPublications = newPublications;
+    DiffPaginationCallback(@NonNull List<Film> oldFilms, @NonNull List<Film> newFilms) {
+        this.oldFilms = oldFilms;
+        this.newFilms = newFilms;
     }
 
     @Override
     public int getOldListSize() {
-        return oldPublications.size();
+        return oldFilms.size();
     }
 
     @Override
     public int getNewListSize() {
-        return newPublications.size();
+        return newFilms.size();
     }
 
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return Objects.equals(oldPublications.get(oldItemPosition).getId(), newPublications.get(newItemPosition).getId());
+        return Objects.equals(oldFilms.get(oldItemPosition).getId(), newFilms.get(newItemPosition).getId());
     }
 
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        return oldPublications.get(oldItemPosition).equals(newPublications.get(newItemPosition));
+        return oldFilms.get(oldItemPosition).equals(newFilms.get(newItemPosition));
     }
 
     @Nullable

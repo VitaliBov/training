@@ -51,12 +51,12 @@ public class PublicationsAdapter extends RecyclerView.Adapter<PublicationsAdapte
     }
 
     public void setPublications(@NonNull List<Publication> publications) {
-        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffCallback(this.publications, publications));
+        final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffPublicationsCallback(this.publications, publications));
         this.publications = publications;
         result.dispatchUpdatesTo(this);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView tvName, tvUrl, tvDescription;
         ImageView ivPublication;

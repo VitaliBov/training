@@ -3,6 +3,7 @@ package com.bov.vitali.training;
 import android.app.Application;
 import android.content.Context;
 
+import com.bov.vitali.training.data.net.FilmsApi;
 import com.bov.vitali.training.data.net.ServiceGenerator;
 import com.bov.vitali.training.data.net.TrainingApi;
 
@@ -40,7 +41,11 @@ public class App extends Application {
         return cicerone.getRouter();
     }
 
-    public static TrainingApi getApi() {
+    public static TrainingApi getTrainingApi() {
         return ServiceGenerator.getInstance().getTrainingService();
+    }
+
+    public static FilmsApi getFilmsApi() {
+        return ServiceGenerator.getInstance().getFilmsService();
     }
 }

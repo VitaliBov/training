@@ -29,8 +29,8 @@ import java.util.List;
 public class PublicationsFragment extends BaseFragment<PublicationsPresenter, PublicationsContract.View>
         implements PublicationsContract.View, BackButtonListener {
     @InjectPresenter PublicationsPresenter presenter;
-    @ViewById(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
-    @ViewById(R.id.rwList) RecyclerView rwPublications;
+    @ViewById(R.id.swipeRefreshPublications) SwipeRefreshLayout swipeRefreshLayout;
+    @ViewById(R.id.rvPublications) RecyclerView rvPublications;
     @ViewById ViewGroup emptyView;
     @ViewById TextView emptyViewText;
     private PublicationsAdapter adapter;
@@ -52,8 +52,8 @@ public class PublicationsFragment extends BaseFragment<PublicationsPresenter, Pu
     }
 
     private void setupRecyclerView() {
-        rwPublications.setHasFixedSize(true);
-        rwPublications.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvPublications.setHasFixedSize(true);
+        rvPublications.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void setupSwipeToRefresh() {
@@ -74,27 +74,27 @@ public class PublicationsFragment extends BaseFragment<PublicationsPresenter, Pu
         if (adapter == null) {
             initAdapter();
         } else {
-            rwPublications.setAdapter(adapter);
+            rvPublications.setAdapter(adapter);
         }
     }
 
     private void initAdapter() {
         adapter = new PublicationsAdapter();
-        rwPublications.setAdapter(adapter);
+        rvPublications.setAdapter(adapter);
     }
 
     @Override
     public void showResponseError() {
         hideUpdatingSpinner();
         emptyView.setVisibility(View.VISIBLE);
-        rwPublications.setVisibility(View.GONE);
+        rvPublications.setVisibility(View.GONE);
         emptyViewText.setText(getResources().getString(R.string.publications_error_response));
     }
 
     @Override
     public void hideResponseError() {
         emptyView.setVisibility(View.GONE);
-        rwPublications.setVisibility(View.VISIBLE);
+        rvPublications.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -18,11 +18,10 @@ public class PublicationsPresenter extends BasePresenter<PublicationsContract.Vi
 
     @Override
     public void getPublications(String userId) {
-        Call<PublicationResponse> publicationCall = App.getApi().getPublications(userId);
+        Call<PublicationResponse> publicationCall = App.getTrainingApi().getPublications(userId);
         publicationCall.enqueue(new Callback<PublicationResponse>() {
             @Override
-            public void onResponse(@NonNull Call<PublicationResponse> call, @NonNull
-                    Response<PublicationResponse> response) {
+            public void onResponse(@NonNull Call<PublicationResponse> call, @NonNull Response<PublicationResponse> response) {
                 if (response.isSuccessful()) {
                     getViewState().setPublications(response.body().getPublications());
                 } else {

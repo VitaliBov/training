@@ -12,4 +12,5 @@ public interface Screens {
 
     String USER_FRAGMENT = "User";
     String PUBLICATIONS_FRAGMENT = "Publications";
+    String PAGINATION_FRAGMENT = "Pagination";
 }
