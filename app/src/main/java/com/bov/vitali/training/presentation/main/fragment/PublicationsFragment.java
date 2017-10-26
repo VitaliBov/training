@@ -57,9 +57,7 @@ public class PublicationsFragment extends BaseFragment<PublicationsPresenter, Pu
     }
 
     private void setupSwipeToRefresh() {
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            presenter.getPublications(userId);
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.getPublications(userId));
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
     }
 
