@@ -5,7 +5,7 @@ import com.bov.vitali.scheduler.common.Priority;
 public class PriorityRunnable implements Runnable {
     private final Priority priority;
 
-    public PriorityRunnable(Priority priority) {
+    protected PriorityRunnable(Priority priority) {
         this.priority = priority;
     }
 
