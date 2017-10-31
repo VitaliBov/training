@@ -1,4 +1,4 @@
-package com.bov.vitali.scheduler.core;
+package com.bov.vitali.scheduler.executor;
 
 import android.support.annotation.NonNull;
 
@@ -14,8 +14,11 @@ import java.util.concurrent.TimeUnit;
 
 public class PriorityThreadPoolExecutor extends ThreadPoolExecutor {
 
-    public PriorityThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime,
-                                      TimeUnit unit, ThreadFactory threadFactory) {
+    public PriorityThreadPoolExecutor(int corePoolSize,
+                                      int maximumPoolSize,
+                                      long keepAliveTime,
+                                      TimeUnit unit,
+                                      ThreadFactory threadFactory) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, new PriorityBlockingQueue<>(), threadFactory);
     }
 

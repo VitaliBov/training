@@ -1,4 +1,4 @@
-package com.bov.vitali.scheduler.core;
+package com.bov.vitali.scheduler.executor;
 
 import android.os.Handler;
 import android.os.Looper;

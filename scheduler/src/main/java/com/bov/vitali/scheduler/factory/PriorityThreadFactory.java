@@ -1,4 +1,4 @@
-package com.bov.vitali.scheduler.core;
+package com.bov.vitali.scheduler.factory;
 
 import android.support.annotation.NonNull;
 import android.os.Process;

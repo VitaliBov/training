@@ -2,7 +2,7 @@ package com.bov.vitali.scheduler.common;
 
 public enum Priority {
     LOW,
-    MEDIUM,
+    NORMAL,
     HIGH,
-    IMMEDIATE;
+    IMMEDIATE
 }

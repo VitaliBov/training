@@ -4,10 +4,12 @@
     <string name="bottom_bar_tab_user">User</string>
     <string name="bottom_bar_tab_publications">Publications</string>
     <string name="bottom_bar_tab_pagination">Pagination</string>
+    <string name="bottom_bar_tab_scheduler">Scheduler</string>
 
     <string name="dialog_button_ok">OK</string>
     <string name="dialog_button_cancel">Cancel</string>
     <string name="dialog_button_log_in">Log In</string>
+    <string name="dialog_button_start_scheduler">Start scheduler</string>
     <string name="dialog_logout_ok">Logout</string>
 
     <string name="error">Error…</string>
