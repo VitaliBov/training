@@ -3,7 +3,7 @@ package com.bov.vitali.scheduler.executor;
 import android.support.annotation.NonNull;
 
 import com.bov.vitali.scheduler.common.Priority;
-import com.bov.vitali.scheduler.runnable.PriorityRunnable;
+import com.bov.vitali.scheduler.tasks.RunnableTask;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
@@ -25,22 +25,26 @@ public class PriorityThreadPoolExecutor extends ThreadPoolExecutor {
     @NonNull
     @Override
     public Future<?> submit(Runnable task) {
-        PriorityFutureTask futureTask = new PriorityFutureTask((PriorityRunnable) task);
-        execute(futureTask);
-        return futureTask;
+        if (task instanceof RunnableTask) {
+            RunnableFutureTask futureTask = new RunnableFutureTask((RunnableTask) task);
+            execute(futureTask);
+            return futureTask;
+        } else {
+            return null;
+        }
     }
 
-    private static final class PriorityFutureTask extends FutureTask<PriorityRunnable>
-            implements Comparable<PriorityFutureTask> {
-        private final PriorityRunnable priorityRunnable;
+    private static final class RunnableFutureTask extends FutureTask<RunnableTask>
+            implements Comparable<RunnableFutureTask> {
+        private final RunnableTask priorityRunnable;
 
-        PriorityFutureTask(PriorityRunnable priorityRunnable) {
-            super(priorityRunnable, null);
-            this.priorityRunnable = priorityRunnable;
+        RunnableFutureTask(RunnableTask task) {
+            super(task, null);
+            this.priorityRunnable = task;
         }
 
         @Override
-        public int compareTo(@NonNull PriorityFutureTask other) {
+        public int compareTo(@NonNull RunnableFutureTask other) {
             Priority p1 = priorityRunnable.getPriority();
             Priority p2 = other.priorityRunnable.getPriority();
             return p2.ordinal() - p1.ordinal();

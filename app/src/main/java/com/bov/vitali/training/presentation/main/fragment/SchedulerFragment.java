@@ -8,7 +8,8 @@ import android.util.Log;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.scheduler.Scheduler;
 import com.bov.vitali.scheduler.common.Priority;
-import com.bov.vitali.scheduler.runnable.PriorityRunnable;
+import com.bov.vitali.scheduler.tasks.CallableTask;
+import com.bov.vitali.scheduler.tasks.RunnableTask;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.utils.AndroidUtils;
@@ -19,14 +20,17 @@ import com.bov.vitali.training.presentation.main.view.SchedulerContract;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 
+import java.util.concurrent.Future;
+
 @EFragment(R.layout.fragment_scheduler)
 public class SchedulerFragment extends BaseFragment<SchedulerPresenter, SchedulerContract.View>
         implements SchedulerContract.View, BackButtonListener {
+    private static final int STATUS_SUCCESS = 0;
+    private static final int STATUS_FAILURE = 1;
     @InjectPresenter SchedulerPresenter presenter;
     private Handler handler;
     private Message message;
-    private static final int STATUS_SUCCESS = 0; // success
-    private static final int STATUS_FAILURE = 1; // failure
+    private Future future;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,102 +44,55 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
     }
 
     private void doSomething() {
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.LOW) {
+        Scheduler.getInstance().backgroundPriorityTasks().submit(new RunnableTask(Priority.LOW) {
             @Override
             public void run() {
-                add();
+                threadExecution();
                 Log.i("MyTag", "run: 1 LOW");
             }
         });
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.LOW) {
-            @Override
-            public void run() {
-                add();
-                Log.i("MyTag", "run: 2 LOW");
-            }
-        });
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.IMMEDIATE) {
+        //stop task execution
+        Scheduler.getInstance().backgroundPriorityTasks().submit(new RunnableTask(Priority.LOW) {
             @Override
             public void run() {
                 Thread.currentThread().interrupt();
                 if (Thread.currentThread().isInterrupted()) {
                     return;
                 }
-
-                add();
+                threadExecution();
+                Log.i("MyTag", "run: 2 LOW");
+            }
+        });
+        //data transfer to the UI thread
+        Scheduler.getInstance().backgroundPriorityTasks().submit(new RunnableTask(Priority.IMMEDIATE) {
+            @Override
+            public void run() {
+                threadExecution();
                 int x = 100 + 5;
                 message = handler.obtainMessage(STATUS_SUCCESS, x, 6);
                 handler.sendMessage(message);
                 Log.i("MyTag", "run: 3 IMMEDIATE");
             }
         });
-
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.HIGH) {
+        //return result
+        future = Scheduler.getInstance().showingResultThreadTasks().submit(new CallableTask() {
             @Override
-            public void run() {
-                add();
-                Log.i("MyTag", "run: 4 HIGH");
+            public Object call() throws Exception {
+                Log.i("MyTag", "call: 4");
+                return super.call();
             }
-        });
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.NORMAL) {
+        }
+        );
+        Scheduler.getInstance().backgroundPriorityTasks().submit(new RunnableTask(Priority.NORMAL) {
             @Override
             public void run() {
-                add();
+                threadExecution();
                 Log.i("MyTag", "run: 5 NORMAL");
-            }
-        });
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.IMMEDIATE) {
-            @Override
-            public void run() {
-                add();
-                Log.i("MyTag", "run: 6 IMMEDIATE");
-            }
-        });
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.LOW) {
-            @Override
-            public void run() {
-                add();
-                Log.i("MyTag", "run: 7 LOW");
-            }
-        });
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.LOW) {
-            @Override
-            public void run() {
-                add();
-                Log.i("MyTag", "run: 8 LOW");
-            }
-        });
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.IMMEDIATE) {
-            @Override
-            public void run() {
-                add();
-                Log.i("MyTag", "run: 9 IMMEDIATE");
-            }
-        });
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.HIGH) {
-            @Override
-            public void run() {
-                add();
-                Log.i("MyTag", "run: 10 HIGH");
-            }
-        });
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.NORMAL) {
-            @Override
-            public void run() {
-                add();
-                Log.i("MyTag", "run: 11 NORMAL");
-            }
-        });
-        Scheduler.getInstance().forPriorityBackgroundTasks().submit(new PriorityRunnable(Priority.IMMEDIATE) {
-            @Override
-            public void run() {
-                add();
-                Log.i("MyTag", "run: 12 IMMEDIATE");
             }
         });
     }
 
-    private void add() {
+    private void threadExecution() {
         try {
             Thread.sleep(1000);
         } catch (Throwable t) {
