@@ -53,33 +53,23 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         final Future<Integer> future2 = App.getScheduler().showingResultTasks().submit(priorityCallable1);
     }
 
-    PriorityRunnable priorityRunnable0 = new PriorityRunnable() {
+    PriorityRunnable priorityRunnable0 = new PriorityRunnable(Priority.HIGH) {
         @Override
         public void run() {
             threadExecution();
             Log.i("MyTag", "run: HIGH");
         }
-
-        @Override
-        public Priority getPriority() {
-            return Priority.HIGH;
-        }
     };
-    PriorityRunnable priorityRunnable1 = new PriorityRunnable() {
+    PriorityRunnable priorityRunnable1 = new PriorityRunnable(Priority.LOW) {
         @Override
         public void run() {
             threadExecution();
             Log.i("MyTag", "run: LOW");
         }
-
-        @Override
-        public Priority getPriority() {
-            return Priority.LOW;
-        }
     };
 
     //stop task execution
-    PriorityRunnable stopRunnable = new PriorityRunnable() {
+    PriorityRunnable stopRunnable = new PriorityRunnable(Priority.LOW) {
         @Override
         public void run() {
             Thread.currentThread().interrupt();
@@ -89,15 +79,10 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
             threadExecution();
             Log.i("MyTag", "run: stop");
         }
-
-        @Override
-        public Priority getPriority() {
-            return Priority.LOW;
-        }
     };
 
     //data transfer to the UI thread
-    PriorityRunnable toUiRunnable = new PriorityRunnable() {
+    PriorityRunnable toUiRunnable = new PriorityRunnable(Priority.NORMAL) {
         @Override
         public void run() {
             threadExecution();
@@ -105,11 +90,6 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
             Message message = handler.obtainMessage(STATUS_SUCCESS, x, 6);
             handler.sendMessage(message);
             Log.i("MyTag", "run: to the UI");
-        }
-
-        @Override
-        public Priority getPriority() {
-            return Priority.NORMAL;
         }
     };
 
@@ -119,30 +99,20 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         Log.i("MyTag", "run: without getPriority");
     };
 
-    PriorityCallable<Integer> priorityCallable0 = new PriorityCallable<Integer>() {
+    PriorityCallable<Integer> priorityCallable0 = new PriorityCallable<Integer>(Priority.IMMEDIATE) {
         @Override
         public Integer call() throws Exception {
             threadExecution();
             Log.i("MyTag", "call: IMMEDIATE");
             return 0;
         }
-
-        @Override
-        public Priority getPriority() {
-            return Priority.IMMEDIATE;
-        }
     };
-    PriorityCallable<Integer> priorityCallable1 = new PriorityCallable<Integer>() {
+    PriorityCallable<Integer> priorityCallable1 = new PriorityCallable<Integer>(Priority.NORMAL) {
         @Override
         public Integer call() throws Exception {
             threadExecution();
             Log.i("MyTag", "call: NORMAL");
             return 1;
-        }
-
-        @Override
-        public Priority getPriority() {
-            return Priority.NORMAL;
         }
     };
 

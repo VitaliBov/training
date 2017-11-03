@@ -4,11 +4,15 @@ import android.support.annotation.NonNull;
 
 import com.bov.vitali.scheduler.common.Priority;
 
-public interface PriorityRunnable extends Runnable, Comparable<PriorityRunnable> {
-    Priority getPriority();
+public abstract class PriorityRunnable implements Runnable, Comparable<PriorityRunnable> {
+    private Priority priority = Priority.NORMAL;
+
+    protected PriorityRunnable(Priority priority) {
+        this.priority = priority;
+    }
 
     @Override
-    default int compareTo(@NonNull PriorityRunnable o) {
-        return this.getPriority().compareTo(o.getPriority());
+    public int compareTo(@NonNull PriorityRunnable o) {
+        return priority.compareTo(o.priority);
     }
 }
