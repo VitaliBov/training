@@ -10,6 +10,7 @@ import com.bov.vitali.scheduler.Scheduler;
 import com.bov.vitali.scheduler.common.Priority;
 import com.bov.vitali.scheduler.core.PriorityCallable;
 import com.bov.vitali.scheduler.core.PriorityRunnable;
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.navigation.BackButtonListener;
 import com.bov.vitali.training.common.utils.AndroidUtils;
@@ -43,14 +44,14 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
 
     private void doSomething() {
         //using Runnable
-        Scheduler.getInstance().backgroundPriorityTasks().submit(priorityRunnable0);
-        Scheduler.getInstance().backgroundPriorityTasks().submit(priorityRunnable1);
-        Scheduler.getInstance().backgroundPriorityTasks().submit(stopRunnable);
-        Scheduler.getInstance().backgroundPriorityTasks().submit(toUiRunnable);
-        Scheduler.getInstance().backgroundTasks().submit(runnable);
+        App.getScheduler().backgroundPriorityTasks().submit(priorityRunnable0);
+        App.getScheduler().backgroundPriorityTasks().submit(priorityRunnable1);
+        App.getScheduler().backgroundPriorityTasks().submit(stopRunnable);
+        App.getScheduler().backgroundPriorityTasks().submit(toUiRunnable);
+        App.getScheduler().backgroundTasks().submit(runnable);
         //return result by Callable
-        final Future<Integer> future1 = Scheduler.getInstance().showingResultTasks().submit(priorityCallable0);
-        final Future<Integer> future2 = Scheduler.getInstance().showingResultTasks().submit(priorityCallable1);
+        final Future<Integer> future1 = App.getScheduler().showingResultTasks().submit(priorityCallable0);
+        final Future<Integer> future2 = App.getScheduler().showingResultTasks().submit(priorityCallable1);
     }
 
     PriorityRunnable priorityRunnable0 = new PriorityRunnable() {

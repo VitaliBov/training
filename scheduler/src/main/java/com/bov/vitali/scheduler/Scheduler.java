@@ -20,7 +20,6 @@ public class Scheduler {
     private static final int POOL_LOADING_SIZE = 2;
     private static final int POOL_INPUT_OUTPUT_SIZE = 2;
     private static final int POOL_SHOWING_RESULT_SIZE = 4;
-    private static Scheduler instance;
     private final PriorityThreadPoolExecutor backgroundPriorityExecutor;
     private final ThreadPoolExecutor backgroundExecutor;
     private final ThreadPoolExecutor loadingExecutor;
@@ -29,12 +28,7 @@ public class Scheduler {
     private final Executor mainThreadExecutor;
 
     public static Scheduler getInstance() {
-        if (instance == null) {
-            synchronized (Scheduler.class) {
-                instance = new Scheduler();
-            }
-        }
-        return instance;
+        return SingletonHolder.INSTANCE;
     }
 
     private Scheduler() {
@@ -103,5 +97,12 @@ public class Scheduler {
 
     public Executor mainThreadTasks() {
         return mainThreadExecutor;
+    }
+
+    private static final class SingletonHolder {
+        private static final Scheduler INSTANCE = new Scheduler();
+
+        private SingletonHolder() {
+        }
     }
 }
