@@ -85,9 +85,4 @@ public class UserFragment extends BaseFragment<UserPresenter, UserContract.View>
         emptyView.setVisibility(View.GONE);
         contentUser.setVisibility(View.VISIBLE);
     }
-
-    @Override
-    public boolean onBackPressed() {
-        return false;
-    }
 }

@@ -27,4 +27,10 @@ public class BottomNavigationPresenter extends BaseActivityPresenter<BottomNavig
         getViewState().highlightTab(BottomNavigationContract.View.PAGINATION_TAB_POSITION);
         App.INSTANCE.getRouter().replaceScreen(Screens.PAGINATION_FRAGMENT);
     }
+
+    @Override
+    public void onTabSchedulerClick() {
+        getViewState().highlightTab(BottomNavigationContract.View.SCHEDULER_TAB_POSITION);
+        App.INSTANCE.getRouter().replaceScreen(Screens.SCHEDULER_FRAGMENT);
+    }
 }

@@ -38,6 +38,7 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
     private TabContainerFragment userFragment;
     private TabContainerFragment publicationsFragment;
     private TabContainerFragment paginationFragment;
+    private TabContainerFragment schedulerFragment;
 
     @Override
     protected void onResumeFragments() {
@@ -59,6 +60,7 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_user))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_publications))
                 .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_pagination))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_scheduler))
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
@@ -72,6 +74,9 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                         break;
                     case PAGINATION_TAB_POSITION:
                         presenter.onTabPaginationClick();
+                        break;
+                    case SCHEDULER_TAB_POSITION:
+                        presenter.onTabSchedulerClick();
                         break;
                 }
             }
@@ -117,10 +122,19 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                     .detach(paginationFragment)
                     .commitNow();
         }
+
+        schedulerFragment = (TabContainerFragment) fm.findFragmentByTag(Screens.SCHEDULER_FRAGMENT);
+        if (schedulerFragment == null) {
+            schedulerFragment = TabContainerFragment_.builder().screen(Screens.SCHEDULER_FRAGMENT).build();
+            fm.beginTransaction()
+                    .add(R.id.bottom_container, schedulerFragment, Screens.SCHEDULER_FRAGMENT)
+                    .detach(schedulerFragment)
+                    .commitNow();
+        }
     }
 
     public void selectStartTab() {
-        if (!userFragment.isAdded() && !publicationsFragment.isAdded() && !paginationFragment.isAdded()) {
+        if (!userFragment.isAdded() && !publicationsFragment.isAdded() && !paginationFragment.isAdded() && !schedulerFragment.isAdded()) {
             bottomNavigationBar.selectTab(USER_TAB_POSITION, true);
         }
     }
@@ -139,6 +153,7 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                         fm.beginTransaction()
                                 .detach(publicationsFragment)
                                 .detach(paginationFragment)
+                                .detach(schedulerFragment)
                                 .attach(userFragment)
                                 .commitNow();
                         break;
@@ -146,6 +161,7 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                         fm.beginTransaction()
                                 .detach(userFragment)
                                 .detach(paginationFragment)
+                                .detach(schedulerFragment)
                                 .attach(publicationsFragment)
                                 .commitNow();
                         break;
@@ -153,7 +169,16 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                         fm.beginTransaction()
                                 .detach(userFragment)
                                 .detach(publicationsFragment)
+                                .detach(schedulerFragment)
                                 .attach(paginationFragment)
+                                .commitNow();
+                        break;
+                    case Screens.SCHEDULER_FRAGMENT:
+                        fm.beginTransaction()
+                                .detach(userFragment)
+                                .detach(publicationsFragment)
+                                .detach(paginationFragment)
+                                .attach(schedulerFragment)
                                 .commitNow();
                         break;
                 }
