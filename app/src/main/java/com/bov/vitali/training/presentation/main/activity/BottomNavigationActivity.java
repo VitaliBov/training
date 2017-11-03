@@ -2,6 +2,7 @@ package com.bov.vitali.training.presentation.main.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -56,11 +57,12 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
     @Override
     public void initBottomNavigationBar() {
         bottomNavigationBar.setAutoHideEnabled(true);
+        bottomNavigationBar.setActiveColor(R.color.colorPrimary);
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_user))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_publications))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_pagination))
-                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher, R.string.bottom_bar_tab_scheduler))
+                .addItem(new BottomNavigationItem(R.drawable.ic_perm_identity_black_24px, R.string.bottom_bar_tab_user))
+                .addItem(new BottomNavigationItem(R.drawable.ic_people_outline_black_24px, R.string.bottom_bar_tab_publications))
+                .addItem(new BottomNavigationItem(R.drawable.ic_list_black_24px, R.string.bottom_bar_tab_pagination))
+                .addItem(new BottomNavigationItem(R.drawable.ic_more_horiz_black_24px, R.string.bottom_bar_tab_other))
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override

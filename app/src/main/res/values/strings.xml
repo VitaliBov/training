@@ -4,7 +4,9 @@
     <string name="bottom_bar_tab_user">User</string>
     <string name="bottom_bar_tab_publications">Publications</string>
     <string name="bottom_bar_tab_pagination">Pagination</string>
+    <string name="bottom_bar_tab_other">Other</string>
     <string name="bottom_bar_tab_scheduler">Scheduler</string>
+    <string name="bottom_bar_tab_database">Database</string>
 
     <string name="dialog_button_ok">OK</string>
     <string name="dialog_button_cancel">Cancel</string>
