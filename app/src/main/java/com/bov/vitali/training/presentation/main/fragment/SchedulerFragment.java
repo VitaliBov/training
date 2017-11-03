@@ -6,7 +6,6 @@ import android.os.Message;
 import android.util.Log;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.bov.vitali.scheduler.Scheduler;
 import com.bov.vitali.scheduler.common.Priority;
 import com.bov.vitali.scheduler.core.PriorityCallable;
 import com.bov.vitali.scheduler.core.PriorityRunnable;

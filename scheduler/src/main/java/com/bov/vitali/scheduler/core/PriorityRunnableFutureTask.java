@@ -14,10 +14,6 @@ public class PriorityRunnableFutureTask<V> extends FutureTask<V> implements Comp
 
     @Override
     public int compareTo(@NonNull PriorityRunnableFutureTask<V> o) {
-        return runnable.compareTo(o.getRunnable());
-    }
-
-    private PriorityRunnable getRunnable() {
-        return runnable;
+        return runnable.compareTo(o.runnable);
     }
 }

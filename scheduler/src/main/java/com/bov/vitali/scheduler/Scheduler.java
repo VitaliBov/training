@@ -2,11 +2,9 @@ package com.bov.vitali.scheduler;
 
 import android.os.Process;
 
-import com.bov.vitali.scheduler.executor.MainThreadExecutor;
 import com.bov.vitali.scheduler.executor.PriorityThreadPoolExecutor;
 import com.bov.vitali.scheduler.factory.PriorityThreadFactory;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -25,7 +23,6 @@ public class Scheduler {
     private final ThreadPoolExecutor loadingExecutor;
     private final ThreadPoolExecutor inputOutputExecutor;
     private final ThreadPoolExecutor showingResultExecutor;
-    private final Executor mainThreadExecutor;
 
     public static Scheduler getInstance() {
         return SingletonHolder.INSTANCE;
@@ -72,7 +69,6 @@ public class Scheduler {
                 TimeUnit.SECONDS,
                 new PriorityBlockingQueue<>()
         );
-        mainThreadExecutor = new MainThreadExecutor();
     }
 
     public ThreadPoolExecutor backgroundPriorityTasks() {
@@ -93,10 +89,6 @@ public class Scheduler {
 
     public ThreadPoolExecutor showingResultTasks() {
         return showingResultExecutor;
-    }
-
-    public Executor mainThreadTasks() {
-        return mainThreadExecutor;
     }
 
     private static final class SingletonHolder {

@@ -14,10 +14,6 @@ public class PriorityCallableFutureTask<V> extends FutureTask<V> implements Comp
 
     @Override
     public int compareTo(@NonNull final PriorityCallableFutureTask<V> o) {
-        return callable.compareTo(o.getCallable());
-    }
-
-    private PriorityCallable<V> getCallable() {
-        return callable;
+        return callable.compareTo(o.callable);
     }
 }
