@@ -20,17 +20,17 @@ import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
-@EFragment(R.layout.fragment_tab_container)
-public class TabContainerFragment extends BaseNavigationFragment implements BackButtonListener, RouterProvider {
+@EFragment(R.layout.fragment_bottom_container)
+public class BottomContainerFragment extends BaseNavigationFragment implements BackButtonListener, RouterProvider {
     @FragmentArg String screen;
     private Navigator navigator;
-    LocalCiceroneHolder ciceroneHolder = new LocalCiceroneHolder();
+    private LocalCiceroneHolder ciceroneHolder = new LocalCiceroneHolder();
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setActionBarTitle();
-        if (getChildFragmentManager().findFragmentById(R.id.ftc_container) == null) {
+        if (getChildFragmentManager().findFragmentById(R.id.fragment_bottom_container) == null) {
             getCicerone().getRouter().replaceScreen(screen);
         }
     }
@@ -53,7 +53,7 @@ public class TabContainerFragment extends BaseNavigationFragment implements Back
 
     private Navigator getNavigator() {
         if (navigator == null) {
-            navigator = new SupportFragmentNavigator(getChildFragmentManager(), R.id.ftc_container) {
+            navigator = new SupportFragmentNavigator(getChildFragmentManager(), R.id.fragment_bottom_container) {
                 @Override
                 protected Fragment createFragment(String screenKey, Object data) {
                     switch (screenKey) {
@@ -63,8 +63,8 @@ public class TabContainerFragment extends BaseNavigationFragment implements Back
                             return PublicationsFragment_.builder().build();
                         case Screens.PAGINATION_FRAGMENT:
                             return PaginationFragment_.builder().build();
-                        case Screens.SCHEDULER_FRAGMENT:
-                            return SchedulerFragment_.builder().build();
+                        case Screens.VIEW_PAGER_FRAGMENT:
+                            return ViewPagerContainerFragment_.builder().build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }
@@ -90,7 +90,7 @@ public class TabContainerFragment extends BaseNavigationFragment implements Back
 
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.ftc_container);
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fragment_bottom_container);
         if (fragment != null
                 && fragment instanceof BackButtonListener
                 && ((BackButtonListener) fragment).onBackPressed()) {

@@ -13,5 +13,7 @@ public interface Screens {
     String USER_FRAGMENT = "User";
     String PUBLICATIONS_FRAGMENT = "Publications";
     String PAGINATION_FRAGMENT = "Pagination";
+    String VIEW_PAGER_FRAGMENT = "View Pager";
     String SCHEDULER_FRAGMENT = "Scheduler";
+    String DATABASE_FRAGMENT = "Database";
 }
