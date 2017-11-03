@@ -61,7 +61,7 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         }
 
         @Override
-        public int getPriority() {
+        public Priority getPriority() {
             return Priority.HIGH;
         }
     };
@@ -73,7 +73,7 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         }
 
         @Override
-        public int getPriority() {
+        public Priority getPriority() {
             return Priority.LOW;
         }
     };
@@ -91,7 +91,7 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         }
 
         @Override
-        public int getPriority() {
+        public Priority getPriority() {
             return Priority.LOW;
         }
     };
@@ -108,7 +108,7 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         }
 
         @Override
-        public int getPriority() {
+        public Priority getPriority() {
             return Priority.NORMAL;
         }
     };
@@ -128,7 +128,7 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         }
 
         @Override
-        public int getPriority() {
+        public Priority getPriority() {
             return Priority.IMMEDIATE;
         }
     };
@@ -141,7 +141,7 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         }
 
         @Override
-        public int getPriority() {
+        public Priority getPriority() {
             return Priority.NORMAL;
         }
     };
