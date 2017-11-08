@@ -63,8 +63,8 @@ public class BottomContainerFragment extends BaseNavigationFragment implements B
                             return PublicationsFragment_.builder().build();
                         case Screens.PAGINATION_FRAGMENT:
                             return PaginationFragment_.builder().build();
-                        case Screens.VIEW_PAGER_FRAGMENT:
-                            return ViewPagerContainerFragment_.builder().build();
+                        case Screens.TAB_CONTAINER_FRAGMENT:
+                            return TabContainerFragment_.builder().build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }

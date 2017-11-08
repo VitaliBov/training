@@ -29,8 +29,8 @@ public class BottomNavigationPresenter extends BaseActivityPresenter<BottomNavig
     }
 
     @Override
-    public void onTabViewPagerClick() {
-        getViewState().highlightTab(BottomNavigationContract.View.VIEW_PAGER_TAB_POSITION);
-        App.INSTANCE.getRouter().replaceScreen(Screens.VIEW_PAGER_FRAGMENT);
+    public void onTabContainerClick() {
+        getViewState().highlightTab(BottomNavigationContract.View.CONTAINER_TAB_POSITION);
+        App.INSTANCE.getRouter().replaceScreen(Screens.TAB_CONTAINER_FRAGMENT);
     }
 }

@@ -1,9 +1,11 @@
 package com.bov.vitali.training;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.bov.vitali.scheduler.Scheduler;
+import com.bov.vitali.training.data.database.UsersDatabase;
 import com.bov.vitali.training.data.net.FilmsApi;
 import com.bov.vitali.training.data.net.ServiceGenerator;
 import com.bov.vitali.training.data.net.TrainingApi;
@@ -13,10 +15,10 @@ import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 
 public class App extends Application {
-
     public static App INSTANCE;
     private static Context appContext;
     private Cicerone<Router> cicerone;
+    private static UsersDatabase usersDatabase;
 
     @Override
     public void onCreate() {
@@ -24,6 +26,7 @@ public class App extends Application {
         INSTANCE = this;
         appContext = getApplicationContext();
         initCicerone();
+        initDatabase();
     }
 
     public static Context appContext() {
@@ -52,5 +55,13 @@ public class App extends Application {
 
     public static Scheduler getScheduler() {
         return Scheduler.getInstance();
+    }
+
+    public static UsersDatabase getUserDatabase() {
+        return usersDatabase;
+    }
+
+    private void initDatabase() {
+        usersDatabase = Room.databaseBuilder(this, UsersDatabase.class, "user").build();
     }
 }

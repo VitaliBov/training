@@ -38,7 +38,7 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
     private BottomContainerFragment userFragment;
     private BottomContainerFragment publicationsFragment;
     private BottomContainerFragment paginationFragment;
-    private BottomContainerFragment viewPagerFragment;
+    private BottomContainerFragment tabContainerFragment;
 
     @Override
     protected void onResumeFragments() {
@@ -76,8 +76,8 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                     case PAGINATION_TAB_POSITION:
                         presenter.onTabPaginationClick();
                         break;
-                    case VIEW_PAGER_TAB_POSITION:
-                        presenter.onTabViewPagerClick();
+                    case CONTAINER_TAB_POSITION:
+                        presenter.onTabContainerClick();
                         break;
                 }
             }
@@ -124,18 +124,18 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                     .commitNow();
         }
 
-        viewPagerFragment = (BottomContainerFragment) fm.findFragmentByTag(Screens.VIEW_PAGER_FRAGMENT);
-        if (viewPagerFragment == null) {
-            viewPagerFragment = BottomContainerFragment_.builder().screen(Screens.VIEW_PAGER_FRAGMENT).build();
+        tabContainerFragment = (BottomContainerFragment) fm.findFragmentByTag(Screens.TAB_CONTAINER_FRAGMENT);
+        if (tabContainerFragment == null) {
+            tabContainerFragment = BottomContainerFragment_.builder().screen(Screens.TAB_CONTAINER_FRAGMENT).build();
             fm.beginTransaction()
-                    .add(R.id.bottom_container, viewPagerFragment, Screens.VIEW_PAGER_FRAGMENT)
-                    .detach(viewPagerFragment)
+                    .add(R.id.bottom_container, tabContainerFragment, Screens.TAB_CONTAINER_FRAGMENT)
+                    .detach(tabContainerFragment)
                     .commitNow();
         }
     }
 
     public void selectStartTab() {
-        if (!userFragment.isAdded() && !publicationsFragment.isAdded() && !paginationFragment.isAdded() && !viewPagerFragment.isAdded()) {
+        if (!userFragment.isAdded() && !publicationsFragment.isAdded() && !paginationFragment.isAdded() && !tabContainerFragment.isAdded()) {
             bottomNavigationBar.selectTab(USER_TAB_POSITION, true);
         }
     }
@@ -154,7 +154,7 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                         fm.beginTransaction()
                                 .detach(publicationsFragment)
                                 .detach(paginationFragment)
-                                .detach(viewPagerFragment)
+                                .detach(tabContainerFragment)
                                 .attach(userFragment)
                                 .commitNow();
                         break;
@@ -162,7 +162,7 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                         fm.beginTransaction()
                                 .detach(userFragment)
                                 .detach(paginationFragment)
-                                .detach(viewPagerFragment)
+                                .detach(tabContainerFragment)
                                 .attach(publicationsFragment)
                                 .commitNow();
                         break;
@@ -170,16 +170,16 @@ public class BottomNavigationActivity extends BaseNavigationActivity<BottomNavig
                         fm.beginTransaction()
                                 .detach(userFragment)
                                 .detach(publicationsFragment)
-                                .detach(viewPagerFragment)
+                                .detach(tabContainerFragment)
                                 .attach(paginationFragment)
                                 .commitNow();
                         break;
-                    case Screens.VIEW_PAGER_FRAGMENT:
+                    case Screens.TAB_CONTAINER_FRAGMENT:
                         fm.beginTransaction()
                                 .detach(userFragment)
                                 .detach(publicationsFragment)
                                 .detach(paginationFragment)
-                                .attach(viewPagerFragment)
+                                .attach(tabContainerFragment)
                                 .commitNow();
                         break;
                 }

@@ -21,8 +21,8 @@ import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
-@EFragment(R.layout.fragment_view_pager_container)
-public class ViewPagerContainerFragment extends BaseNavigationFragment implements BackButtonListener {
+@EFragment(R.layout.fragment_tab_container)
+public class TabContainerFragment extends BaseNavigationFragment implements BackButtonListener {
     private Navigator navigator;
     private LocalCiceroneHolder ciceroneHolder = new LocalCiceroneHolder();
     @ViewById TabLayout tabLayout;
@@ -30,7 +30,7 @@ public class ViewPagerContainerFragment extends BaseNavigationFragment implement
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getChildFragmentManager().findFragmentById(R.id.fragment_view_pager_container) == null) {
+        if (getChildFragmentManager().findFragmentById(R.id.fragment_tab_container) == null) {
             getCicerone().getRouter().replaceScreen(Screens.SCHEDULER_FRAGMENT);
         }
     }
@@ -91,12 +91,12 @@ public class ViewPagerContainerFragment extends BaseNavigationFragment implement
     }
 
     private Cicerone<Router> getCicerone() {
-        return ciceroneHolder.getCicerone(Screens.VIEW_PAGER_FRAGMENT);
+        return ciceroneHolder.getCicerone(Screens.TAB_CONTAINER_FRAGMENT);
     }
 
     private Navigator getNavigator() {
         if (navigator == null) {
-            navigator = new SupportFragmentNavigator(getChildFragmentManager(), R.id.fragment_view_pager_container) {
+            navigator = new SupportFragmentNavigator(getChildFragmentManager(), R.id.fragment_tab_container) {
                 @Override
                 protected Fragment createFragment(String screenKey, Object data) {
                     switch (screenKey) {
@@ -125,7 +125,7 @@ public class ViewPagerContainerFragment extends BaseNavigationFragment implement
 
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fragment_view_pager_container);
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fragment_tab_container);
         if (fragment != null
                 && fragment instanceof BackButtonListener
                 && ((BackButtonListener) fragment).onBackPressed()) {

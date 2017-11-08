@@ -11,7 +11,7 @@ public interface BottomNavigationContract  {
         int USER_TAB_POSITION = 0;
         int PUBLICATION_TAB_POSITION = 1;
         int PAGINATION_TAB_POSITION = 2;
-        int VIEW_PAGER_TAB_POSITION = 3;
+        int CONTAINER_TAB_POSITION = 3;
 
         void highlightTab(int position);
 
@@ -29,6 +29,6 @@ public interface BottomNavigationContract  {
 
         void onTabPaginationClick();
 
-        void onTabViewPagerClick();
+        void onTabContainerClick();
     }
 }
