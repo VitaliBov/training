@@ -20,6 +20,9 @@ public interface UserDao {
     User findByUsername(String username);
 
     @Insert
+    void insert(User user);
+
+    @Insert
     void insertAll(User... users);
 
     @Delete
