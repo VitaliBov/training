@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.common.navigation.BackButtonListener;
+import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.common.preferences.Preferences;
 import com.bov.vitali.training.data.model.Publication;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;

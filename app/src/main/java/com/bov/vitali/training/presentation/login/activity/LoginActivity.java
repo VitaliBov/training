@@ -6,13 +6,13 @@ import android.support.v4.app.Fragment;
 
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.common.navigation.BackButtonListener;
-import com.bov.vitali.training.common.navigation.Screens;
+import com.bov.vitali.training.presentation.main.activity.MainActivity_;
+import com.bov.vitali.training.presentation.navigation.BackButtonListener;
+import com.bov.vitali.training.presentation.navigation.Screens;
 import com.bov.vitali.training.presentation.base.activity.BaseNavigationActivity;
 import com.bov.vitali.training.presentation.login.fragment.LoginFragment_;
 import com.bov.vitali.training.presentation.login.fragment.LoginWebViewFragment_;
 import com.bov.vitali.training.presentation.login.fragment.SplashFragment_;
-import com.bov.vitali.training.presentation.main.activity.BottomNavigationActivity_;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -39,8 +39,8 @@ public class LoginActivity extends BaseNavigationActivity {
     private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.login_container) {
         @Override
         protected Intent createActivityIntent(String screenKey, Object data) {
-            if (screenKey.equals(Screens.BOTTOM_NAVIGATION_ACTIVITY)) {
-                return BottomNavigationActivity_.intent(App.appContext()).get();
+            if (screenKey.equals(Screens.MAIN_ACTIVITY)) {
+                return MainActivity_.intent(App.appContext()).get();
             }
             return null;
         }

@@ -1,4 +1,4 @@
-package com.bov.vitali.training.common.navigation;
+package com.bov.vitali.training.presentation.navigation;
 
 public interface BackButtonListener {
     boolean onBackPressed();

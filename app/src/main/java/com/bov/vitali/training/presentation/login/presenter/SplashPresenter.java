@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.BuildConfig;
-import com.bov.vitali.training.common.navigation.Screens;
+import com.bov.vitali.training.presentation.navigation.Screens;
 import com.bov.vitali.training.common.preferences.Preferences;
 import com.bov.vitali.training.common.utils.Constants;
 import com.bov.vitali.training.data.net.response.LoginResponse;
@@ -47,7 +47,7 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
 
     @Override
     public void navigateToBottomNavigationActivity() {
-        App.INSTANCE.getRouter().navigateTo(Screens.BOTTOM_NAVIGATION_ACTIVITY);
+        App.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY);
     }
 
     @Override

@@ -1,10 +1,10 @@
-package com.bov.vitali.training.common.navigation;
+package com.bov.vitali.training.presentation.navigation;
 
 public interface Screens {
     String KEY = "key";
 
     String LOGIN_ACTIVITY = "Login Activity";
-    String BOTTOM_NAVIGATION_ACTIVITY = "Bottom navigation";
+    String MAIN_ACTIVITY = "Bottom navigation";
 
     String SPLASH_FRAGMENT = "Splash";
     String LOGIN_FRAGMENT = "Login";
@@ -13,7 +13,7 @@ public interface Screens {
     String USER_FRAGMENT = "User";
     String PUBLICATIONS_FRAGMENT = "Publications";
     String PAGINATION_FRAGMENT = "Pagination";
-    String TAB_CONTAINER_FRAGMENT = "Tab container";
+    String OTHER_FRAGMENT = "Other";
     String SCHEDULER_FRAGMENT = "Scheduler";
     String DATABASE_FRAGMENT = "Database";
 }

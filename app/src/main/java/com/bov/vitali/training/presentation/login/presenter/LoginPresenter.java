@@ -2,7 +2,7 @@ package com.bov.vitali.training.presentation.login.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.App;
-import com.bov.vitali.training.common.navigation.Screens;
+import com.bov.vitali.training.presentation.navigation.Screens;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.login.view.LoginContract;
 
