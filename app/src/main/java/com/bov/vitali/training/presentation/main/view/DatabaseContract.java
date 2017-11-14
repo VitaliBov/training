@@ -13,6 +13,12 @@ public interface DatabaseContract {
 
         void clearSearchFields();
 
+        void showSaveMessage(String result);
+
+        void showUpdateMessage(String result);
+
+        void showDeleteMessage(String result);
+
         void showSearchResult(String result);
     }
 

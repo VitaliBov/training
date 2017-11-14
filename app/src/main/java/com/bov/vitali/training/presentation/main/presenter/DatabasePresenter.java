@@ -57,6 +57,7 @@ public class DatabasePresenter extends BasePresenter<DatabaseContract.View> impl
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             getViewState().clearSaveFields();
+            getViewState().showSaveMessage(username);
         }
     }
 
@@ -73,6 +74,7 @@ public class DatabasePresenter extends BasePresenter<DatabaseContract.View> impl
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             getViewState().clearUpdateFields();
+            getViewState().showUpdateMessage(newUsername);
         }
     }
 
@@ -88,16 +90,14 @@ public class DatabasePresenter extends BasePresenter<DatabaseContract.View> impl
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             getViewState().clearDeleteFields();
+            getViewState().showSearchResult(username);
         }
     }
 
     private class SearchAsyncTask extends AsyncTask<Void, Void, Void> {
-        private String result;
-
         @Override
         protected Void doInBackground(Void... voids) {
             User user = userDao.getByUsername(username);
-            result = user.getUsername() + ", " + user.getAddress().getCity();
             return null;
         }
 
@@ -105,7 +105,7 @@ public class DatabasePresenter extends BasePresenter<DatabaseContract.View> impl
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             getViewState().clearSearchFields();
-            getViewState().showSearchResult(result);
+            getViewState().showSearchResult(username);
         }
     }
 }

@@ -81,8 +81,23 @@ public class DatabaseFragment extends BaseFragment<DatabasePresenter, DatabaseCo
     }
 
     @Override
+    public void showSaveMessage(String result) {
+        toast(getString(R.string.database_message_user) + " " + result + " " + getString(R.string.database_message_save));
+    }
+
+    @Override
+    public void showUpdateMessage(String result) {
+        toast(getString(R.string.database_message_user) + " " + result + " " + getString(R.string.database_message_update));
+    }
+
+    @Override
+    public void showDeleteMessage(String result) {
+        toast(getString(R.string.database_message_user) + " " + result + " " + getString(R.string.database_message_delete));
+    }
+
+    @Override
     public void showSearchResult(String result) {
-        toast(result);
+        toast(getString(R.string.database_message_user) + " " + result + " " + getString(R.string.database_message_search));
     }
 
     private void disableButtons() {
