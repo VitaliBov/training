@@ -16,4 +16,5 @@ public interface Screens {
     String OTHER_FRAGMENT = "Other";
     String SCHEDULER_FRAGMENT = "Scheduler";
     String DATABASE_FRAGMENT = "Database";
+    String DATABASE_LIST_FRAGMENT = "Database list";
 }

@@ -22,13 +22,16 @@ import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
 @EFragment(R.layout.fragment_container)
 public class ContainerFragment extends BaseNavigationFragment implements BackButtonListener, RouterProvider {
-    @FragmentArg String screen;
+    @FragmentArg
+    String screen;
     private Navigator navigator;
     private LocalCiceroneHolder ciceroneHolder = new LocalCiceroneHolder();
     private boolean isRoot;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(
+            @Nullable
+                    Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setActionBarTitle();
         if (getChildFragmentManager().findFragmentById(R.id.fragment_container) == null) {
@@ -72,6 +75,9 @@ public class ContainerFragment extends BaseNavigationFragment implements BackBut
                         case Screens.DATABASE_FRAGMENT:
                             isRoot = false;
                             return DatabaseFragment_.builder().build();
+                        case Screens.DATABASE_LIST_FRAGMENT:
+                            isRoot = false;
+                            return DatabaseListFragment_.builder().build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }

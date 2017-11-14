@@ -14,16 +14,16 @@ import java.util.List;
 public interface UserDao {
 
     @Query("SELECT * FROM Users")
-    List<User> findAll();
+    List<User> getUsers();
 
     @Query("SELECT * FROM Users WHERE username LIKE :username")
-    User findByUsername(String username);
+    User getByUsername(String username);
 
     @Insert
     void insert(User user);
 
     @Insert
-    void insertAll(User... users);
+    void insertUsers(User... users);
 
     @Delete
     void delete(User user);

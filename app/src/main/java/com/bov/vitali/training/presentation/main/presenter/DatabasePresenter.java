@@ -63,7 +63,7 @@ public class DatabasePresenter extends BasePresenter<DatabaseContract.View> impl
     private class UpdateAsyncTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
-            User user = userDao.findByUsername(username);
+            User user = userDao.getByUsername(username);
             user.setUsername(newUsername);
             userDao.update(user);
             return null;
@@ -79,7 +79,7 @@ public class DatabasePresenter extends BasePresenter<DatabaseContract.View> impl
     private class DeleteAsyncTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
-            User user = userDao.findByUsername(username);
+            User user = userDao.getByUsername(username);
             userDao.delete(user);
             return null;
         }
@@ -96,7 +96,7 @@ public class DatabasePresenter extends BasePresenter<DatabaseContract.View> impl
 
         @Override
         protected Void doInBackground(Void... voids) {
-            User user = userDao.findByUsername(username);
+            User user = userDao.getByUsername(username);
             result = user.getUsername() + ", " + user.getAddress().getCity();
             return null;
         }

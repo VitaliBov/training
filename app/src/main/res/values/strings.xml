@@ -32,6 +32,7 @@
 
     <string name="other_navigate_to_scheduler">Scheduler</string>
     <string name="other_navigate_to_database">Database</string>
+    <string name="other_navigate_to_database_list">Database list</string>
 
     <string name="database_button_save">Save</string>
     <string name="database_button_update">Update</string>
@@ -41,4 +42,6 @@
     <string name="database_old_username">Old username</string>
     <string name="database_new_username">New username</string>
     <string name="database_city">City</string>
+
+    <string name="database_list_error_response">Do not have any users yet</string>
 </resources>
