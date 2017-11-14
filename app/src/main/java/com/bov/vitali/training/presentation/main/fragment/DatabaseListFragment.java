@@ -28,7 +28,7 @@ public class DatabaseListFragment extends BaseFragment<DatabaseListPresenter, Da
         implements DatabaseListContract.View, BackButtonListener {
     @InjectPresenter DatabaseListPresenter presenter;
     @ViewById(R.id.swipeRefreshDatabaseList) SwipeRefreshLayout swipeRefreshLayout;
-    @ViewById(R.id.rvDatabaseList) RecyclerView rvUsers;
+    @ViewById(R.id.rvDatabaseList)RecyclerView rvUsers;
     @ViewById ViewGroup emptyView;
     @ViewById TextView emptyViewText;
     private DatabaseListAdapter adapter;
@@ -47,14 +47,14 @@ public class DatabaseListFragment extends BaseFragment<DatabaseListPresenter, Da
         setupSwipeToRefresh();
     }
 
-    private void setupRecyclerView() {
-        rvUsers.setHasFixedSize(true);
-        rvUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
+    @Override
+    public void initLoader() {
+        getActivity().getSupportLoaderManager().initLoader(101, null, presenter).forceLoad();
     }
 
-    private void setupSwipeToRefresh() {
-        swipeRefreshLayout.setOnRefreshListener(() -> presenter.getUsers());
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+    @Override
+    public void restartLoader() {
+        getActivity().getSupportLoaderManager().restartLoader(101, null, presenter).forceLoad();
     }
 
     @Override
@@ -62,19 +62,6 @@ public class DatabaseListFragment extends BaseFragment<DatabaseListPresenter, Da
         checkAdapter();
         adapter.setUsers(users);
         hideUpdatingSpinner();
-    }
-
-    private void checkAdapter() {
-        if (adapter == null) {
-            initAdapter();
-        } else {
-            rvUsers.setAdapter(adapter);
-        }
-    }
-
-    private void initAdapter() {
-        adapter = new DatabaseListAdapter();
-        rvUsers.setAdapter(adapter);
     }
 
     @Override
@@ -99,5 +86,28 @@ public class DatabaseListFragment extends BaseFragment<DatabaseListPresenter, Da
     @Override
     public void hideUpdatingSpinner() {
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private void setupRecyclerView() {
+        rvUsers.setHasFixedSize(true);
+        rvUsers.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
+    private void setupSwipeToRefresh() {
+        swipeRefreshLayout.setOnRefreshListener(() -> presenter.getUsers());
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+    }
+
+    private void checkAdapter() {
+        if (adapter == null) {
+            initAdapter();
+        } else {
+            rvUsers.setAdapter(adapter);
+        }
+    }
+
+    private void initAdapter() {
+        adapter = new DatabaseListAdapter();
+        rvUsers.setAdapter(adapter);
     }
 }

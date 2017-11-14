@@ -10,6 +10,10 @@ public interface DatabaseListContract {
     interface View extends BaseView {
         void setUsers(List<User> users);
 
+        void initLoader();
+
+        void restartLoader();
+
         void showResponseError();
 
         void hideResponseError();
