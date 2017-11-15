@@ -26,5 +26,11 @@
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme">
         </activity>
+
+        <activity
+            android:name=".presentation.main.activity.PasswordActivity_"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 </manifest>

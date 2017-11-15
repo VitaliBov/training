@@ -33,12 +33,10 @@ import ru.terrakok.cicerone.commands.SystemMessage;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseNavigationActivity<MainPresenter, MainContract.View>
         implements MainContract.View, RouterProvider {
-    @InjectPresenter
-    MainPresenter presenter;
-    @ViewById(R.id.bottom_navigation_bar)
-    BottomNavigationBar bottomNavigationBar;
-    @ViewById(R.id.activity_main_toolbar)
-    Toolbar toolbar;
+    public static boolean isLaunched = false;
+    @InjectPresenter MainPresenter presenter;
+    @ViewById(R.id.bottom_navigation_bar) BottomNavigationBar bottomNavigationBar;
+    @ViewById(R.id.activity_main_toolbar) Toolbar toolbar;
     private ContainerFragment userFragment;
     private ContainerFragment publicationsFragment;
     private ContainerFragment paginationFragment;
@@ -48,6 +46,20 @@ public class MainActivity extends BaseNavigationActivity<MainPresenter, MainCont
     protected void onResumeFragments() {
         super.onResumeFragments();
         App.INSTANCE.getNavigatorHolder().setNavigator(navigator);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isLaunched == false) {
+            PasswordActivity_.intent(getApplicationContext()).start();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isLaunched = false;
     }
 
     @AfterViews
