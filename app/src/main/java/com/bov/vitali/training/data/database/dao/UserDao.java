@@ -1,5 +1,6 @@
 package com.bov.vitali.training.data.database.dao;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -15,6 +16,9 @@ public interface UserDao {
 
     @Query("SELECT * FROM Users")
     List<User> getUsers();
+
+    @Query("SELECT * FROM Users")
+    LiveData<List<User>> getUsersLiveData();
 
     @Query("SELECT * FROM Users WHERE username LIKE :username")
     User getByUsername(String username);

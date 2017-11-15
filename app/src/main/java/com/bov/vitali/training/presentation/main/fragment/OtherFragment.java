@@ -29,4 +29,9 @@ public class OtherFragment extends BaseNavigationFragment<OtherPresenter, OtherC
     public void navigateToDatabaseListFragment() {
         getRouter().navigateTo(Screens.DATABASE_LIST_FRAGMENT);
     }
+
+    @Click(R.id.btnNavigateToDatabaseLiveData)
+    public void navigateToDatabaseLiveDataFragment() {
+        getRouter().navigateTo(Screens.DATABASE_LIVE_DATA_FRAGMENT);
+    }
 }

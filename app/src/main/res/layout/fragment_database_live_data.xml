@@ -12,19 +12,19 @@
         android:layout_height="match_parent" />
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshDatabaseList"
+        android:id="@+id/swipeRefreshDatabaseLiveData"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvDatabaseList"
+            android:id="@+id/rvDatabaseLiveData"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabDatabaseList"
+        android:id="@+id/fabDatabaseLiveData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

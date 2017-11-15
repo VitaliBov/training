@@ -35,8 +35,7 @@ public class DatabaseFragment extends BaseFragment<DatabasePresenter, DatabaseCo
     public void save() {
         username = etDatabaseSaveUsername.getEditText().getText().toString();
         city = etDatabaseSaveCity.getEditText().getText().toString();
-        presenter.save(etDatabaseSaveUsername.getEditText().getText().toString(),
-                etDatabaseSaveCity.getEditText().getText().toString());
+        presenter.save(username, city);
     }
 
     @Click(R.id.btnDatabaseUpdate)

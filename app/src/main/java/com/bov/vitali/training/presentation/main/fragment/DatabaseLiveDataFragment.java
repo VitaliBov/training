@@ -1,9 +1,6 @@
 package com.bov.vitali.training.presentation.main.fragment;
 
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,52 +16,49 @@ import com.bov.vitali.training.data.database.entity.Address;
 import com.bov.vitali.training.data.database.entity.User;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.adapter.DatabaseListAdapter;
-import com.bov.vitali.training.presentation.main.common.DatabaseLoader;
-import com.bov.vitali.training.presentation.main.presenter.DatabaseListPresenter;
-import com.bov.vitali.training.presentation.main.view.DatabaseListContract;
+import com.bov.vitali.training.presentation.main.presenter.DatabaseLiveDataPresenter;
+import com.bov.vitali.training.presentation.main.view.DatabaseLiveDataContract;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 import java.util.UUID;
 
-@EFragment(R.layout.fragment_database_list)
-public class DatabaseListFragment extends BaseFragment<DatabaseListPresenter, DatabaseListContract.View>
-        implements DatabaseListContract.View, BackButtonListener {
-    private static final int USERS_LOADER_ID = 101;
-    @InjectPresenter DatabaseListPresenter presenter;
-    @ViewById(R.id.swipeRefreshDatabaseList) SwipeRefreshLayout swipeRefreshLayout;
-    @ViewById(R.id.rvDatabaseList)RecyclerView rvUsers;
-    @ViewById(R.id.fabDatabaseList)FloatingActionButton fabAddUser;
+@EFragment(R.layout.fragment_database_live_data)
+public class DatabaseLiveDataFragment extends BaseFragment<DatabaseLiveDataPresenter, DatabaseLiveDataContract.View>
+        implements DatabaseLiveDataContract.View, BackButtonListener {
+    @InjectPresenter DatabaseLiveDataPresenter presenter;
+    @ViewById(R.id.swipeRefreshDatabaseLiveData) SwipeRefreshLayout swipeRefreshLayout;
+    @ViewById(R.id.rvDatabaseLiveData) RecyclerView rvUsers;
+    @ViewById(R.id.fabDatabaseLiveData) FloatingActionButton fabAddUser;
     @ViewById ViewGroup emptyView;
     @ViewById TextView emptyViewText;
     private UserDao userDao = App.getUserDatabase().userDao();
     private DatabaseListAdapter adapter;
-    private boolean isFirstStart = true;
 
     @AfterViews
     public void afterViews() {
-        getDatabaseLoader();
+        presenter.initUserRepository(userDao);
         hideResponseError();
         showUpdatingSpinner();
         setupRecyclerView();
         setupSwipeToRefresh();
+        getUsers();
     }
 
-    @Override
-    public void getDatabaseLoader() {
-        if (isFirstStart) {
-            initLoader();
-            isFirstStart = false;
-        } else  {
-            restartLoader();
-        }
+    private void getUsers() {
+        presenter.getUsers().observe(this, users -> {
+            if (users != null) {
+                setUsers(users);
+            } else {
+                showUpdatingSpinner();
+            }
+        });
     }
 
     @Override
@@ -106,7 +100,7 @@ public class DatabaseListFragment extends BaseFragment<DatabaseListPresenter, Da
     }
 
     private void setupSwipeToRefresh() {
-        swipeRefreshLayout.setOnRefreshListener(this::restartLoader);
+        swipeRefreshLayout.setOnRefreshListener(this::getUsers);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
     }
 
@@ -123,15 +117,7 @@ public class DatabaseListFragment extends BaseFragment<DatabaseListPresenter, Da
         rvUsers.setAdapter(adapter);
     }
 
-    private void initLoader() {
-        getActivity().getSupportLoaderManager().initLoader(USERS_LOADER_ID, null, new UsersLoaderCallback()).forceLoad();
-    }
-
-    private void restartLoader() {
-        getActivity().getSupportLoaderManager().restartLoader(USERS_LOADER_ID, null, new UsersLoaderCallback()).forceLoad();
-    }
-
-    @Click(R.id.fabDatabaseList)
+    @Click(R.id.fabDatabaseLiveData)
     public void fabClick() {
         addDataToDatabase();
     }
@@ -144,31 +130,5 @@ public class DatabaseListFragment extends BaseFragment<DatabaseListPresenter, Da
         address.setCity(UUID.randomUUID().toString());
         user.setAddress(address);
         userDao.insert(user);
-        updateUI();
-    }
-
-    @UiThread
-    public void updateUI() {
-        restartLoader();
-    }
-
-    private class UsersLoaderCallback implements LoaderManager.LoaderCallbacks<List<User>> {
-
-        @Override
-        public Loader<List<User>> onCreateLoader(int id, Bundle args) {
-            return new DatabaseLoader(App.appContext());
-        }
-
-        @Override
-        public void onLoadFinished(Loader<List<User>> loader, List<User> data) {
-            if (data != null) {
-                setUsers(data);
-            }
-        }
-
-        @Override
-        public void onLoaderReset(Loader<List<User>> loader) {
-
-        }
     }
 }

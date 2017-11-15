@@ -5,12 +5,10 @@ import com.bov.vitali.training.presentation.base.view.BaseView;
 
 import java.util.List;
 
-public interface DatabaseListContract {
+public interface DatabaseLiveDataContract {
 
     interface View extends BaseView {
         void setUsers(List<User> users);
-
-        void getDatabaseLoader();
 
         void showResponseError();
 

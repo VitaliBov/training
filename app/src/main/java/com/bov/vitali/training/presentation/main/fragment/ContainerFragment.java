@@ -78,6 +78,9 @@ public class ContainerFragment extends BaseNavigationFragment implements BackBut
                         case Screens.DATABASE_LIST_FRAGMENT:
                             isRoot = false;
                             return DatabaseListFragment_.builder().build();
+                        case Screens.DATABASE_LIVE_DATA_FRAGMENT:
+                            isRoot = false;
+                            return DatabaseLiveDataFragment_.builder().build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }

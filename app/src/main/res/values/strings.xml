@@ -33,6 +33,7 @@
     <string name="other_navigate_to_scheduler">Scheduler</string>
     <string name="other_navigate_to_database">Database</string>
     <string name="other_navigate_to_database_list">Database list</string>
+    <string name="other_navigate_to_database_live_data">Database Live Data</string>
 
     <string name="database_button_save">Save</string>
     <string name="database_button_update">Update</string>
