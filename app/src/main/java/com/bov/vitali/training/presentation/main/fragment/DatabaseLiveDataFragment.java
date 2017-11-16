@@ -56,7 +56,7 @@ public class DatabaseLiveDataFragment extends BaseFragment<DatabaseLiveDataPrese
             if (users != null) {
                 setUsers(users);
             } else {
-                showUpdatingSpinner();
+                showResponseError();
             }
         });
     }

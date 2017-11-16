@@ -19,7 +19,6 @@ class PasswordActivity extends AppCompatActivity {
 
     @Click(R.id.btnPassword)
     public void onClick() {
-        MainActivity.isLaunched = true;
         finish();
     }
 

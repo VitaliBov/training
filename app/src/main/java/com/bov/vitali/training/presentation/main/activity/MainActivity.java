@@ -9,6 +9,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
+import com.bov.vitali.training.common.utils.PasswordUtils;
 import com.bov.vitali.training.presentation.main.fragment.ContainerFragment;
 import com.bov.vitali.training.presentation.main.fragment.ContainerFragment_;
 import com.bov.vitali.training.presentation.main.presenter.MainPresenter;
@@ -33,7 +34,6 @@ import ru.terrakok.cicerone.commands.SystemMessage;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseNavigationActivity<MainPresenter, MainContract.View>
         implements MainContract.View, RouterProvider {
-    public static boolean isLaunched = false;
     @InjectPresenter MainPresenter presenter;
     @ViewById(R.id.bottom_navigation_bar) BottomNavigationBar bottomNavigationBar;
     @ViewById(R.id.activity_main_toolbar) Toolbar toolbar;
@@ -51,15 +51,13 @@ public class MainActivity extends BaseNavigationActivity<MainPresenter, MainCont
     @Override
     protected void onResume() {
         super.onResume();
-        if (isLaunched == false) {
-            PasswordActivity_.intent(getApplicationContext()).start();
-        }
+        PasswordUtils.lockAppCheck();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        isLaunched = false;
+        PasswordUtils.lockAppStoreTime();
     }
 
     @AfterViews
