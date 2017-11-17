@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class PasswordUtils {
-    private static final int PAUSE_TIME_IN_SECONDS = 10;
+    private static final int PAUSE_TIME_IN_SECONDS = 5;
     private static Date appPauseTime;
 
     public static void lockAppStoreTime() {

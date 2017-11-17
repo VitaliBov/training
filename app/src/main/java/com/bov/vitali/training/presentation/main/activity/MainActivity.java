@@ -55,8 +55,8 @@ public class MainActivity extends BaseNavigationActivity<MainPresenter, MainCont
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         PasswordUtils.lockAppStoreTime();
     }
 
