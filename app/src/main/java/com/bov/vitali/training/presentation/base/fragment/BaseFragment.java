@@ -8,7 +8,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.MvpPresenter;
 import com.arellomobile.mvp.MvpView;
 import com.bov.vitali.training.App;
-import com.bov.vitali.training.common.navigation.BackButtonListener;
+import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.presentation.base.common.CoordinatorLayoutContaining;
 import com.bov.vitali.training.presentation.base.view.BaseView;

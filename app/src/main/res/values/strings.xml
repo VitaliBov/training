@@ -5,8 +5,6 @@
     <string name="bottom_bar_tab_publications">Publications</string>
     <string name="bottom_bar_tab_pagination">Pagination</string>
     <string name="bottom_bar_tab_view_pager">Other</string>
-    <string name="bottom_bar_tab_scheduler">Scheduler</string>
-    <string name="bottom_bar_tab_database">Database</string>
 
     <string name="dialog_button_ok">OK</string>
     <string name="dialog_button_cancel">Cancel</string>
@@ -31,4 +29,25 @@
     <string name="pagination_tap_to_reload">Tap to reload</string>
     <string name="pagination_error_loading">What went wrong</string>
     <string name="pagination_error_response">Do not have any films yet</string>
+
+    <string name="other_navigate_to_scheduler">Scheduler</string>
+    <string name="other_navigate_to_database">Database</string>
+    <string name="other_navigate_to_database_list">Database list</string>
+    <string name="other_navigate_to_database_live_data">Database Live Data</string>
+
+    <string name="database_button_save">Save</string>
+    <string name="database_button_update">Update</string>
+    <string name="database_button_delete">Delete</string>
+    <string name="database_button_search">Search</string>
+    <string name="database_username">Username</string>
+    <string name="database_old_username">Old username</string>
+    <string name="database_new_username">New username</string>
+    <string name="database_city">City</string>
+    <string name="database_message_user">User </string>
+    <string name="database_message_save"> was successfully added!</string>
+    <string name="database_message_update"> was successfully updated!</string>
+    <string name="database_message_delete"> was successfully deleted!</string>
+    <string name="database_message_search"> was successfully found!</string>
+
+    <string name="database_list_error_response">Do not have any users yet</string>
 </resources>

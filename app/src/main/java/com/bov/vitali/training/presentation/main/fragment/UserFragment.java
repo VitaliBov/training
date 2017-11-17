@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.common.navigation.BackButtonListener;
+import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.data.model.User;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.presenter.UserPresenter;

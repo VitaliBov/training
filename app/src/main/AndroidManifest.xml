@@ -14,7 +14,7 @@
         <activity
             android:name=".presentation.login.activity.LoginActivity_"
             android:screenOrientation="sensor"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -22,7 +22,13 @@
         </activity>
 
         <activity
-            android:name=".presentation.main.activity.BottomNavigationActivity_"
+            android:name=".presentation.main.activity.MainActivity_"
+            android:screenOrientation="sensor"
+            android:theme="@style/AppTheme">
+        </activity>
+
+        <activity
+            android:name=".presentation.main.activity.PasswordActivity_"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme">
         </activity>

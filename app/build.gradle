@@ -72,9 +72,13 @@ dependencies {
     //Bottom Navigation Bar
     implementation 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
 
-    //Database
+    //Architecture Components
     implementation "android.arch.persistence.room:runtime:$room_version"
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+    implementation "android.arch.lifecycle:extensions:$live_data_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$live_data_version"
+    implementation "android.arch.lifecycle:common-java8:$live_data_version"
+
 
     implementation project(":scheduler")
 }

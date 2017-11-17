@@ -4,14 +4,14 @@ import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.bov.vitali.training.presentation.base.view.BaseActivityView;
 
-public interface BottomNavigationContract  {
+public interface MainContract {
 
     @StateStrategyType(AddToEndSingleStrategy.class)
     interface View extends BaseActivityView {
         int USER_TAB_POSITION = 0;
         int PUBLICATION_TAB_POSITION = 1;
         int PAGINATION_TAB_POSITION = 2;
-        int VIEW_PAGER_TAB_POSITION = 3;
+        int OTHER_TAB_POSITION = 3;
 
         void highlightTab(int position);
 
@@ -29,6 +29,6 @@ public interface BottomNavigationContract  {
 
         void onTabPaginationClick();
 
-        void onTabViewPagerClick();
+        void onTabOtherClick();
     }
 }

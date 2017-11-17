@@ -6,10 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.common.navigation.BackButtonListener;
-import com.bov.vitali.training.common.navigation.LocalCiceroneHolder;
-import com.bov.vitali.training.common.navigation.RouterProvider;
-import com.bov.vitali.training.common.navigation.Screens;
+import com.bov.vitali.training.presentation.navigation.BackButtonListener;
+import com.bov.vitali.training.presentation.navigation.LocalCiceroneHolder;
+import com.bov.vitali.training.presentation.navigation.RouterProvider;
+import com.bov.vitali.training.presentation.navigation.Screens;
 import com.bov.vitali.training.presentation.base.fragment.BaseNavigationFragment;
 
 import org.androidannotations.annotations.EFragment;
@@ -20,17 +20,21 @@ import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
-@EFragment(R.layout.fragment_bottom_container)
-public class BottomContainerFragment extends BaseNavigationFragment implements BackButtonListener, RouterProvider {
-    @FragmentArg String screen;
+@EFragment(R.layout.fragment_container)
+public class ContainerFragment extends BaseNavigationFragment implements BackButtonListener, RouterProvider {
+    @FragmentArg
+    String screen;
     private Navigator navigator;
     private LocalCiceroneHolder ciceroneHolder = new LocalCiceroneHolder();
+    private boolean isRoot;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(
+            @Nullable
+                    Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setActionBarTitle();
-        if (getChildFragmentManager().findFragmentById(R.id.fragment_bottom_container) == null) {
+        if (getChildFragmentManager().findFragmentById(R.id.fragment_container) == null) {
             getCicerone().getRouter().replaceScreen(screen);
         }
     }
@@ -53,7 +57,7 @@ public class BottomContainerFragment extends BaseNavigationFragment implements B
 
     private Navigator getNavigator() {
         if (navigator == null) {
-            navigator = new SupportFragmentNavigator(getChildFragmentManager(), R.id.fragment_bottom_container) {
+            navigator = new SupportFragmentNavigator(getChildFragmentManager(), R.id.fragment_container) {
                 @Override
                 protected Fragment createFragment(String screenKey, Object data) {
                     switch (screenKey) {
@@ -63,8 +67,20 @@ public class BottomContainerFragment extends BaseNavigationFragment implements B
                             return PublicationsFragment_.builder().build();
                         case Screens.PAGINATION_FRAGMENT:
                             return PaginationFragment_.builder().build();
-                        case Screens.VIEW_PAGER_FRAGMENT:
-                            return ViewPagerContainerFragment_.builder().build();
+                        case Screens.OTHER_FRAGMENT:
+                            return OtherFragment_.builder().build();
+                        case Screens.SCHEDULER_FRAGMENT:
+                            isRoot = false;
+                            return SchedulerFragment_.builder().build();
+                        case Screens.DATABASE_FRAGMENT:
+                            isRoot = false;
+                            return DatabaseFragment_.builder().build();
+                        case Screens.DATABASE_LIST_FRAGMENT:
+                            isRoot = false;
+                            return DatabaseListFragment_.builder().build();
+                        case Screens.DATABASE_LIVE_DATA_FRAGMENT:
+                            isRoot = false;
+                            return DatabaseLiveDataFragment_.builder().build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }
@@ -90,13 +106,18 @@ public class BottomContainerFragment extends BaseNavigationFragment implements B
 
     @Override
     public boolean onBackPressed() {
-        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fragment_bottom_container);
-        if (fragment != null
-                && fragment instanceof BackButtonListener
-                && ((BackButtonListener) fragment).onBackPressed()) {
-            return true;
+        if (isRoot) {
+            Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fragment_container);
+            if (fragment != null
+                    && fragment instanceof BackButtonListener
+                    && ((BackButtonListener) fragment).onBackPressed()) {
+                return true;
+            } else {
+                getActivity().finishAffinity();
+                return true;
+            }
         } else {
-            getActivity().finishAffinity();
+            getRouter().exit();
             return true;
         }
     }

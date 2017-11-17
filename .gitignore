@@ -8,6 +8,7 @@
 /.idea/runConfigurations.xml
 /.idea/vcs.xml
 /.idea/libraries
+/.idea/codeStyleSettings.xml
 .DS_Store
 /build
 /captures

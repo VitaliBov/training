@@ -11,7 +11,7 @@ import com.bov.vitali.scheduler.core.PriorityCallable;
 import com.bov.vitali.scheduler.core.PriorityRunnable;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.common.navigation.BackButtonListener;
+import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.presenter.SchedulerPresenter;
@@ -129,10 +129,10 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         public boolean handleMessage(Message message) {
             switch (message.what) {
                 case STATUS_SUCCESS:
-                    AndroidUtils.toast(getActivity(), "Success " + message.arg1);
+                    toast("Success " + message.arg1);
                     break;
                 case STATUS_FAILURE:
-                    AndroidUtils.toast(getActivity(), "Failure " + message.arg1);
+                    toast("Failure " + message.arg1);
                     break;
             }
             return true;
