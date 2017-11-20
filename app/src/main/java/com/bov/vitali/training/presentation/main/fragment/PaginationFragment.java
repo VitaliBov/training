@@ -145,4 +145,9 @@ public class PaginationFragment extends BaseFragment<PaginationPresenter, Pagina
         emptyView.setVisibility(View.GONE);
         rvPagination.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
 }

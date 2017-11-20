@@ -13,11 +13,19 @@ import com.bov.vitali.training.data.net.response.UserResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.login.view.SplashContract;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.terrakok.cicerone.Router;
 
 public class SplashPresenter extends BasePresenter<SplashContract.View> implements SplashContract.Presenter {
+    @Inject Router router;
+
+    public SplashPresenter() {
+        App.INSTANCE.getAppComponent().inject(this);
+    }
 
     @Override
     public void navigateToNextScreen() {
@@ -42,12 +50,12 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
 
     @Override
     public void navigateToLoginFragment() {
-        App.INSTANCE.getRouter().navigateTo(Screens.LOGIN_FRAGMENT);
+        router.navigateTo(Screens.LOGIN_FRAGMENT);
     }
 
     @Override
     public void navigateToBottomNavigationActivity() {
-        App.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY);
+        router.navigateTo(Screens.MAIN_ACTIVITY);
     }
 
     @Override
@@ -94,5 +102,10 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
                 t.printStackTrace();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        router.exit();
     }
 }

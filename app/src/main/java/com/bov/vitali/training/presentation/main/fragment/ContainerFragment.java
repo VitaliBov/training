@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.navigation.LocalCiceroneHolder;
@@ -15,6 +16,8 @@ import com.bov.vitali.training.presentation.base.fragment.BaseNavigationFragment
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 
+import javax.inject.Inject;
+
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.Router;
@@ -22,16 +25,18 @@ import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 
 @EFragment(R.layout.fragment_container)
 public class ContainerFragment extends BaseNavigationFragment implements BackButtonListener, RouterProvider {
-    @FragmentArg
-    String screen;
+    @FragmentArg String screen;
+    @Inject LocalCiceroneHolder ciceroneHolder;
     private Navigator navigator;
-    private LocalCiceroneHolder ciceroneHolder = new LocalCiceroneHolder();
-    private boolean isRoot;
 
     @Override
-    public void onActivityCreated(
-            @Nullable
-                    Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        App.INSTANCE.getAppComponent().inject(this);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setActionBarTitle();
         if (getChildFragmentManager().findFragmentById(R.id.fragment_container) == null) {
@@ -70,16 +75,12 @@ public class ContainerFragment extends BaseNavigationFragment implements BackBut
                         case Screens.OTHER_FRAGMENT:
                             return OtherFragment_.builder().build();
                         case Screens.SCHEDULER_FRAGMENT:
-                            isRoot = false;
                             return SchedulerFragment_.builder().build();
                         case Screens.DATABASE_FRAGMENT:
-                            isRoot = false;
                             return DatabaseFragment_.builder().build();
                         case Screens.DATABASE_LIST_FRAGMENT:
-                            isRoot = false;
                             return DatabaseListFragment_.builder().build();
                         case Screens.DATABASE_LIVE_DATA_FRAGMENT:
-                            isRoot = false;
                             return DatabaseLiveDataFragment_.builder().build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
@@ -105,25 +106,20 @@ public class ContainerFragment extends BaseNavigationFragment implements BackBut
     }
 
     @Override
-    public boolean onBackPressed() {
-        if (isRoot) {
-            Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fragment_container);
-            if (fragment != null
-                    && fragment instanceof BackButtonListener
-                    && ((BackButtonListener) fragment).onBackPressed()) {
-                return true;
-            } else {
-                getActivity().finishAffinity();
-                return true;
-            }
-        } else {
-            getRouter().exit();
-            return true;
-        }
+    public Router getRouter() {
+        return getCicerone().getRouter();
     }
 
     @Override
-    public Router getRouter() {
-        return getCicerone().getRouter();
+    public boolean onBackPressed() {
+        Fragment fragment = getChildFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment != null
+                && fragment instanceof BackButtonListener
+                && ((BackButtonListener) fragment).onBackPressed()) {
+            return true;
+        } else {
+            getActivity().finishAffinity();
+            return true;
+        }
     }
 }

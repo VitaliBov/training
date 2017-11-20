@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.data.database.dao.UserDao;
@@ -17,8 +18,10 @@ import com.bov.vitali.training.data.database.entity.User;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.adapter.DatabaseListAdapter;
 import com.bov.vitali.training.presentation.main.presenter.DatabaseLiveDataPresenter;
+import com.bov.vitali.training.presentation.main.presenter.SchedulerPresenter;
 import com.bov.vitali.training.presentation.main.view.DatabaseLiveDataContract;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
+import com.bov.vitali.training.presentation.navigation.RouterProvider;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -49,6 +52,11 @@ public class DatabaseLiveDataFragment extends BaseFragment<DatabaseLiveDataPrese
         setupRecyclerView();
         setupSwipeToRefresh();
         getUsers();
+    }
+
+    @ProvidePresenter
+    DatabaseLiveDataPresenter provideDatabaseLiveDataPresenter() {
+        return new DatabaseLiveDataPresenter(((RouterProvider) getParentFragment()).getRouter());
     }
 
     private void getUsers() {
@@ -130,5 +138,11 @@ public class DatabaseLiveDataFragment extends BaseFragment<DatabaseLiveDataPrese
         address.setCity(UUID.randomUUID().toString());
         user.setAddress(address);
         userDao.insert(user);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        presenter.onBackPressed();
+        return true;
     }
 }

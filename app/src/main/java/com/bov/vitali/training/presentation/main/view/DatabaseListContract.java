@@ -22,6 +22,6 @@ public interface DatabaseListContract {
     }
 
     interface Presenter {
-
+        void onBackPressed();
     }
 }

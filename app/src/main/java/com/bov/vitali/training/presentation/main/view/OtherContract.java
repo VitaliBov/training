@@ -9,6 +9,6 @@ public interface OtherContract {
     }
 
     interface Presenter {
-
+        void onBackPressed();
     }
 }

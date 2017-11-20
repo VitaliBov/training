@@ -16,24 +16,37 @@ import com.bov.vitali.training.presentation.login.fragment.SplashFragment_;
 
 import org.androidannotations.annotations.EActivity;
 
+import javax.inject.Inject;
+
 import ru.terrakok.cicerone.Navigator;
+import ru.terrakok.cicerone.NavigatorHolder;
+import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 @EActivity(R.layout.activity_login)
 public class LoginActivity extends BaseNavigationActivity {
+    @Inject Router router;
+    @Inject NavigatorHolder navigatorHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        App.INSTANCE.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            App.INSTANCE.getRouter().replaceScreen(Screens.SPLASH_FRAGMENT);
+            router.replaceScreen(Screens.SPLASH_FRAGMENT);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        App.INSTANCE.getNavigatorHolder().setNavigator(navigator);
+        navigatorHolder.setNavigator(navigator);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        navigatorHolder.removeNavigator();
     }
 
     private Navigator navigator = new SupportAppNavigator(this, getSupportFragmentManager(), R.id.login_container) {
@@ -73,7 +86,7 @@ public class LoginActivity extends BaseNavigationActivity {
                 && ((BackButtonListener) fragment).onBackPressed()) {
             return;
         } else {
-            super.onBackPressed();
+            router.exit();
         }
     }
 }

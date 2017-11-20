@@ -18,5 +18,7 @@ public interface UserContract {
 
     interface Presenter {
         void getUser();
+
+        void onBackPressed();
     }
 }

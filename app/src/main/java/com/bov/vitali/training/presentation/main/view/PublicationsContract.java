@@ -21,5 +21,7 @@ public interface PublicationsContract  {
 
     interface Presenter {
         void getPublications(String userId);
+
+        void onBackPressed();
     }
 }

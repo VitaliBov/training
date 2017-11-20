@@ -30,5 +30,7 @@ public interface DatabaseContract {
         void delete(String username);
 
         void search(String username);
+
+        void onBackPressed();
     }
 }

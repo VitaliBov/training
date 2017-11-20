@@ -14,9 +14,12 @@ import com.bov.vitali.training.data.net.response.UserResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.login.view.LoginWebViewContract;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class LoginWebViewPresenter extends BasePresenter<LoginWebViewContract.View>
@@ -31,6 +34,11 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebViewContract.Vi
     private static final String RESPONSE_TYPE_PARAMETER = "code";
     private static final String REDIRECT_URL = "&redirect_uri=";
     private static final String REDIRECT_URL_PARAMETER = "https://bitbucket.org/vitalibov/training/";
+    @Inject Router router;
+
+    public LoginWebViewPresenter() {
+        App.INSTANCE.getAppComponent().inject(this);
+    }
 
     @Override
     public void getToken(String code) {
@@ -80,7 +88,7 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebViewContract.Vi
 
     @Override
     public void navigateToBottomNavigationActivity() {
-        App.INSTANCE.getRouter().navigateTo(Screens.MAIN_ACTIVITY);
+        router.navigateTo(Screens.MAIN_ACTIVITY);
     }
 
     public String getUrl() {
@@ -90,5 +98,10 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebViewContract.Vi
                 STATE + STATE_PARAMETER +
                 RESPONSE_TYPE + RESPONSE_TYPE_PARAMETER +
                 REDIRECT_URL + REDIRECT_URL_PARAMETER;
+    }
+
+    @Override
+    public void onBackPressed() {
+        router.exit();
     }
 }

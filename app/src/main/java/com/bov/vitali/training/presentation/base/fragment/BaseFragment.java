@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.MvpPresenter;
 import com.arellomobile.mvp.MvpView;
-import com.bov.vitali.training.App;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.presentation.base.common.CoordinatorLayoutContaining;
@@ -21,12 +20,6 @@ public abstract class BaseFragment<P extends MvpPresenter<V>, V extends MvpView>
     public void onDetach() {
         super.onDetach();
         AndroidUtils.hideKeyboard(getActivity());
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        App.INSTANCE.getRouter().exit();
-        return false;
     }
 
     public View getActivityContentView() {

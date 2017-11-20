@@ -10,10 +10,19 @@ import com.bov.vitali.training.data.database.entity.User;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.DatabaseContract;
 
+import javax.inject.Inject;
+
+import ru.terrakok.cicerone.Router;
+
 @InjectViewState
 public class DatabasePresenter extends BasePresenter<DatabaseContract.View> implements DatabaseContract .Presenter {
     private UserDao userDao = App.getUserDatabase().userDao();
     private String username, city, newUsername;
+    private Router router;
+
+    public DatabasePresenter(Router router) {
+        this.router = router;
+    }
 
     @Override
     public void save(String username, String city) {
@@ -107,5 +116,10 @@ public class DatabasePresenter extends BasePresenter<DatabaseContract.View> impl
             getViewState().clearSearchFields();
             getViewState().showSearchResult(username);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        router.exit();
     }
 }

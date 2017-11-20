@@ -9,40 +9,33 @@ import com.bov.vitali.training.data.database.UsersDatabase;
 import com.bov.vitali.training.data.net.FilmsApi;
 import com.bov.vitali.training.data.net.ServiceGenerator;
 import com.bov.vitali.training.data.net.TrainingApi;
-
-import ru.terrakok.cicerone.Cicerone;
-import ru.terrakok.cicerone.NavigatorHolder;
-import ru.terrakok.cicerone.Router;
+import com.bov.vitali.training.di.AppComponent;
+import com.bov.vitali.training.di.DaggerAppComponent;
 
 public class App extends Application {
     public static App INSTANCE;
+    private AppComponent appComponent;
     private static Context appContext;
-    private Cicerone<Router> cicerone;
     private static UsersDatabase usersDatabase;
 
     @Override
     public void onCreate() {
         super.onCreate();
         INSTANCE = this;
+
         appContext = getApplicationContext();
-        initCicerone();
         initDatabase();
+    }
+
+    public AppComponent getAppComponent() {
+        if (appComponent == null) {
+            appComponent = DaggerAppComponent.builder().build();
+        }
+        return appComponent;
     }
 
     public static Context appContext() {
         return appContext;
-    }
-
-    private void initCicerone() {
-        cicerone = Cicerone.create();
-    }
-
-    public NavigatorHolder getNavigatorHolder() {
-        return cicerone.getNavigatorHolder();
-    }
-
-    public Router getRouter() {
-        return cicerone.getRouter();
     }
 
     public static TrainingApi getTrainingApi() {

@@ -8,12 +8,20 @@ import com.bov.vitali.training.data.net.response.UserResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.UserContract;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class UserPresenter extends BasePresenter<UserContract.View> implements UserContract.Presenter {
+    @Inject Router router;
+
+    public UserPresenter() {
+        App.INSTANCE.getAppComponent().inject(this);
+    }
 
     @Override
     public void getUser() {
@@ -34,5 +42,10 @@ public class UserPresenter extends BasePresenter<UserContract.View> implements U
                 getViewState().showResponseError();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        router.finishChain();
     }
 }

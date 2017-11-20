@@ -20,6 +20,6 @@ public interface DatabaseLiveDataContract {
     }
 
     interface Presenter {
-
+        void onBackPressed();
     }
 }

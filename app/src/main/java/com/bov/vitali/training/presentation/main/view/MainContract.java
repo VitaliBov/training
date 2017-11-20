@@ -30,5 +30,7 @@ public interface MainContract {
         void onTabPaginationClick();
 
         void onTabOtherClick();
+
+        void onBackPressed();
     }
 }

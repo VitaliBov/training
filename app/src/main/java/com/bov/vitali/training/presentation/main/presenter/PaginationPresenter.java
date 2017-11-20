@@ -9,9 +9,12 @@ import com.bov.vitali.training.data.net.response.FilmResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.PaginationContract;
 
+import javax.inject.Inject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class PaginationPresenter extends BasePresenter<PaginationContract.View>
@@ -19,6 +22,11 @@ public class PaginationPresenter extends BasePresenter<PaginationContract.View>
     private static final String LANGUAGE = "en_US";
     private static final int PAGE_START = 1;
     private int currentPage = PAGE_START;
+    @Inject Router router;
+
+    public PaginationPresenter() {
+        App.INSTANCE.getAppComponent().inject(this);
+    }
 
     @Override
     public void loadMoreFilms() {
@@ -48,5 +56,10 @@ public class PaginationPresenter extends BasePresenter<PaginationContract.View>
         currentPage = PAGE_START;
         getViewState().clearView();
         loadMoreFilms();
+    }
+
+    @Override
+    public void onBackPressed() {
+        router.finishChain();
     }
 }

@@ -10,5 +10,7 @@ public interface LoginContract  {
 
     interface Presenter {
         void navigateToLoginWebViewFragment();
+
+        void onBackPressed();
     }
 }

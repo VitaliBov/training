@@ -1,5 +1,6 @@
 package com.bov.vitali.training.presentation.main.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
@@ -9,22 +10,25 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
+import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.common.utils.PasswordUtils;
+import com.bov.vitali.training.presentation.base.activity.BaseNavigationActivity;
 import com.bov.vitali.training.presentation.main.fragment.ContainerFragment;
 import com.bov.vitali.training.presentation.main.fragment.ContainerFragment_;
 import com.bov.vitali.training.presentation.main.presenter.MainPresenter;
+import com.bov.vitali.training.presentation.main.view.MainContract;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.navigation.RouterProvider;
 import com.bov.vitali.training.presentation.navigation.Screens;
-import com.bov.vitali.training.common.utils.AndroidUtils;
-import com.bov.vitali.training.presentation.base.activity.BaseNavigationActivity;
-import com.bov.vitali.training.presentation.main.view.MainContract;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import javax.inject.Inject;
+
 import ru.terrakok.cicerone.Navigator;
+import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
 import ru.terrakok.cicerone.commands.Back;
 import ru.terrakok.cicerone.commands.Command;
@@ -35,6 +39,8 @@ import ru.terrakok.cicerone.commands.SystemMessage;
 public class MainActivity extends BaseNavigationActivity<MainPresenter, MainContract.View>
         implements MainContract.View, RouterProvider {
     @InjectPresenter MainPresenter presenter;
+    @Inject Router router;
+    @Inject NavigatorHolder navigatorHolder;
     @ViewById(R.id.bottom_navigation_bar) BottomNavigationBar bottomNavigationBar;
     @ViewById(R.id.activity_main_toolbar) Toolbar toolbar;
     private ContainerFragment userFragment;
@@ -43,15 +49,27 @@ public class MainActivity extends BaseNavigationActivity<MainPresenter, MainCont
     private ContainerFragment tabContainerFragment;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        App.INSTANCE.getAppComponent().inject(this);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
-        App.INSTANCE.getNavigatorHolder().setNavigator(navigator);
+        navigatorHolder.setNavigator(navigator);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         PasswordUtils.lockAppCheck();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        navigatorHolder.removeNavigator();
     }
 
     @Override
@@ -221,6 +239,6 @@ public class MainActivity extends BaseNavigationActivity<MainPresenter, MainCont
 
     @Override
     public Router getRouter() {
-        return App.INSTANCE.getRouter();
+        return router;
     }
 }

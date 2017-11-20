@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.0'
+    buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "com.bov.vitali.training"
         minSdkVersion 19
@@ -79,6 +79,9 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$live_data_version"
     implementation "android.arch.lifecycle:common-java8:$live_data_version"
 
+    //Dependency Injection
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
     implementation project(":scheduler")
 }

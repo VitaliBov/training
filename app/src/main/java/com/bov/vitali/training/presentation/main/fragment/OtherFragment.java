@@ -34,4 +34,9 @@ public class OtherFragment extends BaseNavigationFragment<OtherPresenter, OtherC
     public void navigateToDatabaseLiveDataFragment() {
         getRouter().navigateTo(Screens.DATABASE_LIVE_DATA_FRAGMENT);
     }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
 }

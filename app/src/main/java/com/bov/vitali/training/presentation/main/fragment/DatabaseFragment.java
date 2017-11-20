@@ -4,12 +4,15 @@ import android.support.design.widget.TextInputLayout;
 import android.widget.Button;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.common.NameTextWatcher;
 import com.bov.vitali.training.presentation.main.presenter.DatabasePresenter;
+import com.bov.vitali.training.presentation.main.presenter.SchedulerPresenter;
 import com.bov.vitali.training.presentation.main.view.DatabaseContract;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
+import com.bov.vitali.training.presentation.navigation.RouterProvider;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -18,8 +21,7 @@ import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_database)
 public class DatabaseFragment extends BaseFragment<DatabasePresenter, DatabaseContract.View> implements DatabaseContract.View, BackButtonListener {
-    @InjectPresenter
-    DatabasePresenter presenter;
+    @InjectPresenter DatabasePresenter presenter;
     @ViewById Button btnDatabaseSave, btnDatabaseUpdate, btnDatabaseDelete, btnDatabaseSearch;
     @ViewById TextInputLayout etDatabaseSaveUsername, etDatabaseSaveCity, etDatabaseUpdateUsername,
             etDatabaseUpdateNewUsername, etDatabaseDeleteUsername, etDatabaseSearchUsername;
@@ -29,6 +31,11 @@ public class DatabaseFragment extends BaseFragment<DatabasePresenter, DatabaseCo
     public void afterViews() {
         disableButtons();
         addTextListener();
+    }
+
+    @ProvidePresenter
+    DatabasePresenter provideDatabasePresenter() {
+        return new DatabasePresenter(((RouterProvider) getParentFragment()).getRouter());
     }
 
     @Click(R.id.btnDatabaseSave)
@@ -111,5 +118,11 @@ public class DatabaseFragment extends BaseFragment<DatabasePresenter, DatabaseCo
         etDatabaseUpdateUsername.getEditText().addTextChangedListener(new NameTextWatcher(etDatabaseUpdateUsername, btnDatabaseUpdate));
         etDatabaseDeleteUsername.getEditText().addTextChangedListener(new NameTextWatcher(etDatabaseDeleteUsername, btnDatabaseDelete));
         etDatabaseSearchUsername.getEditText().addTextChangedListener(new NameTextWatcher(etDatabaseSearchUsername, btnDatabaseSearch));
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        presenter.onBackPressed();
+        return true;
     }
 }

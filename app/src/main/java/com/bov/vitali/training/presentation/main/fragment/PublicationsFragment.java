@@ -104,4 +104,9 @@ public class PublicationsFragment extends BaseFragment<PublicationsPresenter, Pu
     public void hideUpdatingSpinner() {
         swipeRefreshLayout.setRefreshing(false);
     }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
+    }
 }

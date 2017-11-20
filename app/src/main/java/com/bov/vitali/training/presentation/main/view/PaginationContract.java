@@ -21,5 +21,7 @@ public interface PaginationContract {
         void resetAndRetrieve();
 
         void loadMoreFilms();
+
+        void onBackPressed();
     }
 }

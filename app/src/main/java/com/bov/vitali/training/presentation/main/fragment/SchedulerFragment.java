@@ -6,6 +6,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bov.vitali.scheduler.common.Priority;
 import com.bov.vitali.scheduler.core.PriorityCallable;
 import com.bov.vitali.scheduler.core.PriorityRunnable;
@@ -16,6 +17,7 @@ import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.presenter.SchedulerPresenter;
 import com.bov.vitali.training.presentation.main.view.SchedulerContract;
+import com.bov.vitali.training.presentation.navigation.RouterProvider;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -34,6 +36,11 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handler = new Handler(new IncomingHandlerCallback());
+    }
+
+    @ProvidePresenter
+    SchedulerPresenter provideSchedulerPresenter() {
+        return new SchedulerPresenter(((RouterProvider) getParentFragment()).getRouter());
     }
 
     @Click({R.id.btnStartScheduler})
@@ -73,9 +80,9 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         @Override
         public void run() {
             Thread.currentThread().interrupt();
-                if (Thread.currentThread().isInterrupted()) {
-                    return;
-                }
+            if (Thread.currentThread().isInterrupted()) {
+                return;
+            }
             threadExecution();
             Log.i("MyTag", "run: stop");
         }
@@ -122,6 +129,12 @@ public class SchedulerFragment extends BaseFragment<SchedulerPresenter, Schedule
         } catch (Throwable t) {
             t.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        presenter.onBackPressed();
+        return true;
     }
 
     private class IncomingHandlerCallback implements Handler.Callback {

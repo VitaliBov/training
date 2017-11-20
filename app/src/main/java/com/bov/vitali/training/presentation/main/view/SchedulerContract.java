@@ -9,6 +9,6 @@ public interface SchedulerContract {
     }
 
     interface Presenter {
-
+        void onBackPressed();
     }
 }

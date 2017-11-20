@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.data.database.dao.UserDao;
@@ -21,8 +22,10 @@ import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.adapter.DatabaseListAdapter;
 import com.bov.vitali.training.presentation.main.common.DatabaseLoader;
 import com.bov.vitali.training.presentation.main.presenter.DatabaseListPresenter;
+import com.bov.vitali.training.presentation.main.presenter.SchedulerPresenter;
 import com.bov.vitali.training.presentation.main.view.DatabaseListContract;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
+import com.bov.vitali.training.presentation.navigation.RouterProvider;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -55,6 +58,11 @@ public class DatabaseListFragment extends BaseFragment<DatabaseListPresenter, Da
         showUpdatingSpinner();
         setupRecyclerView();
         setupSwipeToRefresh();
+    }
+
+    @ProvidePresenter
+    DatabaseListPresenter provideDatabaseListPresenter() {
+        return new DatabaseListPresenter(((RouterProvider) getParentFragment()).getRouter());
     }
 
     @Override
@@ -150,6 +158,12 @@ public class DatabaseListFragment extends BaseFragment<DatabaseListPresenter, Da
     @UiThread
     public void updateUI() {
         restartLoader();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        presenter.onBackPressed();
+        return true;
     }
 
     private class UsersLoaderCallback implements LoaderManager.LoaderCallbacks<List<User>> {

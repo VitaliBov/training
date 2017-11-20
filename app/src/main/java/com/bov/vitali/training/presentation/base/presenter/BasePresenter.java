@@ -6,7 +6,4 @@ import com.bov.vitali.training.presentation.base.view.BaseView;
 
 public class BasePresenter<View extends BaseView> extends MvpPresenter<View> {
 
-    public void onBackPressed() {
-        App.INSTANCE.getRouter().exit();
-    }
 }

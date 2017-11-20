@@ -12,5 +12,7 @@ public interface LoginWebViewContract {
         void getToken(String code);
 
         void navigateToBottomNavigationActivity();
+
+        void onBackPressed();
     }
 }

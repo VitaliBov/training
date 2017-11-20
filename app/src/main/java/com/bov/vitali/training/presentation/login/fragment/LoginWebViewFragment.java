@@ -12,6 +12,7 @@ import com.bov.vitali.training.R;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.login.presenter.LoginWebViewPresenter;
 import com.bov.vitali.training.presentation.login.view.LoginWebViewContract;
+import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -19,11 +20,11 @@ import org.androidannotations.annotations.ViewById;
 
 @EFragment(R.layout.fragment_login_web_view)
 public class LoginWebViewFragment extends BaseFragment<LoginWebViewPresenter, LoginWebViewContract.View>
-        implements LoginWebViewContract.View {
-    private static final String HOST = "bitbucket.org";
-    private static final String CODE = "code";
+        implements LoginWebViewContract.View, BackButtonListener {
     @InjectPresenter LoginWebViewPresenter presenter;
     @ViewById WebView webViewLogin;
+    private static final String HOST = "bitbucket.org";
+    private static final String CODE = "code";
 
     @AfterViews
     void initWebView() {
