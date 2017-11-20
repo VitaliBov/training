@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.BuildConfig;
+import com.bov.vitali.training.data.net.TrainingApi;
 import com.bov.vitali.training.presentation.navigation.Screens;
 import com.bov.vitali.training.common.preferences.Preferences;
 import com.bov.vitali.training.common.utils.Constants;
@@ -22,6 +23,7 @@ import ru.terrakok.cicerone.Router;
 
 public class SplashPresenter extends BasePresenter<SplashContract.View> implements SplashContract.Presenter {
     @Inject Router router;
+    @Inject TrainingApi api;
 
     public SplashPresenter() {
         App.INSTANCE.getAppComponent().inject(this);
@@ -60,7 +62,7 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
 
     @Override
     public void getRefreshToken() {
-        Call<LoginResponse> tokenCall = App.getTrainingApi().refreshToken(
+        Call<LoginResponse> tokenCall = api.refreshToken(
                 Preferences.getRefreshToken(App.appContext()), BuildConfig.MEDIUM_CLIENT_ID,
                 BuildConfig.MEDIUM_CLIENT_SECRET, Constants.GRANT_TYPE_REFRESH);
         tokenCall.enqueue(new Callback<LoginResponse>() {
@@ -86,7 +88,7 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
     }
 
     private void getUserId() {
-        Call<UserResponse> userCall = App.getTrainingApi().getUser();
+        Call<UserResponse> userCall = api.getUser();
         userCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(@NonNull Call<UserResponse> call, @NonNull Response<UserResponse> response) {

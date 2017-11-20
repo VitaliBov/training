@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.App;
+import com.bov.vitali.training.data.net.TrainingApi;
 import com.bov.vitali.training.data.net.response.UserResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.UserContract;
@@ -18,6 +19,7 @@ import ru.terrakok.cicerone.Router;
 @InjectViewState
 public class UserPresenter extends BasePresenter<UserContract.View> implements UserContract.Presenter {
     @Inject Router router;
+    @Inject TrainingApi api;
 
     public UserPresenter() {
         App.INSTANCE.getAppComponent().inject(this);
@@ -25,7 +27,7 @@ public class UserPresenter extends BasePresenter<UserContract.View> implements U
 
     @Override
     public void getUser() {
-        Call<UserResponse> userCall = App.getTrainingApi().getUser();
+        Call<UserResponse> userCall = api.getUser();
         userCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(@NonNull Call<UserResponse> call, @NonNull

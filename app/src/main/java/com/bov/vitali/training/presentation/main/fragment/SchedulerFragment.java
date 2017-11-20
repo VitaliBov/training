@@ -13,7 +13,6 @@ import com.bov.vitali.scheduler.core.PriorityRunnable;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
-import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.presenter.SchedulerPresenter;
 import com.bov.vitali.training.presentation.main.view.SchedulerContract;

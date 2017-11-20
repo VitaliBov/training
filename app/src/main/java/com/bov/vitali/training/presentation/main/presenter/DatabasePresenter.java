@@ -10,8 +10,6 @@ import com.bov.vitali.training.data.database.entity.User;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.DatabaseContract;
 
-import javax.inject.Inject;
-
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState

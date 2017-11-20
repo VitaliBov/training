@@ -6,6 +6,7 @@ import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.BuildConfig;
+import com.bov.vitali.training.data.net.TrainingApi;
 import com.bov.vitali.training.presentation.navigation.Screens;
 import com.bov.vitali.training.common.preferences.Preferences;
 import com.bov.vitali.training.common.utils.Constants;
@@ -35,6 +36,7 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebViewContract.Vi
     private static final String REDIRECT_URL = "&redirect_uri=";
     private static final String REDIRECT_URL_PARAMETER = "https://bitbucket.org/vitalibov/training/";
     @Inject Router router;
+    @Inject TrainingApi api;
 
     public LoginWebViewPresenter() {
         App.INSTANCE.getAppComponent().inject(this);
@@ -42,7 +44,7 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebViewContract.Vi
 
     @Override
     public void getToken(String code) {
-        Call<LoginResponse> tokenCall = App.getTrainingApi().getToken(
+        Call<LoginResponse> tokenCall = api.getToken(
                 code, BuildConfig.MEDIUM_CLIENT_ID, BuildConfig.MEDIUM_CLIENT_SECRET, Constants.GRANT_TYPE, Constants.REDIRECT_URL);
         tokenCall.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -68,7 +70,7 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebViewContract.Vi
     }
 
     private void getUserId() {
-        Call<UserResponse> userCall = App.getTrainingApi().getUser();
+        Call<UserResponse> userCall = api.getUser();
         userCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(@NonNull Call<UserResponse> call, @NonNull Response<UserResponse> response) {

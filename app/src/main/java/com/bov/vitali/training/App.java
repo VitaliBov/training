@@ -6,9 +6,6 @@ import android.content.Context;
 
 import com.bov.vitali.scheduler.Scheduler;
 import com.bov.vitali.training.data.database.UsersDatabase;
-import com.bov.vitali.training.data.net.FilmsApi;
-import com.bov.vitali.training.data.net.ServiceGenerator;
-import com.bov.vitali.training.data.net.TrainingApi;
 import com.bov.vitali.training.di.AppComponent;
 import com.bov.vitali.training.di.DaggerAppComponent;
 
@@ -36,14 +33,6 @@ public class App extends Application {
 
     public static Context appContext() {
         return appContext;
-    }
-
-    public static TrainingApi getTrainingApi() {
-        return ServiceGenerator.getInstance().getTrainingService();
-    }
-
-    public static FilmsApi getFilmsApi() {
-        return ServiceGenerator.getInstance().getFilmsService();
     }
 
     public static Scheduler getScheduler() {

@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.BuildConfig;
+import com.bov.vitali.training.data.net.FilmsApi;
+import com.bov.vitali.training.data.net.TrainingApi;
 import com.bov.vitali.training.data.net.response.FilmResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.PaginationContract;
@@ -23,6 +25,7 @@ public class PaginationPresenter extends BasePresenter<PaginationContract.View>
     private static final int PAGE_START = 1;
     private int currentPage = PAGE_START;
     @Inject Router router;
+    @Inject FilmsApi api;
 
     public PaginationPresenter() {
         App.INSTANCE.getAppComponent().inject(this);
@@ -30,7 +33,7 @@ public class PaginationPresenter extends BasePresenter<PaginationContract.View>
 
     @Override
     public void loadMoreFilms() {
-        Call<FilmResponse> paginationCall = App.getFilmsApi().getTopRatedFilms(
+        Call<FilmResponse> paginationCall = api.getTopRatedFilms(
                 BuildConfig.THE_MOVIE_DB_IP_KEY, LANGUAGE, currentPage);
         paginationCall.enqueue(new Callback<FilmResponse>() {
             @Override

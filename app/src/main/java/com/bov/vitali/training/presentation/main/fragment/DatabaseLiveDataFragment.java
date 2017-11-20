@@ -18,7 +18,6 @@ import com.bov.vitali.training.data.database.entity.User;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.adapter.DatabaseListAdapter;
 import com.bov.vitali.training.presentation.main.presenter.DatabaseLiveDataPresenter;
-import com.bov.vitali.training.presentation.main.presenter.SchedulerPresenter;
 import com.bov.vitali.training.presentation.main.view.DatabaseLiveDataContract;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.navigation.RouterProvider;
