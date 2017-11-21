@@ -22,7 +22,6 @@ import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.adapter.DatabaseListAdapter;
 import com.bov.vitali.training.presentation.main.common.DatabaseLoader;
 import com.bov.vitali.training.presentation.main.presenter.DatabaseListPresenter;
-import com.bov.vitali.training.presentation.main.presenter.SchedulerPresenter;
 import com.bov.vitali.training.presentation.main.view.DatabaseListContract;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.navigation.RouterProvider;

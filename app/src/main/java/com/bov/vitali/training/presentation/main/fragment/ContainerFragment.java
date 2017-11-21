@@ -31,7 +31,7 @@ public class ContainerFragment extends BaseNavigationFragment implements BackBut
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -82,6 +82,8 @@ public class ContainerFragment extends BaseNavigationFragment implements BackBut
                             return DatabaseListFragment_.builder().build();
                         case Screens.DATABASE_LIVE_DATA_FRAGMENT:
                             return DatabaseLiveDataFragment_.builder().build();
+                        case Screens.IMAGES_FRAGMENT:
+                            return ImagesFragment_.builder().build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }

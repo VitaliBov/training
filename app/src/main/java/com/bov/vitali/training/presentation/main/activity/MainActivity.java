@@ -50,7 +50,7 @@ public class MainActivity extends BaseNavigationActivity<MainPresenter, MainCont
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
     }
 

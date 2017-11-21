@@ -34,6 +34,7 @@
     <string name="other_navigate_to_database">Database</string>
     <string name="other_navigate_to_database_list">Database list</string>
     <string name="other_navigate_to_database_live_data">Database Live Data</string>
+    <string name="other_navigate_to_images">Images</string>
 
     <string name="database_button_save">Save</string>
     <string name="database_button_update">Update</string>
@@ -50,4 +51,6 @@
     <string name="database_message_search"> was successfully found!</string>
 
     <string name="database_list_error_response">Do not have any users yet</string>
+
+    <string name="images_button_save">Save images to storage</string>
 </resources>

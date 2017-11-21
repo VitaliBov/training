@@ -26,7 +26,7 @@ public class SplashPresenter extends BasePresenter<SplashContract.View> implemen
     @Inject TrainingApi api;
 
     public SplashPresenter() {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
     }
 
     @Override

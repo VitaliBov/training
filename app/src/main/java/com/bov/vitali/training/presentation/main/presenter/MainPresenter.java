@@ -15,7 +15,7 @@ public class MainPresenter extends BaseActivityPresenter<MainContract.View> impl
     @Inject Router router;
 
     public MainPresenter() {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
     }
 
     @Override

@@ -6,7 +6,6 @@ import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.BuildConfig;
 import com.bov.vitali.training.data.net.FilmsApi;
-import com.bov.vitali.training.data.net.TrainingApi;
 import com.bov.vitali.training.data.net.response.FilmResponse;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.PaginationContract;
@@ -28,7 +27,7 @@ public class PaginationPresenter extends BasePresenter<PaginationContract.View>
     @Inject FilmsApi api;
 
     public PaginationPresenter() {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
     }
 
     @Override

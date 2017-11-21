@@ -22,7 +22,7 @@ public class UserPresenter extends BasePresenter<UserContract.View> implements U
     @Inject TrainingApi api;
 
     public UserPresenter() {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
     }
 
     @Override

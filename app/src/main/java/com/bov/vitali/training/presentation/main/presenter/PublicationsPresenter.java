@@ -23,7 +23,7 @@ public class PublicationsPresenter extends BasePresenter<PublicationsContract.Vi
     @Inject TrainingApi api;
 
     public PublicationsPresenter() {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
     }
 
     @Override
