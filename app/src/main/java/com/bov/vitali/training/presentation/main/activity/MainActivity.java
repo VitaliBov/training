@@ -11,7 +11,6 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.utils.AndroidUtils;
-import com.bov.vitali.training.common.utils.PasswordUtils;
 import com.bov.vitali.training.presentation.base.activity.BaseNavigationActivity;
 import com.bov.vitali.training.presentation.main.fragment.ContainerFragment;
 import com.bov.vitali.training.presentation.main.fragment.ContainerFragment_;
@@ -63,7 +62,7 @@ public class MainActivity extends BaseNavigationActivity<MainPresenter, MainCont
     @Override
     protected void onResume() {
         super.onResume();
-        PasswordUtils.lockAppCheck();
+//        PasswordUtils.lockAppCheck();
     }
 
     @Override
@@ -75,7 +74,7 @@ public class MainActivity extends BaseNavigationActivity<MainPresenter, MainCont
     @Override
     protected void onStop() {
         super.onStop();
-        PasswordUtils.lockAppStoreTime();
+//        PasswordUtils.lockAppStoreTime();
     }
 
     @AfterViews

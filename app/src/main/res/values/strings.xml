@@ -19,6 +19,8 @@
 
     <string name="navigation_error_unknown_screen">Экран не найден</string>
 
+    <string name="runtime_permissions_txt">Please enable ALL permissions from app settings.</string>
+
     <string name="user_absence_name">Absence name</string>
     <string name="user_absence_username">Absence username</string>
     <string name="user_absence_url">Absence URL</string>
