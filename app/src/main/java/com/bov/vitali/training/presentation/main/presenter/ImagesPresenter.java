@@ -23,7 +23,7 @@ import ru.terrakok.cicerone.Router;
 public class ImagesPresenter extends BasePresenter<ImagesContract.View> implements ImagesContract.Presenter {
     private static final int IMAGES_COUNT = 12;
     private Router router;
-    private List<Bitmap> images = new LinkedList<>();
+    private LinkedList<Bitmap> images = new LinkedList<>();
 
     public ImagesPresenter(Router router) {
         this.router = router;
@@ -59,7 +59,7 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
     }
 
     private void addBitmap(Bitmap bitmap) {
-        images.add(bitmap);
+        images.addFirst(bitmap);
         getViewState().setImages(images);
     }
 
@@ -70,9 +70,8 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
         }
     }
 
-    private String saveImage(Bitmap bitmap) {
+    private void saveImage(Bitmap bitmap) {
 
-        return "";
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.bov.vitali.training.presentation.main.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,8 +14,10 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.utils.IntentUtils;
+import com.bov.vitali.training.common.utils.PixelUtils;
 import com.bov.vitali.training.presentation.base.fragment.BasePermissionsFragment;
 import com.bov.vitali.training.presentation.main.adapter.ImagesAdapter;
+import com.bov.vitali.training.presentation.main.common.GridSpacingItemDecoration;
 import com.bov.vitali.training.presentation.main.presenter.ImagesPresenter;
 import com.bov.vitali.training.presentation.main.view.ImagesContract;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
@@ -48,8 +51,16 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     }
 
     private void setupRecyclerView() {
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
+        int spanCount;
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            spanCount = 3;
+        } else {
+            spanCount = 4;
+        }
+        int spacing = PixelUtils.dp2px(getContext(), 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), spanCount);
         rvImages.setHasFixedSize(true);
+        rvImages.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing));
         rvImages.setLayoutManager(layoutManager);
     }
 
@@ -77,9 +88,10 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     }
 
     private void showImageSelectDialog() {
-        String[] pictureDialogItems = {"Select photo from gallery", "Capture photo from camera", "Cancel"};
+        String[] pictureDialogItems = {getString(R.string.images_select_from_gallery),
+                getString(R.string.images_select_from_camera), getString(R.string.images_cancel)};
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-        dialog.setTitle("Select Action");
+        dialog.setTitle(R.string.images_dialog_title);
         dialog.setItems(pictureDialogItems,
                 (dialog1, which) -> {
                     switch (which) {
@@ -130,7 +142,8 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     }
 
     public void chooseImageFromGallery() {
-        startActivityForResult(Intent.createChooser(IntentUtils.getGalleryIntent(), "Select File"), REQUEST_CODE_GALLERY);
+        startActivityForResult(Intent.createChooser(
+                IntentUtils.getGalleryIntent(), getString(R.string.images_gallery_choose_title)), REQUEST_CODE_GALLERY);
     }
 
     private void takePhotoFromCamera() {
@@ -151,14 +164,12 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
                 default:
                     break;
             }
-        } else {
-            return;
         }
     }
 
     @Click(R.id.btnSaveImagesToStorage)
     public void saveImagesToStorage() {
-        //presenter.saveImagesToStorage();
+        presenter.saveImagesToStorage();
     }
 
     @Override
