@@ -32,7 +32,7 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_images)
 public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, ImagesContract.View>
-        implements ImagesContract.View, BackButtonListener {
+        implements ImagesContract.View, BackButtonListener, ImagesAdapter.ImagesClickListener, ImagesAdapter.ImagesLongClickListener {
     private static final int REQUEST_CODE_GALLERY = 1;
     private static final int REQUEST_CODE_CAMERA = 2;
     @InjectPresenter ImagesPresenter presenter;
@@ -48,11 +48,12 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     @AfterViews
     public void afterViews() {
         setupRecyclerView();
+        checkAdapter(this, this);
     }
 
     private void setupRecyclerView() {
         int spanCount;
-        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             spanCount = 3;
         } else {
             spanCount = 4;
@@ -64,27 +65,22 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         rvImages.setLayoutManager(layoutManager);
     }
 
-    private void checkAdapter() {
+    private void checkAdapter(ImagesAdapter.ImagesClickListener listener, ImagesAdapter.ImagesLongClickListener longClickListener) {
         if (adapter == null) {
-            initAdapter();
+            initAdapter(listener, longClickListener);
         } else {
             rvImages.setAdapter(adapter);
         }
     }
 
-    private void initAdapter() {
-        adapter = new ImagesAdapter(presenter.getImages());
+    private void initAdapter(ImagesAdapter.ImagesClickListener listener, ImagesAdapter.ImagesLongClickListener longClickListener) {
+        adapter = new ImagesAdapter(presenter.getImages(), getContext(), listener, longClickListener);
         rvImages.setAdapter(adapter);
     }
 
     public void setImages(List<Bitmap> bitmaps) {
-        checkAdapter();
+        checkAdapter(this, this);
         adapter.setBitmaps(bitmaps);
-    }
-
-    @Click(R.id.btnAddImage)
-    public void addImage() {
-        showImageSelectDialog();
     }
 
     private void showImageSelectDialog() {
@@ -167,6 +163,16 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         }
     }
 
+    @Override
+    public void onAddImageClick() {
+        showImageSelectDialog();
+    }
+
+    @Override
+    public void onImageClick(Bitmap bitmap) {
+        //navigateToDetailFragment();
+    }
+
     @Click(R.id.btnSaveImagesToStorage)
     public void saveImagesToStorage() {
         presenter.saveImagesToStorage();
@@ -176,5 +182,10 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     public boolean onBackPressed() {
         presenter.onBackPressed();
         return true;
+    }
+
+    @Override
+    public void onLongImageClick(Bitmap bitmap) {
+
     }
 }
