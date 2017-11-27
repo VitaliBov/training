@@ -60,4 +60,5 @@
     <string name="images_cancel">Cancel</string>
     <string name="images_dialog_title">Select Action</string>
     <string name="images_gallery_choose_title">Select File</string>
+    <string name="images_remove">Remove</string>
 </resources>

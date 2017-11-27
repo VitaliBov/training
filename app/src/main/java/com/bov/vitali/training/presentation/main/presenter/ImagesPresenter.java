@@ -14,6 +14,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -63,8 +65,38 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
         getViewState().setImages(images);
     }
 
-    private void removeBitmap(Bitmap bitmap) {
-        images.remove(bitmap);
+    public void removeBitmap(int position) {
+        images.remove(position);
+        getViewState().setImages(images);
+    }
+
+    public void removeBitmaps(List<Integer> positions) {
+        Collections.sort(positions, (var1, var2) -> var2 - var1);
+        while (!positions.isEmpty()) {
+            if (positions.size() == 1) {
+                removeBitmap(positions.get(0));
+                positions.remove(0);
+            } else {
+                int count = 1;
+                while (positions.size() > count && positions.get(count).equals(positions.get(count - 1) - 1)) {
+                    ++count;
+                }
+                if (count == 1) {
+                    removeBitmap(positions.get(0));
+                } else {
+                    removeRange(positions.get(count - 1), count);
+                }
+                for (int i = 0; i < count; ++i) {
+                    positions.remove(0);
+                }
+            }
+        }
+    }
+
+    private void removeRange(int positionStart, int itemCount) {
+        for (int i = 0; i < itemCount; ++i) {
+            images.remove(positionStart);
+        }
         getViewState().setImages(images);
     }
 

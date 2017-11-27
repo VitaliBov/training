@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -32,13 +36,15 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_images)
 public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, ImagesContract.View>
-        implements ImagesContract.View, BackButtonListener, ImagesAdapter.ImagesClickListener, ImagesAdapter.ImagesLongClickListener {
+        implements ImagesContract.View, BackButtonListener, ImagesAdapter.ImagesClickListener, ImagesAdapter.SelectImagesClickListener {
     private static final int REQUEST_CODE_GALLERY = 1;
     private static final int REQUEST_CODE_CAMERA = 2;
     @InjectPresenter ImagesPresenter presenter;
     @ViewById ImageView ivImage;
     @ViewById RecyclerView rvImages;
     private ImagesAdapter adapter;
+    private ActionModeCallback actionModeCallback = new ActionModeCallback();
+    private ActionMode actionMode;
 
     @ProvidePresenter
     ImagesPresenter provideImagesPresenter() {
@@ -65,19 +71,20 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         rvImages.setLayoutManager(layoutManager);
     }
 
-    private void checkAdapter(ImagesAdapter.ImagesClickListener listener, ImagesAdapter.ImagesLongClickListener longClickListener) {
+    private void checkAdapter(ImagesAdapter.ImagesClickListener listener, ImagesAdapter.SelectImagesClickListener selectClickListener) {
         if (adapter == null) {
-            initAdapter(listener, longClickListener);
+            initAdapter(listener, selectClickListener);
         } else {
             rvImages.setAdapter(adapter);
         }
     }
 
-    private void initAdapter(ImagesAdapter.ImagesClickListener listener, ImagesAdapter.ImagesLongClickListener longClickListener) {
-        adapter = new ImagesAdapter(presenter.getImages(), getContext(), listener, longClickListener);
+    private void initAdapter(ImagesAdapter.ImagesClickListener listener, ImagesAdapter.SelectImagesClickListener selectClickListener) {
+        adapter = new ImagesAdapter(presenter.getImages(), getContext(), listener, selectClickListener);
         rvImages.setAdapter(adapter);
     }
 
+    @Override
     public void setImages(List<Bitmap> bitmaps) {
         checkAdapter(this, this);
         adapter.setBitmaps(bitmaps);
@@ -173,6 +180,34 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         //navigateToDetailFragment();
     }
 
+    @Override
+    public void onSelectLongImageClick(int position) {
+        if (actionMode == null) {
+            actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+        }
+        toggleSelection(position);
+    }
+
+    @Override
+    public void onSelectImageClick(int position) {
+        if (actionMode != null) {
+            toggleSelection(position);
+        } else {
+            presenter.removeBitmap(position);
+        }
+    }
+
+    private void toggleSelection(int position) {
+        adapter.toggleSelection(position);
+        int count = adapter.getSelectedItemCount();
+        if (count == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(String.valueOf(count));
+            actionMode.invalidate();
+        }
+    }
+
     @Click(R.id.btnSaveImagesToStorage)
     public void saveImagesToStorage() {
         presenter.saveImagesToStorage();
@@ -184,8 +219,35 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         return true;
     }
 
-    @Override
-    public void onLongImageClick(Bitmap bitmap) {
+    private class ActionModeCallback implements ActionMode.Callback {
 
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.images_menu, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.menu_remove:
+                    presenter.removeBitmaps(adapter.getSelectedItems());
+                    mode.finish();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            adapter.clearSelection();
+            actionMode = null;
+        }
     }
 }

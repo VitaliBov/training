@@ -51,7 +51,7 @@ public class PaginationFragment extends BaseFragment<PaginationPresenter, Pagina
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        getActivity().getMenuInflater().inflate(R.menu.main, menu);
+        getActivity().getMenuInflater().inflate(R.menu.pagination_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
