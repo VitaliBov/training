@@ -18,15 +18,13 @@ import static com.bov.vitali.training.presentation.main.presenter.ImagesPresente
 public class ImagesAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
     private static final int ADD_IMAGE_VIEW_TYPE = 1;
     private final ImagesClickListener clickListener;
-    private final SelectImagesClickListener selectClickListener;
     private Context context;
     private List<Bitmap> images;
 
-    public ImagesAdapter(List<Bitmap> images, Context context, ImagesClickListener listener, SelectImagesClickListener selectListener) {
+    public ImagesAdapter(List<Bitmap> images, Context context, ImagesClickListener listener) {
         this.images = images;
         this.context = context;
         this.clickListener = listener;
-        this.selectClickListener = selectListener;
     }
 
     @Override
@@ -89,12 +87,11 @@ public class ImagesAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
             super(itemView);
             imageView = itemView.findViewById(R.id.ivImage);
             selectedOverlay = itemView.findViewById(R.id.selected_overlay);
-            itemView.setOnClickListener(v -> clickListener.onImageClick(images.get(getAdapterPosition())));
+            itemView.setOnClickListener(v -> clickListener.onImageClick(images.get(getAdapterPosition()), getAdapterPosition()));
             itemView.setOnLongClickListener(view -> {
-                selectClickListener.onSelectLongImageClick(getAdapterPosition());
+                clickListener.onLongImageClick(getAdapterPosition());
                 return true;
             });
-            itemView.setOnClickListener(v -> selectClickListener.onSelectImageClick(getAdapterPosition()));
         }
     }
 
@@ -109,14 +106,10 @@ public class ImagesAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
     }
 
     public interface ImagesClickListener {
-        void onImageClick(Bitmap bitmap);
+        void onImageClick(Bitmap bitmap, int position);
+
+        void onLongImageClick(int position);
 
         void onAddImageClick();
-    }
-
-    public interface SelectImagesClickListener {
-        void onSelectLongImageClick(int position);
-
-        void onSelectImageClick(int position);
     }
 }

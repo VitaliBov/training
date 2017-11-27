@@ -26,6 +26,7 @@ import com.bov.vitali.training.presentation.main.presenter.ImagesPresenter;
 import com.bov.vitali.training.presentation.main.view.ImagesContract;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.navigation.RouterProvider;
+import com.bov.vitali.training.presentation.navigation.Screens;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -36,7 +37,7 @@ import java.util.List;
 
 @EFragment(R.layout.fragment_images)
 public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, ImagesContract.View>
-        implements ImagesContract.View, BackButtonListener, ImagesAdapter.ImagesClickListener, ImagesAdapter.SelectImagesClickListener {
+        implements ImagesContract.View, BackButtonListener, ImagesAdapter.ImagesClickListener {
     private static final int REQUEST_CODE_GALLERY = 1;
     private static final int REQUEST_CODE_CAMERA = 2;
     @InjectPresenter ImagesPresenter presenter;
@@ -54,7 +55,7 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     @AfterViews
     public void afterViews() {
         setupRecyclerView();
-        checkAdapter(this, this);
+        checkAdapter(this);
     }
 
     private void setupRecyclerView() {
@@ -71,22 +72,22 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         rvImages.setLayoutManager(layoutManager);
     }
 
-    private void checkAdapter(ImagesAdapter.ImagesClickListener listener, ImagesAdapter.SelectImagesClickListener selectClickListener) {
+    private void checkAdapter(ImagesAdapter.ImagesClickListener listener) {
         if (adapter == null) {
-            initAdapter(listener, selectClickListener);
+            initAdapter(listener);
         } else {
             rvImages.setAdapter(adapter);
         }
     }
 
-    private void initAdapter(ImagesAdapter.ImagesClickListener listener, ImagesAdapter.SelectImagesClickListener selectClickListener) {
-        adapter = new ImagesAdapter(presenter.getImages(), getContext(), listener, selectClickListener);
+    private void initAdapter(ImagesAdapter.ImagesClickListener listener) {
+        adapter = new ImagesAdapter(presenter.getImages(), getContext(), listener);
         rvImages.setAdapter(adapter);
     }
 
     @Override
     public void setImages(List<Bitmap> bitmaps) {
-        checkAdapter(this, this);
+        checkAdapter(this);
         adapter.setBitmaps(bitmaps);
     }
 
@@ -171,17 +172,16 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     }
 
     @Override
-    public void onAddImageClick() {
-        showImageSelectDialog();
+    public void onImageClick(Bitmap bitmap, int position) {
+        if (actionMode != null) {
+            toggleSelection(position);
+        } else {
+            navigateToImageChangeFragment(bitmap);
+        }
     }
 
     @Override
-    public void onImageClick(Bitmap bitmap) {
-        //navigateToDetailFragment();
-    }
-
-    @Override
-    public void onSelectLongImageClick(int position) {
+    public void onLongImageClick(int position) {
         if (actionMode == null) {
             actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
         }
@@ -189,12 +189,8 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     }
 
     @Override
-    public void onSelectImageClick(int position) {
-        if (actionMode != null) {
-            toggleSelection(position);
-        } else {
-            presenter.removeBitmap(position);
-        }
+    public void onAddImageClick() {
+        showImageSelectDialog();
     }
 
     private void toggleSelection(int position) {
@@ -211,6 +207,10 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     @Click(R.id.btnSaveImagesToStorage)
     public void saveImagesToStorage() {
         presenter.saveImagesToStorage();
+    }
+
+    private void navigateToImageChangeFragment(Bitmap bitmap) {
+        getRouter().navigateTo(Screens.IMAGE_CHANGE_FRAGMENT, bitmap);
     }
 
     @Override
