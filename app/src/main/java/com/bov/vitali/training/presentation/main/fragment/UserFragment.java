@@ -13,7 +13,7 @@ import com.bov.vitali.training.data.model.User;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.presenter.UserPresenter;
 import com.bov.vitali.training.presentation.main.view.UserContract;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -67,7 +67,7 @@ public class UserFragment extends BaseFragment<UserPresenter, UserContract.View>
             tvUserUrl.setText(R.string.user_absence_url);
         }
         if (!user.getImageUrl().isEmpty()) {
-            Picasso.with(getActivity())
+            Glide.with(getActivity())
                     .load(user.getImageUrl())
                     .into(ivUserAvatar);
         }

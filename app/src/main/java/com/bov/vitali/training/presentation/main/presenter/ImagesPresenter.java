@@ -2,10 +2,12 @@ package com.bov.vitali.training.presentation.main.presenter;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.common.utils.BitmapUtils;
+import com.bov.vitali.training.data.model.Image;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.ImagesContract;
 
@@ -23,25 +25,30 @@ import ru.terrakok.cicerone.Router;
 public class ImagesPresenter extends BasePresenter<ImagesContract.View> implements ImagesContract.Presenter {
     public static final int IMAGES_COUNT = 10;
     private Router router;
-    private LinkedList<Bitmap> images = new LinkedList<>();
+    private LinkedList<Image> images = new LinkedList<>();
 
     public ImagesPresenter(Router router) {
         this.router = router;
     }
 
     @Override
-    public List<Bitmap> getImages() {
+    public List<Image> getImages() {
         return images;
     }
 
     @Override
     public void onGalleryResult(Intent data) {
-        Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(App.appContext(), data.getData(), 500, 500);
-        addBitmap(bitmap);
+        Image image = new Image();
+        Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(App.appContext(), data.getData(), 300, 300);
+        Uri uri = data.getData();
+        image.setBitmap(bitmap);
+        image.setUri(uri);
+        addImage(image);
     }
 
     @Override
     public void onCameraResult(Intent data) {
+        Image image = new Image();
         Bitmap bitmap = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
@@ -55,19 +62,22 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
         } catch (IOException e) {
             e.printStackTrace();
         }
-        addBitmap(bitmap);
+        Uri uri = Uri.fromFile(destination);
+        image.setBitmap(bitmap);
+        image.setUri(uri);
+        addImage(image);
     }
 
-    private void addBitmap(Bitmap bitmap) {
-        images.addFirst(bitmap);
+    private void addImage(Image image) {
+        images.addFirst(image);
         getViewState().setImages(images);
     }
 
-    public void removeBitmaps(List<Integer> positions) {
+    public void removeImages(List<Integer> positions) {
         Collections.sort(positions, (var1, var2) -> var2 - var1);
         while (!positions.isEmpty()) {
             if (positions.size() == 1) {
-                removeBitmap(positions.get(0));
+                removeImage(positions.get(0));
                 positions.remove(0);
             } else {
                 int count = 1;
@@ -75,7 +85,7 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
                     ++count;
                 }
                 if (count == 1) {
-                    removeBitmap(positions.get(0));
+                    removeImage(positions.get(0));
                 } else {
                     removeRange(positions.get(count - 1), count);
                 }
@@ -86,7 +96,7 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
         }
     }
 
-    private void removeBitmap(int position) {
+    private void removeImage(int position) {
         images.remove(position);
         getViewState().setImages(images);
     }
@@ -105,7 +115,7 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
         }
     }
 
-    private void saveImage(Bitmap bitmap) {
+    private void saveImage(Image image) {
 
     }
 

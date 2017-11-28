@@ -1,8 +1,8 @@
 package com.bov.vitali.training.presentation.main.view;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 
+import com.bov.vitali.training.data.model.Image;
 import com.bov.vitali.training.presentation.base.view.BaseView;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface ImagesContract {
 
         void showRequestCameraPermission();
 
-        void setImages(List<Bitmap> bitmaps);
+        void setImages(List<Image> bitmaps);
     }
 
     interface Presenter {
@@ -22,7 +22,7 @@ public interface ImagesContract {
 
         void onCameraResult(Intent data);
 
-        List<Bitmap> getImages();
+        List<Image> getImages();
 
         void saveImagesToStorage();
 

@@ -60,7 +60,8 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
 
     //Image
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    compile "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
     //Android Annotations
     annotationProcessor "org.androidannotations:androidannotations:$AA_version"

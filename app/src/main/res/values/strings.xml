@@ -61,4 +61,7 @@
     <string name="images_dialog_title">Select Action</string>
     <string name="images_gallery_choose_title">Select File</string>
     <string name="images_remove">Remove</string>
+
+    <string name="image_change_hint">Enter text here</string>
+    <string name="image_change_button_add_text">Add text</string>
 </resources>

@@ -4,7 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -19,6 +19,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.utils.IntentUtils;
 import com.bov.vitali.training.common.utils.PixelUtils;
+import com.bov.vitali.training.data.model.Image;
 import com.bov.vitali.training.presentation.base.fragment.BasePermissionsFragment;
 import com.bov.vitali.training.presentation.main.adapter.ImagesAdapter;
 import com.bov.vitali.training.presentation.main.common.GridSpacingItemDecoration;
@@ -86,9 +87,9 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     }
 
     @Override
-    public void setImages(List<Bitmap> bitmaps) {
+    public void setImages(List<Image> images) {
         checkAdapter(this);
-        adapter.setBitmaps(bitmaps);
+        adapter.setImages(images);
     }
 
     private void showImageSelectDialog() {
@@ -172,11 +173,11 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     }
 
     @Override
-    public void onImageClick(Bitmap bitmap, int position) {
+    public void onImageClick(Uri uri, int position) {
         if (actionMode != null) {
             toggleSelection(position);
         } else {
-            navigateToImageChangeFragment(bitmap);
+            navigateToImageChangeFragment(uri);
         }
     }
 
@@ -209,8 +210,8 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         presenter.saveImagesToStorage();
     }
 
-    private void navigateToImageChangeFragment(Bitmap bitmap) {
-        getRouter().navigateTo(Screens.IMAGE_CHANGE_FRAGMENT, bitmap);
+    private void navigateToImageChangeFragment(Uri uri) {
+        getRouter().navigateTo(Screens.IMAGE_CHANGE_FRAGMENT, uri);
     }
 
     @Override
@@ -236,7 +237,7 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.menu_remove:
-                    presenter.removeBitmaps(adapter.getSelectedItems());
+                    presenter.removeImages(adapter.getSelectedItems());
                     mode.finish();
                     return true;
                 default:

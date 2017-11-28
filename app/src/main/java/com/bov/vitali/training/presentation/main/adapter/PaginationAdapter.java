@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.data.model.Film;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +34,10 @@ public class PaginationAdapter extends RecyclerView.Adapter<PaginationAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Film film = films.get(position);
-        Picasso.with(holder.itemView.getContext()).cancelRequest(holder.ivPagination);
         holder.tvPaginationName.setText(film.getTitle());
         holder.tvPaginationDescription.setText(film.getOverview());
         try {
-            Picasso.with(holder.itemView.getContext())
+            Glide.with(holder.itemView.getContext())
                     .load(BASE_URL_IMG + film.getPosterPath())
                     .into(holder.ivPagination);
         } catch (NullPointerException e) {

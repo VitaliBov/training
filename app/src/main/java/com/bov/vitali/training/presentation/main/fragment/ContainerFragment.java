@@ -1,6 +1,7 @@
 package com.bov.vitali.training.presentation.main.fragment;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -86,7 +87,7 @@ public class ContainerFragment extends BaseNavigationFragment implements BackBut
                         case Screens.IMAGES_FRAGMENT:
                             return ImagesFragment_.builder().build();
                         case Screens.IMAGE_CHANGE_FRAGMENT:
-                            return ImageChangeFragment_.builder().bitmap((Bitmap) data).build();
+                            return ImageChangeFragment_.builder().uri((Uri) data).build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }
