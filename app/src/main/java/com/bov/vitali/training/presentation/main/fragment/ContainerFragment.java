@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
+import com.bov.vitali.training.data.model.Image;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.navigation.LocalCiceroneHolder;
 import com.bov.vitali.training.presentation.navigation.RouterProvider;
@@ -87,7 +88,7 @@ public class ContainerFragment extends BaseNavigationFragment implements BackBut
                         case Screens.IMAGES_FRAGMENT:
                             return ImagesFragment_.builder().build();
                         case Screens.IMAGE_CHANGE_FRAGMENT:
-                            return ImageChangeFragment_.builder().uri((Uri) data).build();
+                            return ImageChangeFragment_.builder().image((Image) data).build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }

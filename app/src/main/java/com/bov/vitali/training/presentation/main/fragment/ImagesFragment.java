@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -173,11 +172,11 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     }
 
     @Override
-    public void onImageClick(Uri uri, int position) {
+    public void onImageClick(Image image, int position) {
         if (actionMode != null) {
             toggleSelection(position);
         } else {
-            navigateToImageChangeFragment(uri);
+            navigateToImageChangeFragment(image);
         }
     }
 
@@ -210,8 +209,8 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         presenter.saveImagesToStorage();
     }
 
-    private void navigateToImageChangeFragment(Uri uri) {
-        getRouter().navigateTo(Screens.IMAGE_CHANGE_FRAGMENT, uri);
+    private void navigateToImageChangeFragment(Image image) {
+        getRouter().navigateTo(Screens.IMAGE_CHANGE_FRAGMENT, image);
     }
 
     @Override

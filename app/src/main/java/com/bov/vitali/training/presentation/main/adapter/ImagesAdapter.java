@@ -2,7 +2,6 @@ package com.bov.vitali.training.presentation.main.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bov.vitali.training.R;
+import com.bov.vitali.training.common.utils.BitmapUtils;
 import com.bov.vitali.training.data.model.Image;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -49,9 +49,15 @@ public class ImagesAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
             if (holder instanceof ImageViewHolder) {
                 ImageViewHolder vh = (ImageViewHolder) holder;
                 Image image = images.get(position);
+                Bitmap bitmap;
+                if (image.getChangedUri() != null) {
+                    bitmap = BitmapUtils.decodeSampledBitmapFromResource(context, image.getChangedUri(), 300, 300);
+                } else {
+                    bitmap = BitmapUtils.decodeSampledBitmapFromResource(context, image.getOriginalUri(), 300, 300);
+                }
                 Glide.with(holder.itemView.getContext())
                         .asBitmap()
-                        .load(image.getBitmap())
+                        .load(bitmap)
                         .into(new SimpleTarget<Bitmap>() {
                             @Override
                             public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
@@ -109,7 +115,7 @@ public class ImagesAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
             super(itemView);
             imageView = itemView.findViewById(R.id.ivImage);
             selectedOverlay = itemView.findViewById(R.id.selected_overlay);
-            itemView.setOnClickListener(v -> clickListener.onImageClick(images.get(getAdapterPosition()).getUri(), getAdapterPosition()));
+            itemView.setOnClickListener(v -> clickListener.onImageClick(images.get(getAdapterPosition()), getAdapterPosition()));
             itemView.setOnLongClickListener(view -> {
                 clickListener.onLongImageClick(getAdapterPosition());
                 return true;
@@ -128,7 +134,7 @@ public class ImagesAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
     }
 
     public interface ImagesClickListener {
-        void onImageClick(Uri uri, int position);
+        void onImageClick(Image image, int position);
 
         void onLongImageClick(int position);
 

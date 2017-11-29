@@ -3,6 +3,8 @@ package com.bov.vitali.training.presentation.main.presenter;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.App;
@@ -15,6 +17,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,10 +42,8 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
     @Override
     public void onGalleryResult(Intent data) {
         Image image = new Image();
-        Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(App.appContext(), data.getData(), 300, 300);
         Uri uri = data.getData();
-        image.setBitmap(bitmap);
-        image.setUri(uri);
+        image.setOriginalUri(uri);
         addImage(image);
     }
 
@@ -63,8 +64,7 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
             e.printStackTrace();
         }
         Uri uri = Uri.fromFile(destination);
-        image.setBitmap(bitmap);
-        image.setUri(uri);
+        image.setOriginalUri(uri);
         addImage(image);
     }
 
@@ -110,13 +110,31 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
 
     @Override
     public void saveImagesToStorage() {
-        for (int i = 0; i < IMAGES_COUNT; i++) {
-            saveImage(images.get(i));
+        if (images.size() != 0) {
+            for (int i = 0; i < images.size(); i++) {
+                saveImage(images.get(i));
+            }
         }
     }
 
     private void saveImage(Image image) {
-
+        if (image.getChangedUri() != null) {
+            try {
+                String path = Environment.getExternalStorageDirectory().toString();
+                long filename = System.currentTimeMillis();
+                File destination = new File(path, "/DCIM/Training/");
+                destination.mkdirs();
+                File file = new File(destination, filename + ".jpg");
+                OutputStream fOut;
+                fOut = new FileOutputStream(file);
+                Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(App.appContext(), image.getChangedUri());
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+                fOut.close();
+                MediaStore.Images.Media.insertImage(App.appContext().getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

@@ -7,8 +7,10 @@ import android.widget.ImageView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.common.utils.BitmapUtils;
+import com.bov.vitali.training.data.model.Image;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.presenter.ImageChangePresenter;
 import com.bov.vitali.training.presentation.main.view.ImageChangeContract;
@@ -24,14 +26,22 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Objects;
+
 @EFragment(R.layout.fragment_image_change)
 public class ImageChangeFragment extends BaseFragment<ImageChangePresenter, ImageChangeContract.View>
         implements ImageChangeContract.View, BackButtonListener {
     @InjectPresenter ImageChangePresenter presenter;
-    @FragmentArg Uri uri;
+    @FragmentArg Image image;
     @ViewById ImageView ivTextToBitmap;
     @ViewById EditText etTextToBitmap;
     private Bitmap bitmap;
+    private Bitmap oldBitmap;
+    private String oldText;
 
     @ProvidePresenter
     ImageChangePresenter provideImageChangePresenter() {
@@ -47,24 +57,8 @@ public class ImageChangeFragment extends BaseFragment<ImageChangePresenter, Imag
     @Click(R.id.btnAddTextToBitmap)
     public void onClick() {
         String text = etTextToBitmap.getText().toString();
-        Bitmap changedBitmap = BitmapUtils.drawTextToBitmap(getContext(), bitmap, text);
-        Glide.with(getContext())
-                .asBitmap()
-                .load(changedBitmap)
-                .into(new SimpleTarget<Bitmap>() {
-                    @Override
-                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                        ivTextToBitmap.setImageBitmap(resource);
-                    }
-                });
-    }
-
-    private void scaleBitmap() {
-        bitmap = BitmapUtils.decodeSampledBitmapFromResource(getContext(), uri);
-        bitmap = BitmapUtils.scaleBitmap(getContext(), bitmap);
-    }
-
-    private void onBind() {
+        image.setText(text);
+        bitmap = drawText(text);
         Glide.with(getContext())
                 .asBitmap()
                 .load(bitmap)
@@ -76,8 +70,57 @@ public class ImageChangeFragment extends BaseFragment<ImageChangePresenter, Imag
                 });
     }
 
+    private void scaleBitmap() {
+        bitmap = BitmapUtils.decodeSampledBitmapFromResource(getContext(), image.getOriginalUri());
+        bitmap = BitmapUtils.scaleBitmap(getContext(), bitmap);
+    }
+
+    private void onBind() {
+        checkText();
+        Glide.with(getContext())
+                .asBitmap()
+                .load(oldBitmap)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                        ivTextToBitmap.setImageBitmap(resource);
+                    }
+                });
+    }
+
+    private void checkText() {
+        oldText = image.getText();
+        oldBitmap = bitmap;
+        if (image.getText() != null) {
+            oldBitmap = drawText(oldText);
+        }
+    }
+
+    private Bitmap drawText(String text) {
+        return BitmapUtils.drawTextToBitmap(getContext(), bitmap, text);
+    }
+
+    private void saveNewBitmap() {
+        Bitmap newBitmap = bitmap;
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File destination = new File(App.appContext().getCacheDir(), System.currentTimeMillis() + ".jpg");
+        FileOutputStream fo;
+        try {
+            destination.createNewFile();
+            fo = new FileOutputStream(destination);
+            fo.write(bytes.toByteArray());
+            fo.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Uri uri = Uri.fromFile(destination);
+        image.setChangedUri(uri);
+    }
+
     @Override
     public boolean onBackPressed() {
+        if (!Objects.equals(oldText, image.getText())) saveNewBitmap();
         presenter.onBackPressed();
         return true;
     }
