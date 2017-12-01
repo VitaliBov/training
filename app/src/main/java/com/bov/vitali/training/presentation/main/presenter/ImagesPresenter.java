@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.App;
@@ -69,6 +68,7 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
     }
 
     private void addImage(Image image) {
+        image.setSaved(true);
         images.addFirst(image);
         getViewState().setImages(images);
     }
@@ -118,19 +118,18 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
     }
 
     private void saveImage(Image image) {
-        if (image.getChangedUri() != null) {
+        if (image.getChangedUri() != null & !image.isSaved()) {
             try {
                 String path = Environment.getExternalStorageDirectory().toString();
-                long filename = System.currentTimeMillis();
-                File destination = new File(path, "/DCIM/Training/");
+                File destination = new File(path + "/DCIM/Training/");
                 destination.mkdirs();
+                long filename = System.currentTimeMillis();
                 File file = new File(destination, filename + ".jpg");
-                OutputStream fOut;
-                fOut = new FileOutputStream(file);
                 Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(App.appContext(), image.getChangedUri());
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-                fOut.close();
-                MediaStore.Images.Media.insertImage(App.appContext().getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+                OutputStream stream = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                stream.close();
+                image.setSaved(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }

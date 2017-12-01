@@ -93,6 +93,7 @@ public class ImageChangeFragment extends BaseFragment<ImageChangePresenter, Imag
         oldBitmap = bitmap;
         if (image.getText() != null) {
             oldBitmap = drawText(oldText);
+            etTextToBitmap.setText(oldText);
         }
     }
 
@@ -116,12 +117,19 @@ public class ImageChangeFragment extends BaseFragment<ImageChangePresenter, Imag
         }
         Uri uri = Uri.fromFile(destination);
         image.setChangedUri(uri);
+        image.setSaved(false);
     }
 
     @Override
     public boolean onBackPressed() {
-        if (!Objects.equals(oldText, image.getText())) saveNewBitmap();
+        if (isTextValid()) {
+            saveNewBitmap();
+        }
         presenter.onBackPressed();
         return true;
+    }
+
+    private boolean isTextValid() {
+        return !Objects.equals(oldText, image.getText()) & !Objects.equals(image.getText(), "");
     }
 }
