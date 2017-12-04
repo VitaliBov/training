@@ -3,33 +3,32 @@ package com.bov.vitali.training.presentation.main.presenter;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Environment;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.App;
-import com.bov.vitali.training.common.utils.BitmapUtils;
+import com.bov.vitali.training.data.FileManager;
 import com.bov.vitali.training.data.model.Image;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.ImagesContract;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class ImagesPresenter extends BasePresenter<ImagesContract.View> implements ImagesContract.Presenter {
     public static final int IMAGES_COUNT = 10;
+    private static final String IMAGES_FOLDER = "Training";
+    @Inject FileManager fileManager;
     private Router router;
     private LinkedList<Image> images = new LinkedList<>();
 
     public ImagesPresenter(Router router) {
+        App.instance.getAppComponent().inject(this);
         this.router = router;
     }
 
@@ -50,19 +49,9 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
     public void onCameraResult(Intent data) {
         Image image = new Image();
         Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-        File destination = new File(App.appContext().getCacheDir(), System.currentTimeMillis() + ".jpg");
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Uri uri = Uri.fromFile(destination);
+        String name = String.valueOf(System.currentTimeMillis());
+        fileManager.savePhotoToInternalStorage(App.appContext(), bitmap, "Training", name);
+        Uri uri = fileManager.getUri();
         image.setOriginalUri(uri);
         addImage(image);
     }
@@ -119,20 +108,9 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
 
     private void saveImage(Image image) {
         if (image.getChangedUri() != null & !image.isSaved()) {
-            try {
-                String path = Environment.getExternalStorageDirectory().toString();
-                File destination = new File(path + "/DCIM/Training/");
-                destination.mkdirs();
-                long filename = System.currentTimeMillis();
-                File file = new File(destination, filename + ".jpg");
-                Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(App.appContext(), image.getChangedUri());
-                OutputStream stream = new FileOutputStream(file);
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                stream.close();
-                image.setSaved(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            String fileName = String.valueOf(System.currentTimeMillis());
+            Uri uri = image.getChangedUri();
+            fileManager.saveToInternalStorage(App.appContext(), uri, IMAGES_FOLDER, fileName);
         }
     }
 

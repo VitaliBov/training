@@ -2,6 +2,7 @@ package com.bov.vitali.training.presentation.main.fragment;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -9,6 +10,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
+import com.bov.vitali.training.data.FileManager;
 import com.bov.vitali.training.common.utils.BitmapUtils;
 import com.bov.vitali.training.data.model.Image;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
@@ -26,22 +28,27 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 @EFragment(R.layout.fragment_image_change)
 public class ImageChangeFragment extends BaseFragment<ImageChangePresenter, ImageChangeContract.View>
         implements ImageChangeContract.View, BackButtonListener {
     @InjectPresenter ImageChangePresenter presenter;
+    @Inject FileManager fileManager;
     @FragmentArg Image image;
     @ViewById ImageView ivTextToBitmap;
     @ViewById EditText etTextToBitmap;
     private Bitmap bitmap;
     private Bitmap oldBitmap;
     private String oldText;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        App.instance.getAppComponent().inject(this);
+        super.onCreate(savedInstanceState);
+    }
 
     @ProvidePresenter
     ImageChangePresenter provideImageChangePresenter() {
@@ -103,19 +110,9 @@ public class ImageChangeFragment extends BaseFragment<ImageChangePresenter, Imag
 
     private void saveNewBitmap() {
         Bitmap newBitmap = bitmap;
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        newBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File destination = new File(App.appContext().getCacheDir(), System.currentTimeMillis() + ".jpg");
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Uri uri = Uri.fromFile(destination);
+        String fileName = String.valueOf(System.currentTimeMillis());
+        fileManager.saveToInternalStorage(getContext(), newBitmap, "Training", fileName);
+        Uri uri = fileManager.getUri();
         image.setChangedUri(uri);
         image.setSaved(false);
     }

@@ -10,6 +10,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
+import com.bov.vitali.training.data.FileManager;
 import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.presentation.base.activity.BaseNavigationActivity;
 import com.bov.vitali.training.presentation.main.fragment.ContainerFragment;
@@ -40,6 +41,7 @@ public class MainActivity extends BaseNavigationActivity<MainPresenter, MainCont
     @InjectPresenter MainPresenter presenter;
     @Inject Router router;
     @Inject NavigatorHolder navigatorHolder;
+    @Inject FileManager fileManager;
     @ViewById(R.id.bottom_navigation_bar) BottomNavigationBar bottomNavigationBar;
     @ViewById(R.id.activity_main_toolbar) Toolbar toolbar;
     private ContainerFragment userFragment;
@@ -75,6 +77,12 @@ public class MainActivity extends BaseNavigationActivity<MainPresenter, MainCont
     protected void onStop() {
         super.onStop();
 //        PasswordUtils.lockAppStoreTime();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        fileManager.cleanInternalCache(this);
     }
 
     @AfterViews
