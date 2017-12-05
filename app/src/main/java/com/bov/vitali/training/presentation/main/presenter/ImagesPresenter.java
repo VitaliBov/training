@@ -1,17 +1,14 @@
 package com.bov.vitali.training.presentation.main.presenter;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.App;
-import com.bov.vitali.training.data.FileManager;
+import com.bov.vitali.training.common.utils.FileManager;
 import com.bov.vitali.training.data.model.Image;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.ImagesContract;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +18,6 @@ import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class ImagesPresenter extends BasePresenter<ImagesContract.View> implements ImagesContract.Presenter {
-    public static final int IMAGES_COUNT = 10;
     private static final String IMAGES_FOLDER = "Training";
     @Inject FileManager fileManager;
     private Router router;
@@ -38,62 +34,41 @@ public class ImagesPresenter extends BasePresenter<ImagesContract.View> implemen
     }
 
     @Override
-    public void onGalleryResult(Intent data) {
-        Image image = new Image();
-        Uri uri = data.getData();
-        image.setOriginalUri(uri);
-        addImage(image);
-    }
-
-    @Override
-    public void onCameraResult(Intent data) {
-        Image image = new Image();
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        String name = String.valueOf(System.currentTimeMillis());
-        fileManager.savePhotoToInternalStorage(App.appContext(), bitmap, "Training", name);
-        Uri uri = fileManager.getUri();
-        image.setOriginalUri(uri);
-        addImage(image);
-    }
-
-    private void addImage(Image image) {
+    public void addImage(Image image) {
         image.setSaved(true);
         images.addFirst(image);
         getViewState().setImages(images);
     }
 
-    public void removeImages(List<Integer> positions) {
-        Collections.sort(positions, (var1, var2) -> var2 - var1);
-        while (!positions.isEmpty()) {
-            if (positions.size() == 1) {
-                removeImage(positions.get(0));
-                positions.remove(0);
+    public void removeImages(List<Image> images) {
+        while (!images.isEmpty()) {
+            if (images.size() == 1) {
+                removeImage(images.get(0));
+                images.remove(0);
             } else {
                 int count = 1;
-                while (positions.size() > count && positions.get(count).equals(positions.get(count - 1) - 1)) {
+                while (images.size() > count && images.get(count).equals(images.get(count - 1))) {
                     ++count;
                 }
                 if (count == 1) {
-                    removeImage(positions.get(0));
+                    removeImage(images.get(0));
                 } else {
-                    removeRange(positions.get(count - 1), count);
+                    removeRange(images);
                 }
                 for (int i = 0; i < count; ++i) {
-                    positions.remove(0);
+                    images.remove(0);
                 }
             }
         }
     }
 
-    private void removeImage(int position) {
-        images.remove(position);
+    private void removeImage(Image image) {
+        images.remove(image);
         getViewState().setImages(images);
     }
 
-    private void removeRange(int positionStart, int itemCount) {
-        for (int i = 0; i < itemCount; ++i) {
-            images.remove(positionStart);
-        }
+    private void removeRange(List<Image> selectedImages) {
+        images.remove(selectedImages);
         getViewState().setImages(images);
     }
 

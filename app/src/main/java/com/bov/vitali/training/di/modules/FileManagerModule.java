@@ -1,6 +1,6 @@
 package com.bov.vitali.training.di.modules;
 
-import com.bov.vitali.training.data.FileManager;
+import com.bov.vitali.training.common.utils.FileManager;
 
 import javax.inject.Singleton;
 

@@ -1,12 +1,10 @@
-package com.bov.vitali.training.data;
+package com.bov.vitali.training.common.utils;
 
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
-
-import com.bov.vitali.training.common.utils.BitmapUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,9 +13,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class FileManager {
-    private Uri uri;
 
-    public void saveToCache(Context context, Bitmap bitmap, String name) {
+    public Uri saveToCache(Context context, Bitmap bitmap, String name) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
         File file = new File(context.getCacheDir(), name + ".jpg");
@@ -30,10 +27,10 @@ public class FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        uri = Uri.fromFile(file);
+        return Uri.fromFile(file);
     }
 
-    public void saveToExternalStorage(Context context, Uri uri, String folder, String name) {
+    public Uri saveToExternalStorage(Context context, Uri uri, String folder, String name) {
         String path = Environment.getExternalStorageDirectory().toString();
         File directory = new File(path + folder);
         directory.mkdirs();
@@ -47,10 +44,10 @@ public class FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.uri = Uri.fromFile(file);
+        return Uri.fromFile(file);
     }
 
-    public void saveToInternalStorage(Context context, Uri uri, String folder, String name) {
+    public Uri saveToInternalStorage(Context context, Uri uri, String folder, String name) {
         ContextWrapper wrapper = new ContextWrapper(context);
         File directory = wrapper.getDir(folder, Context.MODE_PRIVATE);
         File file = new File(directory, name + ".jpg");
@@ -63,10 +60,10 @@ public class FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.uri = Uri.fromFile(file);
+        return Uri.fromFile(file);
     }
 
-    public void saveToInternalStorage(Context context, Bitmap bitmap, String folder, String name) {
+    public Uri saveToInternalStorage(Context context, Bitmap bitmap, String folder, String name) {
         ContextWrapper wrapper = new ContextWrapper(context);
         File directory = wrapper.getDir(folder, Context.MODE_PRIVATE);
         File file = new File(directory, name + ".jpg");
@@ -78,10 +75,10 @@ public class FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.uri = Uri.fromFile(file);
+        return Uri.fromFile(file);
     }
 
-    public void savePhotoToInternalStorage(Context context, Bitmap bitmap, String folder, String name) {
+    public Uri savePhotoToInternalStorage(Context context, Bitmap bitmap, String folder, String name) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         ContextWrapper wrapper = new ContextWrapper(context);
@@ -95,11 +92,7 @@ public class FileManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.uri = Uri.fromFile(file);
-    }
-
-    public Uri getUri() {
-        return uri;
+        return Uri.fromFile(file);
     }
 
     public void cleanInternalCache(Context context) {

@@ -3,7 +3,6 @@ package com.bov.vitali.training.presentation.main.presenter;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 
-import com.bov.vitali.training.App;
 import com.bov.vitali.training.data.database.UsersRepository;
 import com.bov.vitali.training.data.database.dao.UserDao;
 import com.bov.vitali.training.data.database.entity.User;
@@ -11,8 +10,6 @@ import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
 import com.bov.vitali.training.presentation.main.view.DatabaseLiveDataContract;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import ru.terrakok.cicerone.Router;
 

@@ -1,7 +1,5 @@
 package com.bov.vitali.training.presentation.main.fragment;
 
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
 import com.bov.vitali.training.data.model.Image;
+import com.bov.vitali.training.presentation.base.fragment.BaseNavigationFragment;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.navigation.LocalCiceroneHolder;
 import com.bov.vitali.training.presentation.navigation.RouterProvider;
 import com.bov.vitali.training.presentation.navigation.Screens;
-import com.bov.vitali.training.presentation.base.fragment.BaseNavigationFragment;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;

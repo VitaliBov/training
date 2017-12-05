@@ -10,7 +10,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.data.FileManager;
+import com.bov.vitali.training.common.utils.FileManager;
 import com.bov.vitali.training.common.utils.AndroidUtils;
 import com.bov.vitali.training.presentation.base.activity.BaseNavigationActivity;
 import com.bov.vitali.training.presentation.main.fragment.ContainerFragment;
