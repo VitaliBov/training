@@ -9,7 +9,6 @@ import com.bov.vitali.training.R;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
 import com.bov.vitali.training.presentation.main.common.NameTextWatcher;
 import com.bov.vitali.training.presentation.main.presenter.DatabasePresenter;
-import com.bov.vitali.training.presentation.main.presenter.SchedulerPresenter;
 import com.bov.vitali.training.presentation.main.view.DatabaseContract;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.navigation.RouterProvider;

@@ -30,7 +30,7 @@ public class LoginActivity extends BaseNavigationActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             router.replaceScreen(Screens.SPLASH_FRAGMENT);

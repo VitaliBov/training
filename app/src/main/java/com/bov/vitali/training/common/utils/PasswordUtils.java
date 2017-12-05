@@ -10,6 +10,9 @@ public class PasswordUtils {
     private static final int PAUSE_TIME_IN_SECONDS = 5;
     private static Date appPauseTime;
 
+    private PasswordUtils() {
+    }
+
     public static void lockAppStoreTime() {
         appPauseTime = new Date();
     }

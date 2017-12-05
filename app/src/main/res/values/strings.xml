@@ -19,6 +19,8 @@
 
     <string name="navigation_error_unknown_screen">Экран не найден</string>
 
+    <string name="runtime_permissions_txt">Please enable ALL permissions from app settings.</string>
+
     <string name="user_absence_name">Absence name</string>
     <string name="user_absence_username">Absence username</string>
     <string name="user_absence_url">Absence URL</string>
@@ -34,6 +36,7 @@
     <string name="other_navigate_to_database">Database</string>
     <string name="other_navigate_to_database_list">Database list</string>
     <string name="other_navigate_to_database_live_data">Database Live Data</string>
+    <string name="other_navigate_to_images">Images</string>
 
     <string name="database_button_save">Save</string>
     <string name="database_button_update">Update</string>
@@ -50,4 +53,15 @@
     <string name="database_message_search"> was successfully found!</string>
 
     <string name="database_list_error_response">Do not have any users yet</string>
+
+    <string name="images_button_save">Save images to storage</string>
+    <string name="images_select_from_gallery">Select photo from gallery</string>
+    <string name="images_select_from_camera">Capture photo from camera</string>
+    <string name="images_cancel">Cancel</string>
+    <string name="images_dialog_title">Select Action</string>
+    <string name="images_gallery_choose_title">Select File</string>
+    <string name="images_remove">Remove</string>
+
+    <string name="image_change_hint">Enter text here</string>
+    <string name="image_change_button_add_text">Add text</string>
 </resources>

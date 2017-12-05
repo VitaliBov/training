@@ -7,11 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
+import com.bov.vitali.training.data.model.Image;
+import com.bov.vitali.training.presentation.base.fragment.BaseNavigationFragment;
 import com.bov.vitali.training.presentation.navigation.BackButtonListener;
 import com.bov.vitali.training.presentation.navigation.LocalCiceroneHolder;
 import com.bov.vitali.training.presentation.navigation.RouterProvider;
 import com.bov.vitali.training.presentation.navigation.Screens;
-import com.bov.vitali.training.presentation.base.fragment.BaseNavigationFragment;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
@@ -31,7 +32,7 @@ public class ContainerFragment extends BaseNavigationFragment implements BackBut
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -82,6 +83,10 @@ public class ContainerFragment extends BaseNavigationFragment implements BackBut
                             return DatabaseListFragment_.builder().build();
                         case Screens.DATABASE_LIVE_DATA_FRAGMENT:
                             return DatabaseLiveDataFragment_.builder().build();
+                        case Screens.IMAGES_FRAGMENT:
+                            return ImagesFragment_.builder().build();
+                        case Screens.IMAGE_CHANGE_FRAGMENT:
+                            return ImageChangeFragment_.builder().image((Image) data).build();
                         default:
                             throw new RuntimeException(getResources().getString(R.string.navigation_error_unknown_screen));
                     }

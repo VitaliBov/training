@@ -39,7 +39,7 @@ public class LoginWebViewPresenter extends BasePresenter<LoginWebViewContract.Vi
     @Inject TrainingApi api;
 
     public LoginWebViewPresenter() {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
     }
 
     @Override

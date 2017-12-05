@@ -18,4 +18,6 @@ public interface Screens {
     String DATABASE_FRAGMENT = "Database";
     String DATABASE_LIST_FRAGMENT = "Database list";
     String DATABASE_LIVE_DATA_FRAGMENT = "Database Live Data";
+    String IMAGES_FRAGMENT = "Images";
+    String IMAGE_CHANGE_FRAGMENT = "Image Change";
 }

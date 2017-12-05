@@ -14,7 +14,7 @@ public class OtherPresenter extends BasePresenter<OtherContract.View> implements
     @Inject Router router;
 
     public OtherPresenter() {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
     }
 
     @Override

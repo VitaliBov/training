@@ -10,7 +10,7 @@ import com.bov.vitali.training.di.AppComponent;
 import com.bov.vitali.training.di.DaggerAppComponent;
 
 public class App extends Application {
-    public static App INSTANCE;
+    public static App instance;
     private AppComponent appComponent;
     private static Context appContext;
     private static UsersDatabase usersDatabase;
@@ -18,8 +18,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        INSTANCE = this;
-
+        instance = this;
         appContext = getApplicationContext();
         initDatabase();
     }

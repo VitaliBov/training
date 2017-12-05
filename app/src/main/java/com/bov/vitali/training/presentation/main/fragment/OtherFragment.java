@@ -35,6 +35,11 @@ public class OtherFragment extends BaseNavigationFragment<OtherPresenter, OtherC
         getRouter().navigateTo(Screens.DATABASE_LIVE_DATA_FRAGMENT);
     }
 
+    @Click(R.id.btnNavigateToImages)
+    public void navigateToImagesFragment() {
+        getRouter().navigateTo(Screens.IMAGES_FRAGMENT);
+    }
+
     @Override
     public boolean onBackPressed() {
         return false;

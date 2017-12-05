@@ -6,9 +6,7 @@
     <dimen name="text_size_biggest">18sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_extra_large">22sp</dimen>
-
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="text_size_name">30sp</dimen>
 
     <dimen name="margin_2dp">2dp</dimen>
     <dimen name="margin_4dp">4dp</dimen>

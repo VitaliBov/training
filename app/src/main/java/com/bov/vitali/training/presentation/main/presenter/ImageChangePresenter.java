@@ -2,15 +2,15 @@ package com.bov.vitali.training.presentation.main.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.bov.vitali.training.presentation.base.presenter.BasePresenter;
-import com.bov.vitali.training.presentation.main.view.SchedulerContract;
+import com.bov.vitali.training.presentation.main.view.ImageChangeContract;
 
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState
-public class SchedulerPresenter extends BasePresenter<SchedulerContract.View> implements SchedulerContract.Presenter {
+public class ImageChangePresenter extends BasePresenter<ImageChangeContract.View> implements ImageChangeContract.Presenter {
     private Router router;
 
-    public SchedulerPresenter(Router router) {
+    public ImageChangePresenter(Router router) {
         this.router = router;
     }
 

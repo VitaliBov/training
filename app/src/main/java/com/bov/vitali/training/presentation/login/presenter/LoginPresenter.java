@@ -15,7 +15,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
     @Inject Router router;
 
     public LoginPresenter() {
-        App.INSTANCE.getAppComponent().inject(this);
+        App.instance.getAppComponent().inject(this);
     }
 
     @Override

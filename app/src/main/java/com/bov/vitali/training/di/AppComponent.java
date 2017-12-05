@@ -1,6 +1,7 @@
 package com.bov.vitali.training.di;
 
 import com.bov.vitali.training.di.modules.ApiModule;
+import com.bov.vitali.training.di.modules.FileManagerModule;
 import com.bov.vitali.training.di.modules.LocalNavigationModule;
 import com.bov.vitali.training.di.modules.NavigationModule;
 import com.bov.vitali.training.presentation.login.activity.LoginActivity;
@@ -12,10 +13,11 @@ import com.bov.vitali.training.presentation.main.common.DatabaseLoader;
 import com.bov.vitali.training.presentation.main.fragment.ContainerFragment;
 import com.bov.vitali.training.presentation.main.fragment.DatabaseListFragment;
 import com.bov.vitali.training.presentation.main.fragment.DatabaseLiveDataFragment;
-import com.bov.vitali.training.presentation.main.fragment.SchedulerFragment;
+import com.bov.vitali.training.presentation.main.fragment.ImageChangeFragment;
+import com.bov.vitali.training.presentation.main.fragment.ImagesFragment;
 import com.bov.vitali.training.presentation.main.presenter.DatabaseListPresenter;
 import com.bov.vitali.training.presentation.main.presenter.DatabaseLiveDataPresenter;
-import com.bov.vitali.training.presentation.main.presenter.DatabasePresenter;
+import com.bov.vitali.training.presentation.main.presenter.ImagesPresenter;
 import com.bov.vitali.training.presentation.main.presenter.MainPresenter;
 import com.bov.vitali.training.presentation.main.presenter.OtherPresenter;
 import com.bov.vitali.training.presentation.main.presenter.PaginationPresenter;
@@ -31,7 +33,8 @@ import dagger.Component;
 @Component(modules = {
         ApiModule.class,
         NavigationModule.class,
-        LocalNavigationModule.class
+        LocalNavigationModule.class,
+        FileManagerModule.class
 })
 public interface AppComponent {
     void inject(LoginActivity loginActivity);
@@ -67,4 +70,10 @@ public interface AppComponent {
     void inject(DatabaseLiveDataFragment databaseLiveDataFragment);
 
     void inject(DatabaseLiveDataPresenter databaseLiveDataPresenter);
+
+    void inject(ImagesFragment imagesFragment);
+
+    void inject(ImagesPresenter imagesPresenter);
+
+    void inject(ImageChangeFragment imageChangeFragment);
 }
