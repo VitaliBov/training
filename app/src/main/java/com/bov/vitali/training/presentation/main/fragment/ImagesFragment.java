@@ -4,6 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -15,7 +19,9 @@ import android.widget.ImageView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
+import com.bov.vitali.training.common.utils.FileManager;
 import com.bov.vitali.training.common.utils.IntentUtils;
 import com.bov.vitali.training.common.utils.PixelUtils;
 import com.bov.vitali.training.data.model.Image;
@@ -35,17 +41,27 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 @EFragment(R.layout.fragment_images)
 public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, ImagesContract.View>
         implements ImagesContract.View, BackButtonListener, ImagesAdapter.ImagesClickListener {
     private static final int REQUEST_CODE_GALLERY = 1;
     private static final int REQUEST_CODE_CAMERA = 2;
+    private static final String PHOTO_DIRECTORY = "Training";
     @InjectPresenter ImagesPresenter presenter;
+    @Inject FileManager fileManager;
     @ViewById ImageView ivImage;
     @ViewById RecyclerView rvImages;
     private ImagesAdapter adapter;
     private ActionModeCallback actionModeCallback = new ActionModeCallback();
     private ActionMode actionMode;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        App.instance.getAppComponent().inject(this);
+        super.onCreate(savedInstanceState);
+    }
 
     @ProvidePresenter
     ImagesPresenter provideImagesPresenter() {
@@ -81,7 +97,7 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
     }
 
     private void initAdapter(ImagesAdapter.ImagesClickListener listener) {
-        adapter = new ImagesAdapter(presenter.getImages(), getContext(), listener);
+        adapter = new ImagesAdapter(getContext(), presenter.getImages(), listener);
         rvImages.setAdapter(adapter);
     }
 
@@ -115,16 +131,14 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         dialog.show();
     }
 
-    @Override
-    public void showRequestStoragePermission() {
+    private void showRequestStoragePermission() {
         ImagesFragment.super.requestAppPermissions(
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 R.string.runtime_permissions_txt,
                 REQUEST_STORAGE_PERMISSIONS);
     }
 
-    @Override
-    public void showRequestCameraPermission() {
+    private void showRequestCameraPermission() {
         ImagesFragment.super.requestAppPermissions(
                 new String[]{Manifest.permission.CAMERA},
                 R.string.runtime_permissions_txt,
@@ -160,10 +174,10 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_GALLERY:
-                    presenter.onGalleryResult(data);
+                    onGalleryResult(data);
                     break;
                 case REQUEST_CODE_CAMERA:
-                    presenter.onCameraResult(data);
+                    onCameraResult(data);
                     break;
                 default:
                     break;
@@ -171,21 +185,37 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         }
     }
 
+    private void onGalleryResult(Intent data) {
+        Image image = new Image();
+        Uri uri = data.getData();
+        image.setOriginalUri(uri);
+        presenter.addImage(image);
+    }
+
+    private void onCameraResult(Intent data) {
+        Image image = new Image();
+        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+        String name = String.valueOf(System.currentTimeMillis());
+        Uri uri = fileManager.savePhotoToInternalStorage(App.appContext(), bitmap, PHOTO_DIRECTORY, name);
+        image.setOriginalUri(uri);
+        presenter.addImage(image);
+    }
+
     @Override
-    public void onImageClick(Image image, int position) {
+    public void onImageClick(Image image) {
         if (actionMode != null) {
-            toggleSelection(position);
+            toggleSelection(image);
         } else {
             navigateToImageChangeFragment(image);
         }
     }
 
     @Override
-    public void onLongImageClick(int position) {
+    public void onLongImageClick(Image image) {
         if (actionMode == null) {
             actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
         }
-        toggleSelection(position);
+        toggleSelection(image);
     }
 
     @Override
@@ -193,8 +223,8 @@ public class ImagesFragment extends BasePermissionsFragment<ImagesPresenter, Ima
         showImageSelectDialog();
     }
 
-    private void toggleSelection(int position) {
-        adapter.toggleSelection(position);
+    private void toggleSelection(Image image) {
+        adapter.toggleSelection(image);
         int count = adapter.getSelectedItemCount();
         if (count == 0) {
             actionMode.finish();

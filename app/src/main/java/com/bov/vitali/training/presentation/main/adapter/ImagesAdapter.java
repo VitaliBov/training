@@ -1,7 +1,7 @@
 package com.bov.vitali.training.presentation.main.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,84 +10,57 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.common.utils.BitmapUtils;
 import com.bov.vitali.training.data.model.Image;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static com.bov.vitali.training.presentation.main.presenter.ImagesPresenter.IMAGES_COUNT;
-
-public class ImagesAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
-    private static final int ADD_IMAGE_VIEW_TYPE = 1;
+public class ImagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int MAX_IMAGES_COUNT = 10;
+    private static final int IMAGE_VIEW_TYPE = 1;
+    private static final int ADD_IMAGE_VIEW_TYPE = 2;
     private final ImagesClickListener clickListener;
     private Context context;
     private List<Image> images;
+    private List<Image> selectedImages = new ArrayList<>();
 
-    public ImagesAdapter(List<Image> images, Context context, ImagesClickListener listener) {
-        this.images = images;
+    public ImagesAdapter(Context context, @NonNull List<Image> images, ImagesClickListener listener) {
         this.context = context;
+        this.images = images;
         this.clickListener = listener;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view;
-        if (viewType == ADD_IMAGE_VIEW_TYPE) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_image, parent, false);
-            return new AddImageViewHolder(view);
+        switch (viewType) {
+            case IMAGE_VIEW_TYPE:
+                View image_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
+                return new ImageViewHolder(image_view);
+            case ADD_IMAGE_VIEW_TYPE:
+                View add_image_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_image, parent, false);
+                return new AddImageViewHolder(add_image_view);
         }
-        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image, parent, false);
-        return new ImageViewHolder(view);
+        return null;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        try {
-            if (holder instanceof ImageViewHolder) {
-                ImageViewHolder vh = (ImageViewHolder) holder;
-                Image image = images.get(position);
-                Bitmap bitmap;
-                if (image.getChangedUri() != null) {
-                    bitmap = BitmapUtils.decodeSampledBitmapFromResource(context, image.getChangedUri(), 300, 300);
-                } else {
-                    bitmap = BitmapUtils.decodeSampledBitmapFromResource(context, image.getOriginalUri(), 300, 300);
-                }
-                Glide.with(holder.itemView.getContext())
-                        .asBitmap()
-                        .load(bitmap)
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                                vh.imageView.setImageBitmap(resource);
-                            }
-                        });
-                vh.selectedOverlay.setVisibility(isSelected(position) ? View.VISIBLE : View.INVISIBLE);
-            } else if (holder instanceof AddImageViewHolder) {
-                AddImageViewHolder vh = (AddImageViewHolder) holder;
-                Glide.with(vh.itemView.getContext())
-                        .asBitmap()
-                        .load(context.getResources().getDrawable(R.drawable.ic_add_image))
-                        .into(new SimpleTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                                vh.imageView.setImageBitmap(resource);
-                            }
-                        });
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (holder instanceof ImageViewHolder) {
+            ImageViewHolder vh = (ImageViewHolder) holder;
+
+            Image image = images.get(position);
+            final boolean isSelected = getSelectedItems().contains(image);
+            vh.bind(image, isSelected);
+        } else if (holder instanceof AddImageViewHolder) {
+            AddImageViewHolder vh = (AddImageViewHolder) holder;
+            vh.bind(context.getResources().getDrawable(R.drawable.ic_add_image));
         }
     }
 
     @Override
     public int getItemCount() {
-        if (images.size() == 0) {
-            return 1;
-        }
-        if (images.size() <= IMAGES_COUNT) {
+        if (images.size() < MAX_IMAGES_COUNT) {
             return images.size() + 1;
         } else {
             return images.size();
@@ -96,14 +69,40 @@ public class ImagesAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == images.size()) {
+        if (position == images.size() && position < MAX_IMAGES_COUNT) {
             return ADD_IMAGE_VIEW_TYPE;
         }
-        return super.getItemViewType(position);
+        return IMAGE_VIEW_TYPE;
     }
 
     public void setImages(@NonNull List<Image> images) {
         this.images = images;
+        notifyDataSetChanged();
+    }
+
+    public void toggleSelection(Image image) {
+        if (isSelected(image)) {
+            selectedImages.remove(image);
+        } else {
+            selectedImages.add(image);
+        }
+        notifyDataSetChanged();
+    }
+
+    private boolean isSelected(Image image) {
+        return selectedImages.contains(image);
+    }
+
+    public List<Image> getSelectedItems() {
+        return selectedImages;
+    }
+
+    public int getSelectedItemCount() {
+        return selectedImages.size();
+    }
+
+    public void clearSelection() {
+        selectedImages.clear();
         notifyDataSetChanged();
     }
 
@@ -115,11 +114,28 @@ public class ImagesAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
             super(itemView);
             imageView = itemView.findViewById(R.id.ivImage);
             selectedOverlay = itemView.findViewById(R.id.selected_overlay);
-            itemView.setOnClickListener(v -> clickListener.onImageClick(images.get(getAdapterPosition()), getAdapterPosition()));
+            itemView.setOnClickListener(v -> clickListener.onImageClick(images.get(getAdapterPosition())));
             itemView.setOnLongClickListener(view -> {
-                clickListener.onLongImageClick(getAdapterPosition());
+                clickListener.onLongImageClick(images.get(getAdapterPosition()));
                 return true;
             });
+        }
+
+        void bind(Image image, boolean isSelected) {
+            if (image.getChangedUri() != null) {
+                Glide.with(context)
+                        .load(image.getChangedUri())
+                        .into(imageView);
+            } else {
+                Glide.with(context)
+                        .load(image.getOriginalUri())
+                        .into(imageView);
+            }
+            updateOverlay(isSelected);
+        }
+
+        void updateOverlay(boolean isSelected) {
+            selectedOverlay.setVisibility(isSelected ? View.VISIBLE : View.INVISIBLE);
         }
     }
 
@@ -131,12 +147,18 @@ public class ImagesAdapter extends SelectableAdapter<RecyclerView.ViewHolder> {
             imageView = itemView.findViewById(R.id.ivAddImage);
             itemView.setOnClickListener(v -> clickListener.onAddImageClick());
         }
+
+        void bind(Drawable drawable) {
+            Glide.with(context)
+                    .load(drawable)
+                    .into(imageView);
+        }
     }
 
     public interface ImagesClickListener {
-        void onImageClick(Image image, int position);
+        void onImageClick(Image image);
 
-        void onLongImageClick(int position);
+        void onLongImageClick(Image image);
 
         void onAddImageClick();
     }

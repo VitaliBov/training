@@ -14,6 +14,7 @@ import com.bov.vitali.training.presentation.main.fragment.ContainerFragment;
 import com.bov.vitali.training.presentation.main.fragment.DatabaseListFragment;
 import com.bov.vitali.training.presentation.main.fragment.DatabaseLiveDataFragment;
 import com.bov.vitali.training.presentation.main.fragment.ImageChangeFragment;
+import com.bov.vitali.training.presentation.main.fragment.ImagesFragment;
 import com.bov.vitali.training.presentation.main.presenter.DatabaseListPresenter;
 import com.bov.vitali.training.presentation.main.presenter.DatabaseLiveDataPresenter;
 import com.bov.vitali.training.presentation.main.presenter.ImagesPresenter;
@@ -69,6 +70,8 @@ public interface AppComponent {
     void inject(DatabaseLiveDataFragment databaseLiveDataFragment);
 
     void inject(DatabaseLiveDataPresenter databaseLiveDataPresenter);
+
+    void inject(ImagesFragment imagesFragment);
 
     void inject(ImagesPresenter imagesPresenter);
 

@@ -5,6 +5,9 @@ import android.util.TypedValue;
 
 public class PixelUtils {
 
+    private PixelUtils() {
+    }
+
     public static int dp2px(Context context, float dpVal) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 dpVal, context.getResources().getDisplayMetrics());

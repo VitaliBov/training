@@ -10,7 +10,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bov.vitali.training.App;
 import com.bov.vitali.training.R;
-import com.bov.vitali.training.data.FileManager;
+import com.bov.vitali.training.common.utils.FileManager;
 import com.bov.vitali.training.common.utils.BitmapUtils;
 import com.bov.vitali.training.data.model.Image;
 import com.bov.vitali.training.presentation.base.fragment.BaseFragment;
@@ -111,8 +111,7 @@ public class ImageChangeFragment extends BaseFragment<ImageChangePresenter, Imag
     private void saveNewBitmap() {
         Bitmap newBitmap = bitmap;
         String fileName = String.valueOf(System.currentTimeMillis());
-        fileManager.saveToInternalStorage(getContext(), newBitmap, "Training", fileName);
-        Uri uri = fileManager.getUri();
+        Uri uri = fileManager.saveToInternalStorage(getContext(), newBitmap, "Training", fileName);
         image.setChangedUri(uri);
         image.setSaved(false);
     }

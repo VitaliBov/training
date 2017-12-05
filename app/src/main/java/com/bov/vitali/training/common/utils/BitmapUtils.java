@@ -9,11 +9,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
+
+import java.io.FileNotFoundException;
 
 public class BitmapUtils {
 
-    public static Bitmap decodeSampledBitmapFromResource(Context context, Uri uri) {
+    private BitmapUtils() {
+    }
+
+    public static Bitmap decodeSampledBitmapFromResource(@NonNull Context context, @NonNull Uri uri) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -21,13 +27,12 @@ public class BitmapUtils {
             options.inJustDecodeBounds = false;
             options.inPreferQualityOverSpeed = true;
             return BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, options);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            return null;
         }
-        return null;
     }
 
-    public static Bitmap decodeSampledBitmapFromResource(Context context, Uri uri, int reqWidth, int reqHeight) {
+    public static Bitmap decodeSampledBitmapFromResource(@NonNull Context context, @NonNull Uri uri, int reqWidth, int reqHeight) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
@@ -36,10 +41,9 @@ public class BitmapUtils {
             options.inJustDecodeBounds = false;
             options.inPreferQualityOverSpeed = true;
             return BitmapFactory.decodeStream(context.getContentResolver().openInputStream(uri), null, options);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            return null;
         }
-        return null;
     }
 
     private static int generateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -56,7 +60,7 @@ public class BitmapUtils {
         return size;
     }
 
-    public static Bitmap scaleBitmap(Context context, Bitmap bitmap) {
+    public static Bitmap scaleBitmap(@NonNull Context context, @NonNull Bitmap bitmap) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         int displayHeight = metrics.heightPixels;
         int displayWidth = metrics.widthPixels;
@@ -79,7 +83,7 @@ public class BitmapUtils {
         return Bitmap.createScaledBitmap(bitmap, width, (int) (bitmap.getHeight() * factor), true);
     }
 
-    public static Bitmap drawTextToBitmap(Context context, Bitmap bitmap, String text) {
+    public static Bitmap drawTextToBitmap(@NonNull Context context, @NonNull Bitmap bitmap, String text) {
         Resources resources = context.getResources();
         float scale = resources.getDisplayMetrics().density;
         Bitmap.Config bitmapConfig = bitmap.getConfig();
